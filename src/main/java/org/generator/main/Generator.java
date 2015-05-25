@@ -26,7 +26,7 @@ public class Generator {
         List<Table> tables = GetTableConfig.getTableConfig();
         System.out.println("Table数量：" + tables.size());
 
-        for (Table table : tables) {
+        for (final Table table : tables) {
             Thread thread = new Thread(new Runnable() {
 
                 public void run() {

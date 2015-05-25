@@ -30,7 +30,7 @@ public class MakeBaseDao {
 
         List<Table> tables = GetTableConfig.getTableConfig();
 
-        for (Table table : tables) {
+        for (final Table table : tables) {
 
             Thread thread = new Thread(new Runnable() {
 
