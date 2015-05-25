@@ -34,6 +34,7 @@ EOExample：查询条件封装类，使用如下：
         List<AccountInfo> accountInfoList = accountInfoDao.selectByExample(example);
 
 或者：
+
         AccountInfoExample example = new AccountInfoExample();
         AccountInfoExample.Criteria criteria = example.createCriteria();
         criteria.anduserAccountEqualTo(username);
