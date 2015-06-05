@@ -1,5 +1,7 @@
 #kunter-generator
 
+下一步计划：支持PostgreSQL数据库，通过数据库生成Excel格式的库表设计文档，增加从Excel库表设计中读取表结构生成基础类
+
 生成基于MyBatis的DAO、SQLMap、EO和mybatis-config-*.xml
 
 为了区别工具生成和开发者添加的内容DAO和SQLMap生成的内容都会保存为当前包的base包下，剥离工具生成的代码和开发者的代码为了随时可以替换工具生成代码而不对开发者的代码产生影响
