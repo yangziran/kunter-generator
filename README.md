@@ -1,5 +1,7 @@
 #kunter-generator
 
+特别声明：Oracle版本为12c 低版本不支持，因为12c修改了分页语法（offset #{currentSize} rows fetch next #{pageSize} rows only）
+
 下一步计划：支持PostgreSQL数据库，通过数据库生成Excel格式的库表设计文档，增加从Excel库表设计中读取表结构生成基础类
 
 生成基于MyBatis的DAO、SQLMap、EO和mybatis-config-*.xml
