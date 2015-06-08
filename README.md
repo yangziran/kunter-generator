@@ -1,5 +1,8 @@
 # kunter-generator
 
+[Git@OSC](http://git.oschina.net/nature/kunter-generator)
+[GitHub](https://github.com/angelsinklowcn/kunter-generator)
+
 ## 特别声明：因为采用了12c特有分页语法，本工具Oracle暂时不支持Oracle 12c一下版本
 
 本工具参考MyBatis官方generator设计而成，参考版本为（1.3.2）。具有生成项目基础代码、根据数据库生成Excel格式的设计文档、根据Excel格式生成创建数据库脚本功能，
