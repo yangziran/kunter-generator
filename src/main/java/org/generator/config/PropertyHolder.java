@@ -5,6 +5,7 @@ package org.generator.config;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 /**
@@ -33,7 +34,7 @@ public abstract class PropertyHolder {
         Properties properties = new Properties();
         try {
             // 加载文件流到属性对象中
-            properties.load(inputStream);
+            properties.load(new InputStreamReader(inputStream, "UTF-8"));
             // 关闭文件流
             inputStream.close();
         } catch (IOException e) {
@@ -55,7 +56,7 @@ public abstract class PropertyHolder {
         Properties properties = new Properties();
         try {
             // 加载文件流到属性对象中
-            properties.load(inputStream);
+            properties.load(new InputStreamReader(inputStream, "UTF-8"));
             // 关闭文件流
             inputStream.close();
         } catch (IOException e) {

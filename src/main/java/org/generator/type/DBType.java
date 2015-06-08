@@ -10,7 +10,7 @@ package org.generator.type;
  */
 public enum DBType {
 
-    ORACLE("Oracle"), MYSQL("MySQL");
+    ORACLE("Oracle"), MYSQL("MySQL"), POSTGRESQL("PostgreSQL");
 
     private String value;
 
