@@ -9,7 +9,7 @@
 
 ## 基础代码生成
 
-1.生成文件列表：
+生成文件列表：
 - BaseDAO
 - DAO
 - BaseMapper
@@ -19,246 +19,93 @@
 - mybatis-config-*.xml
 
 配置说明：
-1. 配置文件目录：/src/main/resources
-  1.1 jdbc.properties：数据库连接参数，DB为数据库类型，目前只支持Oracle和MySQL，设置为MYSQL就会读取MySQL相关的数据库信息
-  1.2 config.properties：model：模块名，例如 base；package：基础包名，例如 com.kunter；table：表名称，如果为%则读取所有base_开头的表，如果生成单表则表名去除模块名称；target：输出目录，例如 target/ 当前kunter-generator下的target/
-1. item
-  * item 1
-  * item 2
-根据以上配置生成的文件结构如下（需要手动copy到开发项目下）：
+####1. 配置文件目录：/src/main/resources
+> 1.1 jdbc.properties
+>>  [a] SourceType：数据源类型，可选择（DB、EXCEL）
 
-  DAO:com.kunter.base.dao
+>>  [b] path.dictionary：数据字典目录，设置数据源类型为EXCEL时必须设值，支持中文目录 ** 注意路径，必须为双斜杠或者反斜杠 **
 
-  BaseDAO：com.kunter.base.dao.base
+>>  [c] DB：数据库类型，设置数据源类型为DB时必须设值，可选择（ORACLE、MYSQL、POSTGRESQL）
 
-  SQLMap:com/kunter/base/xml
+>>  [d] DB.xx：数据库连接属性，数据库类型相关连接属性，设置DB类型必须设值
 
-  BaseSQLMap：com/kunter/base/xml/base
+> 1.2 config.properties
+>>  [a] model：模块名称，默认表前缀，例：base
 
-  EO:com.kunter.base.eo
+>>  [b] package：基础包名，所有包前缀，例：com.kunter
 
-  EOExample:com.kunter.base.eo
+>>  [c] table：表名称，支持通配符 ** 数据源类型为EXCEL，则参数无效 建议使用EXCEL的时候分模块保存设计文档 **
 
-  mybatis-config-base.xml:根目录
+>>  [d] target：输出目录，可以为绝对目录或者相对目录，例：target/ 当前kunter-generator下的target/
 
-Main:org/generator/main/Generator.java
+>>>  根据以上配置，模拟生成如下所述文件：
+>>>    * BaseDAO：com.kunter.base.dao.base
+>>>    * DAO：com.kunter.base.dao
+>>>    * BaseMapper：com/kunter/base/xml/base
+>>>    * Mapper：com/kunter/base/xml
+>>>    * EO：com.kunter.base.eo
+>>>    * EOExample：com.kunter.base.eo
+>>>    * mybatis-config-base.xml：指定的target目录下
+>>>    * 如果target参数直接指定的开发项目，如果需要，手动将BaseMapper和Mapper挪到/src/main/resources
 
-单文件生成：org/generator/make包下面
+### Main
+> org/generator/main/Generator.java
 
+### 单文件生成
+> org/generator/make/Make*.java
 
-生成的单表DAO方法及相关SQL：
+### DAO方法列表
+* int countByExample(<?>Example example);
+* int countByExample_physical(<?>Example example);
+* List<?> selectByExample(<?>Example example);
+* List<?> selectByExample_physical(<?>Example example);
+* int insert(<?> record);
+* int insert_physical(<?> record);
+* int insertList(List<?> record);
+* int insertList_physical(List<?> record);
+* int insertSelective(<?> record);
+* int insertSelective_physical(<?> record);
+* int insertListSelective(List<?> record);
+* int insertListSelective_physical(List<?> record);
+* int updateByExample(@Param("record") <?> record, @Param("example") <?>Example example);
+* int updateByExample_physical(@Param("record") <?> record, @Param("example") <?>Example example);
+* int updateByExampleSelective(@Param("record") <?> record, @Param("example") <?>Example example);
+* int updateByExampleSelective_physical(@Param("record") <?> record, @Param("example") <?>Example example);
+* int deleteByExample(<?>Example example);
+* int deleteByExample_physical(<?>Example example);
+* <?> selectByPrimaryKey(Map<String, Object> map);
+* <?> selectByPrimaryKey_physical(Map<String, Object> map);
+* int updateByPrimaryKey(<?> record);
+* int updateByPrimaryKey_physical(<?> record);
+* int updateByPrimaryKeySelective(<?> record);
+* int updateByPrimaryKeySelective_physical(<?> record);
+* int deleteByPrimaryKey(Map<String, Object> map);
+* int deleteByPrimaryKey_physical(Map<String, Object> map);
 
-    /**
-     * 根据条件统计表中数据数量 未删除【删除标识=0】
-     * @param example AccountInfoExample
-     * @return int 数据条数
-     */
-    int countByExample(AccountInfoExample example);
+> <?>为对应实体，ByPrimaryKey的方法有主键时生成，_physical包含表中所有数据，无_physical的包含删除标识未标识删除的数据
 
-    /**
-     * 根据条件统计表中数据数量 所有数据
-     * @param example AccountInfoExample
-     * @return int 数据条数
-     */
-    int countByExample_physical(AccountInfoExample example);
+### 示例
 
-    /**
-     * 根据条件查询表中数据 未删除【删除标识=0】
-     * @param example AccountInfoExample
-     * @return List<AccountInfo> 数据集合
-     */
-    List<AccountInfo> selectByExample(AccountInfoExample example);
+        <?>Example example = new <?>Example();
+        example.or().andxxEqualTo(XXX);
+        example.or().andxxEqualTo(XXX);
+        example.or().andxxEqualTo(XXX);
 
-    /**
-     * 根据条件查询表中数据 所有数据
-     * @param example AccountInfoExample
-     * @return List<AccountInfo> 数据集合
-     */
-    List<AccountInfo> selectByExample_physical(AccountInfoExample example);
+        List<?> list = <?>Dao.selectByExample(example);
 
-    /**
-     * 往表中插入一条数据 系统字段由系统处理
-     * @param record AccountInfo
-     * @return int 结果数量
-     */
-    int insert(AccountInfo record);
+#####或
 
-    /**
-     * 往表中插入一条数据 系统字段需要输入
-     * @param record AccountInfo
-     * @return int 结果数量
-     */
-    int insert_physical(AccountInfo record);
+        <?>Example example = new <?>Example();
+        <?>Example.Criteria criteria = example.createCriteria();
+        criteria.andxxEqualTo(XXX);
+        criteria.andxxEqualTo(XXX);
+        criteria.andxxEqualTo(XXX);
 
-    /**
-     * 往表中批量插入数据 系统字段由系统处理
-     * @param record List<AccountInfo>
-     * @return int 结果数量
-     */
-    int insertList(List<AccountInfo> record);
+        List<?> list = <?>Dao.selectByExample(example);
 
-    /**
-     * 往表中批量插入数据 系统字段需要输入
-     * @param record List<AccountInfo>
-     * @return int 结果数量
-     */
-    int insertList_physical(List<AccountInfo> record);
+# 技术交流
+* 邮箱：yangzirancn@163.com
+* QQ：244371228
 
-    /**
-     * 往表中插入一条数据 字段为空不插入 系统字段由系统处理
-     * @param record AccountInfo
-     * @return int 结果数量
-     */
-    int insertSelective(AccountInfo record);
+# 开源赞助
 
-    /**
-     * 往表中插入一条数据 字段为空不插入 系统字段需要输入
-     * @param record AccountInfo
-     * @return int 结果数量
-     */
-    int insertSelective_physical(AccountInfo record);
-
-    /**
-     * 往表中批量插入数据 字段为空不插入 系统字段由系统处理
-     * @param record List<AccountInfo>
-     * @return int 结果数量
-     */
-    int insertListSelective(List<AccountInfo> record);
-
-    /**
-     * 往表中批量插入数据 字段为空不插入 系统字段需要输入
-     * @param record List<AccountInfo>
-     * @return int 结果数量
-     */
-    int insertListSelective_physical(List<AccountInfo> record);
-
-    /**
-     * 根据条件修改数据 未删除【删除标识=0】
-     * @param record AccountInfo
-     * @param example AccountInfoExample
-     * @return int 结果数量
-     */
-    int updateByExample(@Param("record") AccountInfo record, @Param("example") AccountInfoExample example);
-
-    /**
-     * 根据条件修改数据 所有数据
-     * @param record AccountInfo
-     * @param example AccountInfoExample
-     * @return int 结果数量
-     */
-    int updateByExample_physical(@Param("record") AccountInfo record, @Param("example") AccountInfoExample example);
-
-    /**
-     * 根据条件修改数据 字段为空不修改 未删除【删除标识=0】
-     * @param record AccountInfo
-     * @param example AccountInfoExample
-     * @return int 结果数量
-     */
-    int updateByExampleSelective(@Param("record") AccountInfo record, @Param("example") AccountInfoExample example);
-
-    /**
-     * 根据条件修改数据 字段为空不修改 所有数据
-     * @param record AccountInfo
-     * @param example AccountInfoExample
-     * @return int 结果数量
-     */
-    int updateByExampleSelective_physical(
-        @Param("record") AccountInfo record,
-        @Param("example") AccountInfoExample example);
-
-    /**
-     * 根据条件删除数据 逻辑删除 将【删除标识=1】
-     * @param example AccountInfoExample
-     * @return int 结果数量
-     */
-    int deleteByExample(AccountInfoExample example);
-
-    /**
-     * 根据条件删除数据 物理删除
-     * @param example AccountInfoExample
-     * @return int 结果数量
-     */
-    int deleteByExample_physical(AccountInfoExample example);
-
-    /**
-     * 根据主键查询数据 未删除【删除标识=0】
-     * @param map Map<String, Object>
-     * @return AccountInfo 数据对象
-     */
-    AccountInfo selectByPrimaryKey(Map<String, Object> map);
-
-    /**
-     * 根据主键查询数据 所有数据
-     * @param map Map<String, Object>
-     * @return AccountInfo 数据对象
-     */
-    AccountInfo selectByPrimaryKey_physical(Map<String, Object> map);
-
-    /**
-     * 根据主键修改数据 未删除【删除标识=0】
-     * @param record AccountInfo
-     * @return int 结果数量
-     */
-    int updateByPrimaryKey(AccountInfo record);
-
-    /**
-     * 根据主键修改数据 所有数据
-     * @param record AccountInfo
-     * @return int 结果数量
-     */
-    int updateByPrimaryKey_physical(AccountInfo record);
-
-    /**
-     * 根据主键修改数据 字段为空不修改 未删除【删除标识=0】
-     * @param record AccountInfo
-     * @return int 结果数量
-     */
-    int updateByPrimaryKeySelective(AccountInfo record);
-
-    /**
-     * 根据主键修改数据 字段为空不修改 所有数据
-     * @param record AccountInfo
-     * @return int 结果数量
-     */
-    int updateByPrimaryKeySelective_physical(AccountInfo record);
-
-    /**
-     * 根据主键删除数据 逻辑删除 将【删除标识=1】
-     * @param map Map<String, Object>
-     * @return int 结果数量
-     */
-    int deleteByPrimaryKey(Map<String, Object> map);
-
-    /**
-     * 根据主键删除数据 物理删除
-     * @param map Map<String, Object>
-     * @return int 结果数量
-     */
-    int deleteByPrimaryKey_physical(Map<String, Object> map);
-
-
-
-
-EOExample：查询条件封装类，使用如下：
-
-        AccountInfoExample example = new AccountInfoExample();
-        // 账号
-        example.or().anduserAccountEqualTo(username);
-        // 邮件
-        example.or().anduserMailEqualTo(username);
-        // 手机
-        example.or().anduserMobileEqualTo(username);
-
-        // 根据用户名查询账号信息是否存在
-        List<AccountInfo> accountInfoList = accountInfoDao.selectByExample(example);
-
-或者：
-
-        AccountInfoExample example = new AccountInfoExample();
-        AccountInfoExample.Criteria criteria = example.createCriteria();
-        criteria.anduserAccountEqualTo(username);
-        criteria.anduserMailEqualTo(username);
-        criteria.anduserMobileEqualTo(username);
-
-        // 根据用户名查询账号信息是否存在
-        List<AccountInfo> accountInfoList = accountInfoDao.selectByExample(example);
