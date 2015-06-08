@@ -105,7 +105,7 @@
 
 # 技术交流
 * 邮箱：yangzirancn@163.com
-* QQ讨论群：![325980480](http://jq.qq.com/?_wv=1027&k=cWUx2r)
+* QQ讨论群：[325980480](http://http://jq.qq.com/?_wv=1027&k=cWUx2r)
 
 # 开源赞助
 
