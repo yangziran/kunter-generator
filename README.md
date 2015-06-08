@@ -1,12 +1,50 @@
-#kunter-generator
+# kunter-generator
 
-特别声明：Oracle版本为12c 低版本不支持，因为12c修改了分页语法（offset #{currentSize} rows fetch next #{pageSize} rows only）
+## 特别声明：因为采用了12c特有分页语法，本工具Oracle暂时不支持Oracle 12c一下版本
 
-下一步计划：支持PostgreSQL数据库，通过数据库生成Excel格式的库表设计文档，增加从Excel库表设计中读取表结构生成基础类
+本工具参考MyBatis官方generator设计而成，参考版本为（1.3.2）。具有生成项目基础代码、根据数据库生成Excel格式的设计文档、根据Excel格式生成创建数据库脚本功能，
+为了方便项目随时更换底层，生成的基础代码独立目录，不建议对生成的代码进行修改；目前设计支持Oracle、MySQL、PostgreSQL
 
-生成基于MyBatis的DAO、SQLMap、EO和mybatis-config-*.xml
+*暂未实现功能：根据数据库生成Excel、根据Excel生成SQL脚本以及PostgreSQL支持*
 
-为了区别工具生成和开发者添加的内容DAO和SQLMap生成的内容都会保存为当前包的base包下，剥离工具生成的代码和开发者的代码为了随时可以替换工具生成代码而不对开发者的代码产生影响
+## 基础代码生成
+
+1.生成文件列表：
+- BaseDAO
+- DAO
+- BaseMapper
+- Mapper
+- EO(实体)
+- EOExample(实体对应查询条件)
+- mybatis-config-*.xml
+
+配置说明：
+1. 配置文件目录：/src/main/resources
+  1.1 jdbc.properties：数据库连接参数，DB为数据库类型，目前只支持Oracle和MySQL，设置为MYSQL就会读取MySQL相关的数据库信息
+  1.2 config.properties：model：模块名，例如 base；package：基础包名，例如 com.kunter；table：表名称，如果为%则读取所有base_开头的表，如果生成单表则表名去除模块名称；target：输出目录，例如 target/ 当前kunter-generator下的target/
+1. item
+  * item 1
+  * item 2
+根据以上配置生成的文件结构如下（需要手动copy到开发项目下）：
+
+  DAO:com.kunter.base.dao
+
+  BaseDAO：com.kunter.base.dao.base
+
+  SQLMap:com/kunter/base/xml
+
+  BaseSQLMap：com/kunter/base/xml/base
+
+  EO:com.kunter.base.eo
+
+  EOExample:com.kunter.base.eo
+
+  mybatis-config-base.xml:根目录
+
+Main:org/generator/main/Generator.java
+
+单文件生成：org/generator/make包下面
+
 
 生成的单表DAO方法及相关SQL：
 
@@ -199,31 +237,7 @@
     int deleteByPrimaryKey_physical(Map<String, Object> map);
 
 
-配置文件目录：/src/main/resources
 
-  jdbc.properties：数据库连接参数，DB为数据库类型，目前只支持Oracle和MySQL，设置为MYSQL就会读取MySQL相关的数据库信息
-
-  config.properties：model：模块名，例如 base；package：基础包名，例如 com.kunter；table：表名称，如果为%则读取所有base_开头的表，如果生成单表则表名去除模块名称；target：输出目录，例如 target/ 当前kunter-generator下的target/
-
-根据以上配置生成的文件结构如下（需要手动copy到开发项目下）：
-
-  DAO:com.kunter.base.dao
-
-  BaseDAO：com.kunter.base.dao.base
-
-  SQLMap:com/kunter/base/xml
-
-  BaseSQLMap：com/kunter/base/xml/base
-
-  EO:com.kunter.base.eo
-
-  EOExample:com.kunter.base.eo
-
-  mybatis-config-base.xml:根目录
-
-Main:org/generator/main/Generator.java
-
-单文件生成：org/generator/make包下面
 
 EOExample：查询条件封装类，使用如下：
 
