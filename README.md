@@ -109,4 +109,4 @@
 
 # 开源赞助
 
-![Git@OSC](http://git.oschina.net/uploads/images/2015/0608/210954_4ac348c4_6133.png "开源赞助我(支付宝)")
+![Git@OSC](http://git.oschina.net/uploads/images/2015/0608/230108_2f43d66e_6133.png "开源赞助我(支付宝)")
