@@ -105,7 +105,7 @@
 
 # 技术交流
 * 邮箱：yangzirancn@163.com
-* QQ：244371228
+* QQ讨论群：点击链接加入群【kunter-generator】：http://jq.qq.com/?_wv=1027&k=cWUx2r
 
 # 开源赞助
 
