@@ -19,6 +19,7 @@ public class Column {
     private String isNotNull;
     private String primaryKeyOrder;
     private String foreignKey;
+    private Integer length;
 
     /**
      * 取得 serial
@@ -162,6 +163,22 @@ public class Column {
      */
     public void setForeignKey(String foreignKey) {
         this.foreignKey = foreignKey;
+    }
+
+    /**
+     * 取得 length
+     * @return length Integer
+     */
+    public Integer getLength() {
+        return length;
+    }
+
+    /**
+     * 设定 length
+     * @param length Integer
+     */
+    public void setLength(Integer length) {
+        this.length = length;
     }
 
 }

@@ -12,11 +12,13 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -224,7 +226,12 @@ public class GetTableConfig {
                 // 备注
                 // String remarks = row.getCell(21).getStringCellValue();
                 // 长度
-                // Cell cell = row.getCell(11);
+                Integer length = null;
+                Cell cell = row.getCell(11);
+                if (JdbcTypeNameTranslator.getJdbcTypeName(Types.VARCHAR)
+                        .equals(JdbcTypeNameTranslator.getJdbcType(type))) {
+                    length = (int) cell.getNumericCellValue();
+                }
 
                 Column column = new Column();
                 column.setSerial(serial);
@@ -236,6 +243,7 @@ public class GetTableConfig {
                 column.setIsNotNull(isNotNull);
                 column.setPrimaryKeyOrder(primaryKeyOrder);
                 column.setForeignKey(foreignKey);
+                column.setLength(length);
 
                 // 主键列不为空
                 if (StringUtility.isNotEmpty(primaryKey)) {
