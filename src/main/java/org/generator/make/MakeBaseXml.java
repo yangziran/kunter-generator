@@ -448,6 +448,9 @@ public class MakeBaseXml {
         else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
             builder.append("limit #{currentSize} , #{pageSize}");
         }
+        else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+            builder.append("limit #{pageSize} offset #{currentSize}");
+        }
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("</if>");
@@ -527,6 +530,9 @@ public class MakeBaseXml {
         else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
             builder.append("limit #{currentSize} , #{pageSize}");
         }
+        else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+            builder.append("limit #{pageSize} offset #{currentSize}");
+        }
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("</if>");
@@ -572,6 +578,9 @@ public class MakeBaseXml {
                 }
                 else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
                     builder.append("sysdate(),");
+                }
+                else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                    builder.append("now(),");
                 }
             }
             else {
@@ -665,6 +674,9 @@ public class MakeBaseXml {
                 }
                 else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
                     builder.append("sysdate(),");
+                }
+                else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                    builder.append("now(),");
                 }
             }
             else {
@@ -776,6 +788,9 @@ public class MakeBaseXml {
                 }
                 else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
                     builder.append("sysdate(),");
+                }
+                else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                    builder.append("now(),");
                 }
             }
             else {
@@ -900,6 +915,9 @@ public class MakeBaseXml {
                 else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
                     builder.append("sysdate(),");
                 }
+                else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                    builder.append("now(),");
+                }
             }
             else {
                 builder.append("<if test=\"" + column.getJavaName() + " != null\">");
@@ -1005,6 +1023,9 @@ public class MakeBaseXml {
                     else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
                         builder.append("sysdate(),");
                     }
+                    else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                        builder.append("now(),");
+                    }
                 }
                 else {
                     builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
@@ -1067,6 +1088,9 @@ public class MakeBaseXml {
                     else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
                         builder.append("sysdate(),");
                     }
+                    else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                        builder.append("now(),");
+                    }
                 }
                 else {
                     builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
@@ -1128,6 +1152,9 @@ public class MakeBaseXml {
                     }
                     else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
                         builder.append("sysdate(),");
+                    }
+                    else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                        builder.append("now(),");
                     }
                 }
                 else if (column.getColumnName().equals("update_user_id")) {
@@ -1200,6 +1227,9 @@ public class MakeBaseXml {
                     }
                     else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
                         builder.append("sysdate(),");
+                    }
+                    else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                        builder.append("now(),");
                     }
                 }
                 else if (column.getColumnName().equals("update_user_id")) {
@@ -1427,6 +1457,9 @@ public class MakeBaseXml {
                         else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
                             builder.append("sysdate(),");
                         }
+                        else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                            builder.append("now(),");
+                        }
                     }
                     else {
                         builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
@@ -1526,6 +1559,9 @@ public class MakeBaseXml {
                         else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
                             builder.append("sysdate(),");
                         }
+                        else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                            builder.append("now(),");
+                        }
                     }
                     else if (column.getColumnName().equals("update_user_id")) {
                         builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
@@ -1590,6 +1626,9 @@ public class MakeBaseXml {
                         }
                         else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
                             builder.append("sysdate(),");
+                        }
+                        else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                            builder.append("now(),");
                         }
                     }
                     else if (column.getColumnName().equals("update_user_id")) {
