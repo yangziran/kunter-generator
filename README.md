@@ -20,6 +20,8 @@
 - EO(实体)
 - EOExample(实体对应查询条件)
 - mybatis-config-*.xml
+- CreateTableSQL-*.sql(从EXCEL设计文档生成指定数据库的建表语句)
+- 表结构一览.xlsx(从数据库生成EXCEL设计文档)
 
 配置说明：
 ####1. 配置文件目录：/src/main/resources
@@ -28,7 +30,7 @@
 
 >>  [b] path.dictionary：数据字典目录，设置数据源类型为EXCEL时必须设值，支持中文目录 ** 注意路径，必须为双斜杠或者反斜杠 **
 
->>  [c] DB：数据库类型，设置数据源类型为DB时必须设值，可选择（ORACLE、MYSQL、POSTGRESQL）
+>>  [c] DB：数据库类型，必须设值，可选择（ORACLE、MYSQL、POSTGRESQL）
 
 >>  [d] DB.xx：数据库连接属性，数据库类型相关连接属性，设置DB类型必须设值
 

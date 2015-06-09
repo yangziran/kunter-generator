@@ -10,11 +10,47 @@ package org.generator.entity;
  */
 public class Column {
 
+    private String serial;
+    private String remarks;
     private String columnName;
     private String javaName;
     private String sqlType;
     private String JavaType;
-    private String remarks;
+    private String isNotNull;
+    private String primaryKeyOrder;
+    private String foreignKey;
+
+    /**
+     * 取得 serial
+     * @return serial String
+     */
+    public String getSerial() {
+        return serial;
+    }
+
+    /**
+     * 设定 serial
+     * @param serial String
+     */
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
+
+    /**
+     * 取得 remarks
+     * @return remarks String
+     */
+    public String getRemarks() {
+        return remarks;
+    }
+
+    /**
+     * 设定 remarks
+     * @param remarks String
+     */
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 
     /**
      * 取得 columnName
@@ -81,19 +117,51 @@ public class Column {
     }
 
     /**
-     * 取得 remarks
-     * @return remarks String
+     * 取得 isNotNull
+     * @return isNotNull String
      */
-    public String getRemarks() {
-        return remarks;
+    public String getIsNotNull() {
+        return isNotNull;
     }
 
     /**
-     * 设定 remarks
-     * @param remarks String
+     * 设定 isNotNull
+     * @param isNotNull String
      */
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public void setIsNotNull(String isNotNull) {
+        this.isNotNull = isNotNull;
+    }
+
+    /**
+     * 取得 primaryKeyOrder
+     * @return primaryKeyOrder String
+     */
+    public String getPrimaryKeyOrder() {
+        return primaryKeyOrder;
+    }
+
+    /**
+     * 设定 primaryKeyOrder
+     * @param primaryKeyOrder String
+     */
+    public void setPrimaryKeyOrder(String primaryKeyOrder) {
+        this.primaryKeyOrder = primaryKeyOrder;
+    }
+
+    /**
+     * 取得 foreignKey
+     * @return foreignKey String
+     */
+    public String getForeignKey() {
+        return foreignKey;
+    }
+
+    /**
+     * 设定 foreignKey
+     * @param foreignKey String
+     */
+    public void setForeignKey(String foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
 }

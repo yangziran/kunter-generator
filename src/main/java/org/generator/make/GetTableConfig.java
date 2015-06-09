@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -114,13 +113,14 @@ public class GetTableConfig {
             ResultSet columns = metaData.getColumns(connection.getCatalog(), metaData.getUserName(), TABLE_NAME, null);
             while (columns.next()) {
                 Column column = new Column();
+                column.setSerial(String.valueOf(columns.getRow()));
                 column.setColumnName(columns.getString("COLUMN_NAME"));
                 column.setJavaName(
                         StringUtility.convertFieldToParameter(columns.getString("COLUMN_NAME").toLowerCase(), "_"));
                 column.setSqlType(JdbcTypeNameTranslator.getJdbcTypeName(columns.getInt("DATA_TYPE")));
                 column.setJavaType(JdbcTypeNameTranslator.getJavaType(columns.getInt("DATA_TYPE")));
                 column.setRemarks(columns.getString("REMARKS"));
-
+                column.setIsNotNull(columns.getString("IS_NULLABLE"));
                 table.addCols(column);
             }
             tableList.add(table);
@@ -218,21 +218,24 @@ public class GetTableConfig {
                 // 主键
                 String primaryKey = row.getCell(15).getStringCellValue();
                 // 主键顺序
-                Double primaryKeyOrder = row.getCell(17).getNumericCellValue();
+                String primaryKeyOrder = String.valueOf(row.getCell(17).getNumericCellValue());
                 // 外键
                 String foreignKey = row.getCell(18).getStringCellValue();
                 // 备注
-                String remarks = row.getCell(21).getStringCellValue();
-
+                // String remarks = row.getCell(21).getStringCellValue();
                 // 长度
-                Cell cell = row.getCell(11);
+                // Cell cell = row.getCell(11);
 
                 Column column = new Column();
+                column.setSerial(serial);
                 column.setColumnName(columnName);
                 column.setJavaName(StringUtility.convertFieldToParameter(columnName.toLowerCase(), "_"));
                 column.setSqlType(JdbcTypeNameTranslator.getJdbcTypeName(JdbcTypeNameTranslator.getJdbcType(type)));
                 column.setJavaType(JdbcTypeNameTranslator.getJavaType(type));
-                column.setRemarks(physical + " " + remarks);
+                column.setRemarks(physical);
+                column.setIsNotNull(isNotNull);
+                column.setPrimaryKeyOrder(primaryKeyOrder);
+                column.setForeignKey(foreignKey);
 
                 // 主键列不为空
                 if (StringUtility.isNotEmpty(primaryKey)) {

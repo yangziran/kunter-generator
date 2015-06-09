@@ -31,7 +31,7 @@ public class MakeMyBatisConfig {
 
     /**
      * MyBatisConfig生成
-     * @param table
+     * @param tables
      * @throws Exception
      * @author yangziran
      */
