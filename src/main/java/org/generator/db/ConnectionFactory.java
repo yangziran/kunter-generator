@@ -1,13 +1,7 @@
 /**
- * 
+ *
  */
 package org.generator.db;
-
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.Properties;
 
 import org.generator.config.ConfigurationHolder;
 import org.generator.config.PropertyHolder;
@@ -15,8 +9,15 @@ import org.generator.type.DBType;
 import org.generator.util.ObjectFactory;
 import org.generator.util.StringUtility;
 
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.SQLException;
+import java.text.MessageFormat;
+import java.util.Properties;
+
 /**
  * 数据库连接工厂，单列
+ *
  * @author yangziran
  * @version 1.0 2014年9月11日
  */
@@ -37,6 +38,7 @@ public class ConnectionFactory {
 
     /**
      * 获取数据库驱动类
+     *
      * @param config 数据库连接属性
      * @return Driver 数据库驱动
      * @author yangziran
@@ -50,7 +52,7 @@ public class ConnectionFactory {
             Class<?> clazz = ObjectFactory.externalClassForName(driverClass);
             driver = (Driver) clazz.newInstance();
         } catch (Exception e) {
-            throw new RuntimeException(MessageFormat.format("获取JDBC Driver错误", new Object[] {}), e);
+            throw new RuntimeException(MessageFormat.format("获取JDBC Driver错误", new Object[]{}), e);
         }
 
         return driver;
@@ -58,6 +60,7 @@ public class ConnectionFactory {
 
     /**
      * 获取数据库连接
+     *
      * @param config 数据库连接属性
      * @return Connection 数据库连接
      * @throws SQLException
@@ -67,10 +70,12 @@ public class ConnectionFactory {
         Driver driver = getDriver(config);
 
         Properties props = new Properties();
-        // // 设置可以获取remarks信息
-        // props.setProperty("remarks", "true");
-        // // 设置可以获取tables remarks信息
-        // props.setProperty("useInformationSchema", "true");
+        // 设置可以获取remarks信息
+        props.setProperty("remarks", "true");
+        // 设置可以获取tables remarks信息
+        props.setProperty("useInformationSchema", "true");
+        // 设置连接编码
+        props.setProperty("characterEncoding", "utf8");
 
         if (StringUtility.isNotEmpty(config.getUserId())) {
             props.setProperty("user", config.getUserId());
@@ -83,7 +88,7 @@ public class ConnectionFactory {
         Connection conn = driver.connect(config.getConnectionURL(), props);
 
         if (conn == null) {
-            throw new SQLException(MessageFormat.format("无法连接到数据库（可能是驱动/URL错误）", new Object[] {}));
+            throw new SQLException(MessageFormat.format("无法连接到数据库（可能是驱动/URL错误）", new Object[]{}));
         }
 
         return conn;
@@ -91,6 +96,7 @@ public class ConnectionFactory {
 
     /**
      * 获取数据库连接
+     *
      * @return
      * @throws SQLException
      * @author yangziran
