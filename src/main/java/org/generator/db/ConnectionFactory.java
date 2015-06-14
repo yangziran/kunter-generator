@@ -1,19 +1,19 @@
 /**
- * 
+ *
  */
 package org.generator.db;
-
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.Properties;
 
 import org.generator.config.ConfigurationHolder;
 import org.generator.config.PropertyHolder;
 import org.generator.type.DBType;
 import org.generator.util.ObjectFactory;
 import org.generator.util.StringUtility;
+
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.SQLException;
+import java.text.MessageFormat;
+import java.util.Properties;
 
 /**
  * 数据库连接工厂，单列
@@ -71,7 +71,8 @@ public class ConnectionFactory {
         props.setProperty("remarks", "true");
         // 设置可以获取tables remarks信息
         props.setProperty("useInformationSchema", "true");
-        props.setProperty("characterEncoding", "utf-8");
+        // 设置连接编码
+        props.setProperty("characterEncoding", "utf8");
 
         if (StringUtility.isNotEmpty(config.getUserId())) {
             props.setProperty("user", config.getUserId());
