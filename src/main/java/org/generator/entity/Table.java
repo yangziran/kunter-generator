@@ -21,6 +21,8 @@ public class Table {
     private String remarks;
     /** 主键集合 */
     private List<Column> primaryKey = new ArrayList<Column>();
+    /** 外键集合 */
+    private List<Column> exportedKey = new ArrayList<Column>();
     /** 列集合 */
     private List<Column> cols = new ArrayList<Column>();
     /** 扩展字段 */
@@ -124,6 +126,26 @@ public class Table {
 
     public void addPrimaryKey(Column column) {
         primaryKey.add(column);
+    }
+
+    /**
+     * 取得 exportedKey
+     * @return exportedKey List<Column>
+     */
+    public List<Column> getExportedKey() {
+        return exportedKey;
+    }
+
+    /**
+     * 设定 exportedKey
+     * @param exportedKey List<Column>
+     */
+    public void setExportedKey(List<Column> exportedKey) {
+        this.exportedKey = exportedKey;
+    }
+
+    public void addExportedKey(Column column) {
+        exportedKey.add(column);
     }
 
     /**

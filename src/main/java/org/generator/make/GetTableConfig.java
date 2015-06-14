@@ -108,7 +108,18 @@ public class GetTableConfig {
                 column.setColumnName(key.getString("COLUMN_NAME"));
                 column.setJavaName(
                         StringUtility.convertFieldToParameter(key.getString("COLUMN_NAME").toLowerCase(), "_"));
+                column.setPrimaryKeyOrder(String.valueOf(key.getRow()));
                 table.addPrimaryKey(column);
+            }
+
+            // 获取到外键集合
+            ResultSet exp = metaData.getExportedKeys(connection.getCatalog(), metaData.getUserName(), TABLE_NAME);
+            while (exp.next()) {
+                Column column = new Column();
+                column.setColumnName(exp.getString("COLUMN_NAME"));
+                column.setJavaName(
+                        StringUtility.convertFieldToParameter(exp.getString("COLUMN_NAME").toLowerCase(), "_"));
+                table.addExportedKey(column);
             }
 
             // 获取到列集合
@@ -123,6 +134,7 @@ public class GetTableConfig {
                 column.setJavaType(JdbcTypeNameTranslator.getJavaType(columns.getInt("DATA_TYPE")));
                 column.setRemarks(columns.getString("REMARKS"));
                 column.setIsNotNull(columns.getString("IS_NULLABLE"));
+                column.setLength(columns.getInt("COLUMN_SIZE"));
                 table.addCols(column);
             }
             tableList.add(table);

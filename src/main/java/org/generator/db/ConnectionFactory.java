@@ -67,10 +67,11 @@ public class ConnectionFactory {
         Driver driver = getDriver(config);
 
         Properties props = new Properties();
-        // // 设置可以获取remarks信息
-        // props.setProperty("remarks", "true");
-        // // 设置可以获取tables remarks信息
-        // props.setProperty("useInformationSchema", "true");
+        // 设置可以获取remarks信息
+        props.setProperty("remarks", "true");
+        // 设置可以获取tables remarks信息
+        props.setProperty("useInformationSchema", "true");
+        props.setProperty("characterEncoding", "utf-8");
 
         if (StringUtility.isNotEmpty(config.getUserId())) {
             props.setProperty("user", config.getUserId());
