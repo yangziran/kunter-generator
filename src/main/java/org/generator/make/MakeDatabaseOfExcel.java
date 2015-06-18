@@ -357,8 +357,6 @@ public class MakeDatabaseOfExcel {
         // 遍历所有的表
         for (int i = 0; i < tables.size(); i++) {
             Table table = tables.get(i);
-            // 获取表Sheet名称
-            String sheetName = StringUtility.isNotEmpty(table.getRemarks()) ? table.getRemarks() : table.getTableName();
 
             // 去除两行列标题
             Row row = sheet.createRow(i + 2);
@@ -372,7 +370,7 @@ public class MakeDatabaseOfExcel {
             cell.setCellStyle(getLinkStyle(workbook));
             cell.setCellValue(table.getRemarks());
             Hyperlink link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
-            link.setAddress("#" + sheetName + "!A1");
+            link.setAddress("#" + table.getTableName() + "!A1");
             cell.setHyperlink(link);
             cell = row.createCell(2, Cell.CELL_TYPE_STRING);
             cell.setCellStyle(getLinkStyle(workbook));

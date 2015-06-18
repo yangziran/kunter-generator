@@ -116,7 +116,7 @@ public class GetTableConfig {
             ResultSet exp = metaData.getExportedKeys(connection.getCatalog(), metaData.getUserName(), TABLE_NAME);
             while (exp.next()) {
                 Column column = new Column();
-                column.setColumnName(exp.getString("COLUMN_NAME"));
+                column.setColumnName(exp.getString("PKCOLUMN_NAME"));
                 column.setJavaName(
                         StringUtility.convertFieldToParameter(exp.getString("COLUMN_NAME").toLowerCase(), "_"));
                 table.addExportedKey(column);
