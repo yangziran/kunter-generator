@@ -78,7 +78,7 @@ public class ObjectFactory {
             try {
                 clazz = Class.forName(type, true, classLoader);
                 return clazz;
-            } catch (Throwable e) {
+            } catch (Exception e) {
             }
         }
 
@@ -98,8 +98,8 @@ public class ObjectFactory {
             Class<?> clazz = externalClassForName(type);
             answer = clazz.newInstance();
         } catch (Exception e) {
-            throw new RuntimeException(MessageFormat.format("Cannot instantiate object of type {0}",
-                    new Object[] { type }), e);
+            throw new RuntimeException(
+                    MessageFormat.format("Cannot instantiate object of type {0}", new Object[] { type }), e);
         }
 
         return answer;
@@ -142,8 +142,8 @@ public class ObjectFactory {
 
             answer = clazz.newInstance();
         } catch (Exception e) {
-            throw new RuntimeException(MessageFormat.format("Cannot instantiate object of type {0}",
-                    new Object[] { type }), e);
+            throw new RuntimeException(
+                    MessageFormat.format("Cannot instantiate object of type {0}", new Object[] { type }), e);
         }
 
         return answer;
