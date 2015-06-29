@@ -40,6 +40,21 @@
 		</developer>
 	</developers>
 
+	<repositories>
+		<repository>
+			<id>maven.kunter.cn</id>
+			<name>Kunter Repository</name>
+			<url>http://maven.kunter.cn/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<poi_version>3.12</poi_version>
