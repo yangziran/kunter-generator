@@ -9,6 +9,12 @@
 本工具参考MyBatis官方generator设计而成，参考版本为（1.3.2）。具有生成项目基础代码、根据数据库生成Excel格式的设计文档、根据Excel格式生成创建数据库脚本功能，
 为了方便项目随时更换底层，生成的基础代码独立目录，不建议对生成的代码进行修改；目前设计支持Oracle、MySQL、PostgreSQL
 
+添加参数logical(是否逻辑操作)，值：true/false;配置需要逻辑操作需要库表中存在字段：delete_flag、create_date、create_user_id、update_date、update_user_id，正常数据delete_flag值为“0”，逻辑删除将delete_flag的值变更为“1”，其他四个字段也相应的由系统控制
+
+## 更新日志
+
+- 2015-6-30 修复Sonar扫描出的阻断性BUG
+- 2015-7-2 调整生成策略，数据逻辑操作可配置
 
 ## 基础代码生成
 

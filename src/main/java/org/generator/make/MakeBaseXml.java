@@ -20,6 +20,7 @@ import org.generator.util.OutputUtilities;
  */
 public class MakeBaseXml {
 
+    private final static boolean LOGICAL = Boolean.valueOf(PropertyHolder.getConfigProperty("logical"));
     private final static String DB_TYPE = DBType.valueOf(PropertyHolder.getJDBCProperty("DB")).getValue();
     private final static String PACKAGES = PackageHolder.getBaseXmlPackage();
     private final static String DAO_PACKAGES = PackageHolder.getDaoPackage();
@@ -288,49 +289,51 @@ public class MakeBaseXml {
         builder.append("</sql>");
         /** ---------- Base_Column_List End ---------- */
 
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<!-- 根据条件统计表中数据数量 未删除【删除标识=0】 -->");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<select id=\"countByExample\" parameterType=\"" + typeExample
-                + "\" resultType=\"java.lang.Integer\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("select");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("count(*)");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("from");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append(table.getTableName());
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("where");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("delete_flag = '0'");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<if test=\"_parameter != null\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("<trim prefix=\"and (\" suffix=\")\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 4);
-        builder.append("<include refid=\"Example_Where_Clause\" />");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</if>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("</select>");
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<!-- 根据条件统计表中数据数量 未删除【删除标识=0】 -->");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<select id=\"countByExample\" parameterType=\"" + typeExample
+                    + "\" resultType=\"java.lang.Integer\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("select");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("count(*)");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("from");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append(table.getTableName());
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("where");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("delete_flag = '0'");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<if test=\"_parameter != null\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("<trim prefix=\"and (\" suffix=\")\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 4);
+            builder.append("<include refid=\"Example_Where_Clause\" />");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</if>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("</select>");
+        }
 
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
@@ -376,87 +379,89 @@ public class MakeBaseXml {
         OutputUtilities.javaIndent(builder, 1);
         builder.append("</select>");
 
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<!-- 根据条件查询表中数据 未删除【删除标识=0】 -->");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(
-                "<select id=\"selectByExample\" parameterType=\"" + typeExample + "\" resultMap=\"BaseResultMap\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("select");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<if test=\"distinct\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("distinct");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</if>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<include refid=\"Base_Column_List\" />");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("from");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append(table.getTableName());
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("where");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("delete_flag = '0'");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<if test=\"_parameter != null\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("<trim prefix=\"and (\" suffix=\")\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 4);
-        builder.append("<include refid=\"Example_Where_Clause\" />");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</if>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<if test=\"orderByClause != null\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("order by");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 4);
-        builder.append("${orderByClause}");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</if>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<if test=\"currentSize != null\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
-            builder.append("offset #{currentSize} rows fetch next #{pageSize} rows only");
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<!-- 根据条件查询表中数据 未删除【删除标识=0】 -->");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<select id=\"selectByExample\" parameterType=\"" + typeExample
+                    + "\" resultMap=\"BaseResultMap\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("select");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<if test=\"distinct\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("distinct");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</if>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<include refid=\"Base_Column_List\" />");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("from");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append(table.getTableName());
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("where");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("delete_flag = '0'");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<if test=\"_parameter != null\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("<trim prefix=\"and (\" suffix=\")\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 4);
+            builder.append("<include refid=\"Example_Where_Clause\" />");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</if>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<if test=\"orderByClause != null\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("order by");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 4);
+            builder.append("${orderByClause}");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</if>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<if test=\"currentSize != null\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
+                builder.append("offset #{currentSize} rows fetch next #{pageSize} rows only");
+            }
+            else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
+                builder.append("limit #{currentSize} , #{pageSize}");
+            }
+            else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                builder.append("limit #{pageSize} offset #{currentSize}");
+            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</if>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("</select>");
         }
-        else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
-            builder.append("limit #{currentSize} , #{pageSize}");
-        }
-        else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
-            builder.append("limit #{pageSize} offset #{currentSize}");
-        }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</if>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("</select>");
 
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
@@ -540,59 +545,61 @@ public class MakeBaseXml {
         OutputUtilities.javaIndent(builder, 1);
         builder.append("</select>");
 
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<!-- 往表中插入一条数据 系统字段由系统处理 -->");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"insert\" parameterType=\"" + type + "\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("insert into");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append(table.getTableName());
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
-        for (Column column : table.getCols()) {
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<!-- 往表中插入一条数据 系统字段由系统处理 -->");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<insert id=\"insert\" parameterType=\"" + type + "\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("insert into");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
-            builder.append(column.getColumnName() + ",");
-        }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\">");
-        for (Column column : table.getCols()) {
+            builder.append(table.getTableName());
             OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 3);
-            if (column.getJavaName().equals("deleteFlag")) {
-                builder.append("'0',");
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
+            for (Column column : table.getCols()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append(column.getColumnName() + ",");
             }
-            else if (column.getJavaName().equals("createDate") || column.getJavaName().equals("updateDate")) {
-                if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
-                    builder.append("sysdate,");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\">");
+            for (Column column : table.getCols()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                if (column.getJavaName().equals("deleteFlag")) {
+                    builder.append("'0',");
                 }
-                else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
-                    builder.append("sysdate(),");
+                else if (column.getJavaName().equals("createDate") || column.getJavaName().equals("updateDate")) {
+                    if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
+                        builder.append("sysdate,");
+                    }
+                    else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
+                        builder.append("sysdate(),");
+                    }
+                    else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                        builder.append("now(),");
+                    }
                 }
-                else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
-                    builder.append("now(),");
+                else {
+                    builder.append("#{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
                 }
             }
-            else {
-                builder.append("#{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
-            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("</insert>");
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("</insert>");
 
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
@@ -632,66 +639,68 @@ public class MakeBaseXml {
         OutputUtilities.javaIndent(builder, 1);
         builder.append("</insert>");
 
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<!-- 往表中批量插入数据 系统字段由系统处理 -->");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"insertList\" parameterType=\"java.util.List\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("insert into");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append(table.getTableName());
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
-        for (Column column : table.getCols()) {
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<!-- 往表中批量插入数据 系统字段由系统处理 -->");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<insert id=\"insertList\" parameterType=\"java.util.List\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("insert into");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
-            builder.append(column.getColumnName() + ",");
-        }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append(
-                "<foreach collection=\"list\" item=\"item\" open=\"values (\" close=\")\" separator=\" ), ( \">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("<trim suffixOverrides=\",\">");
-        for (Column column : table.getCols()) {
+            builder.append(table.getTableName());
             OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 4);
-            if (column.getJavaName().equals("deleteFlag")) {
-                builder.append("'0',");
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
+            for (Column column : table.getCols()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append(column.getColumnName() + ",");
             }
-            else if (column.getJavaName().equals("createDate") || column.getJavaName().equals("updateDate")) {
-                if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
-                    builder.append("sysdate,");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append(
+                    "<foreach collection=\"list\" item=\"item\" open=\"values (\" close=\")\" separator=\" ), ( \">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("<trim suffixOverrides=\",\">");
+            for (Column column : table.getCols()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 4);
+                if (column.getJavaName().equals("deleteFlag")) {
+                    builder.append("'0',");
                 }
-                else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
-                    builder.append("sysdate(),");
+                else if (column.getJavaName().equals("createDate") || column.getJavaName().equals("updateDate")) {
+                    if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
+                        builder.append("sysdate,");
+                    }
+                    else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
+                        builder.append("sysdate(),");
+                    }
+                    else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                        builder.append("now(),");
+                    }
                 }
-                else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
-                    builder.append("now(),");
+                else {
+                    builder.append("#{item." + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
                 }
             }
-            else {
-                builder.append("#{item." + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
-            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</foreach>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("</insert>");
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</foreach>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("</insert>");
 
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
@@ -738,77 +747,79 @@ public class MakeBaseXml {
         OutputUtilities.javaIndent(builder, 1);
         builder.append("</insert>");
 
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<!-- 往表中插入一条数据 字段为空不插入 系统字段由系统处理 -->");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"insertSelective\" parameterType=\"" + type + "\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("insert into");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append(table.getTableName());
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
-        for (Column column : table.getCols()) {
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<!-- 往表中插入一条数据 字段为空不插入 系统字段由系统处理 -->");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<insert id=\"insertSelective\" parameterType=\"" + type + "\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("insert into");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
-            if (column.getJavaName().equals("deleteFlag") || column.getJavaName().equals("createDate")
-                    || column.getJavaName().equals("updateDate")) {
-                builder.append(column.getColumnName() + ",");
-            }
-            else {
-                builder.append("<if test=\"" + column.getJavaName() + " != null\">");
-                OutputUtilities.newLine(builder);
-                OutputUtilities.javaIndent(builder, 4);
-                builder.append(column.getColumnName() + ",");
-                OutputUtilities.newLine(builder);
-                OutputUtilities.javaIndent(builder, 3);
-                builder.append("</if>");
-            }
-        }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\">");
-        for (Column column : table.getCols()) {
+            builder.append(table.getTableName());
             OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 3);
-            if (column.getJavaName().equals("deleteFlag")) {
-                builder.append("'0',");
-            }
-            else if (column.getJavaName().equals("createDate") || column.getJavaName().equals("updateDate")) {
-                if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
-                    builder.append("sysdate,");
-                }
-                else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
-                    builder.append("sysdate(),");
-                }
-                else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
-                    builder.append("now(),");
-                }
-            }
-            else {
-                builder.append("<if test=\"" + column.getJavaName() + " != null\">");
-                OutputUtilities.newLine(builder);
-                OutputUtilities.javaIndent(builder, 4);
-                builder.append("#{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
+            for (Column column : table.getCols()) {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 3);
-                builder.append("</if>");
+                if (column.getJavaName().equals("deleteFlag") || column.getJavaName().equals("createDate")
+                        || column.getJavaName().equals("updateDate")) {
+                    builder.append(column.getColumnName() + ",");
+                }
+                else {
+                    builder.append("<if test=\"" + column.getJavaName() + " != null\">");
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 4);
+                    builder.append(column.getColumnName() + ",");
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 3);
+                    builder.append("</if>");
+                }
             }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\">");
+            for (Column column : table.getCols()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                if (column.getJavaName().equals("deleteFlag")) {
+                    builder.append("'0',");
+                }
+                else if (column.getJavaName().equals("createDate") || column.getJavaName().equals("updateDate")) {
+                    if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
+                        builder.append("sysdate,");
+                    }
+                    else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
+                        builder.append("sysdate(),");
+                    }
+                    else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                        builder.append("now(),");
+                    }
+                }
+                else {
+                    builder.append("<if test=\"" + column.getJavaName() + " != null\">");
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 4);
+                    builder.append("#{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 3);
+                    builder.append("</if>");
+                }
+            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("</insert>");
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("</insert>");
 
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
@@ -860,84 +871,86 @@ public class MakeBaseXml {
         OutputUtilities.javaIndent(builder, 1);
         builder.append("</insert>");
 
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<!-- 往表中批量插入数据 字段为空不插入 系统字段由系统处理 -->");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"insertListSelective\" parameterType=\"java.util.List\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("insert into");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append(table.getTableName());
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
-        for (Column column : table.getCols()) {
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<!-- 往表中批量插入数据 字段为空不插入 系统字段由系统处理 -->");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<insert id=\"insertListSelective\" parameterType=\"java.util.List\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("insert into");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
-            if (column.getJavaName().equals("deleteFlag") || column.getJavaName().equals("createDate")
-                    || column.getJavaName().equals("updateDate")) {
-                builder.append(column.getColumnName() + ",");
-            }
-            else {
-                builder.append("<if test=\"" + column.getJavaName() + " != null\">");
-                OutputUtilities.newLine(builder);
-                OutputUtilities.javaIndent(builder, 4);
-                builder.append(column.getColumnName() + ",");
+            builder.append(table.getTableName());
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
+            for (Column column : table.getCols()) {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 3);
-                builder.append("</if>");
+                if (column.getJavaName().equals("deleteFlag") || column.getJavaName().equals("createDate")
+                        || column.getJavaName().equals("updateDate")) {
+                    builder.append(column.getColumnName() + ",");
+                }
+                else {
+                    builder.append("<if test=\"" + column.getJavaName() + " != null\">");
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 4);
+                    builder.append(column.getColumnName() + ",");
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 3);
+                    builder.append("</if>");
+                }
             }
-        }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append(
-                "<foreach collection=\"list\" item=\"item\" open=\"values (\" close=\")\" separator=\" ), ( \">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("<trim suffixOverrides=\",\">");
-        for (Column column : table.getCols()) {
             OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 4);
-            if (column.getJavaName().equals("deleteFlag")) {
-                builder.append("'0',");
-            }
-            else if (column.getJavaName().equals("createDate") || column.getJavaName().equals("updateDate")) {
-                if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
-                    builder.append("sysdate,");
-                }
-                else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
-                    builder.append("sysdate(),");
-                }
-                else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
-                    builder.append("now(),");
-                }
-            }
-            else {
-                builder.append("<if test=\"" + column.getJavaName() + " != null\">");
-                OutputUtilities.newLine(builder);
-                OutputUtilities.javaIndent(builder, 5);
-                builder.append("#{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append(
+                    "<foreach collection=\"list\" item=\"item\" open=\"values (\" close=\")\" separator=\" ), ( \">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("<trim suffixOverrides=\",\">");
+            for (Column column : table.getCols()) {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 4);
-                builder.append("</if>");
+                if (column.getJavaName().equals("deleteFlag")) {
+                    builder.append("'0',");
+                }
+                else if (column.getJavaName().equals("createDate") || column.getJavaName().equals("updateDate")) {
+                    if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
+                        builder.append("sysdate,");
+                    }
+                    else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
+                        builder.append("sysdate(),");
+                    }
+                    else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                        builder.append("now(),");
+                    }
+                }
+                else {
+                    builder.append("<if test=\"" + column.getJavaName() + " != null\">");
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 5);
+                    builder.append("#{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 4);
+                    builder.append("</if>");
+                }
             }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</foreach>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("</insert>");
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</foreach>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("</insert>");
 
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
@@ -996,70 +1009,72 @@ public class MakeBaseXml {
         OutputUtilities.javaIndent(builder, 1);
         builder.append("</insert>");
 
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<!-- 根据条件修改数据 未删除【删除标识=0】 -->");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<update id=\"updateByExample\" parameterType=\"java.util.Map\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("update");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append(table.getTableName());
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<trim prefix=\"set\" suffix=\"\" suffixOverrides=\",\">");
-        for (Column column : table.getCols()) {
-            if (!column.getColumnName().equals("create_date") && !column.getColumnName().equals("create_user_id")) {
-                OutputUtilities.newLine(builder);
-                OutputUtilities.javaIndent(builder, 3);
-                if (column.getColumnName().equals("update_date")) {
-                    builder.append(column.getColumnName()).append(" = ");
-                    if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
-                        builder.append("sysdate,");
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<!-- 根据条件修改数据 未删除【删除标识=0】 -->");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<update id=\"updateByExample\" parameterType=\"java.util.Map\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("update");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append(table.getTableName());
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<trim prefix=\"set\" suffix=\"\" suffixOverrides=\",\">");
+            for (Column column : table.getCols()) {
+                if (!column.getColumnName().equals("create_date") && !column.getColumnName().equals("create_user_id")) {
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 3);
+                    if (column.getColumnName().equals("update_date")) {
+                        builder.append(column.getColumnName()).append(" = ");
+                        if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
+                            builder.append("sysdate,");
+                        }
+                        else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
+                            builder.append("sysdate(),");
+                        }
+                        else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                            builder.append("now(),");
+                        }
                     }
-                    else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
-                        builder.append("sysdate(),");
+                    else {
+                        builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
+                                + column.getSqlType() + "},");
                     }
-                    else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
-                        builder.append("now(),");
-                    }
-                }
-                else {
-                    builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
-                            + column.getSqlType() + "},");
                 }
             }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("where");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("delete_flag = '0'");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<if test=\"_parameter != null\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("<trim prefix=\"and (\" suffix=\")\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 4);
+            builder.append("<include refid=\"Update_By_Example_Where_Clause\" />");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</if>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("</update>");
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("where");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("delete_flag = '0'");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<if test=\"_parameter != null\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("<trim prefix=\"and (\" suffix=\")\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 4);
-        builder.append("<include refid=\"Update_By_Example_Where_Clause\" />");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</if>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("</update>");
 
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
@@ -1126,80 +1141,82 @@ public class MakeBaseXml {
         OutputUtilities.javaIndent(builder, 1);
         builder.append("</update>");
 
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<!-- 根据条件修改数据 字段为空不修改 未删除【删除标识=0】 -->");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<update id=\"updateByExampleSelective\" parameterType=\"java.util.Map\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("update");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append(table.getTableName());
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<set>");
-        for (Column column : table.getCols()) {
-            if (!column.getColumnName().equals("create_date") && !column.getColumnName().equals("create_user_id")) {
-                OutputUtilities.newLine(builder);
-                OutputUtilities.javaIndent(builder, 3);
-                if (column.getColumnName().equals("update_date")) {
-                    builder.append(column.getColumnName()).append(" = ");
-                    if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
-                        builder.append("sysdate,");
-                    }
-                    else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
-                        builder.append("sysdate(),");
-                    }
-                    else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
-                        builder.append("now(),");
-                    }
-                }
-                else if (column.getColumnName().equals("update_user_id")) {
-                    builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
-                            + column.getSqlType() + "},");
-                }
-                else {
-                    builder.append("<if test=\"record." + column.getJavaName() + " != null\">");
-                    OutputUtilities.newLine(builder);
-                    OutputUtilities.javaIndent(builder, 4);
-                    builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
-                            + column.getSqlType() + "},");
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<!-- 根据条件修改数据 字段为空不修改 未删除【删除标识=0】 -->");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<update id=\"updateByExampleSelective\" parameterType=\"java.util.Map\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("update");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append(table.getTableName());
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<set>");
+            for (Column column : table.getCols()) {
+                if (!column.getColumnName().equals("create_date") && !column.getColumnName().equals("create_user_id")) {
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 3);
-                    builder.append("</if>");
+                    if (column.getColumnName().equals("update_date")) {
+                        builder.append(column.getColumnName()).append(" = ");
+                        if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
+                            builder.append("sysdate,");
+                        }
+                        else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
+                            builder.append("sysdate(),");
+                        }
+                        else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                            builder.append("now(),");
+                        }
+                    }
+                    else if (column.getColumnName().equals("update_user_id")) {
+                        builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
+                                + column.getSqlType() + "},");
+                    }
+                    else {
+                        builder.append("<if test=\"record." + column.getJavaName() + " != null\">");
+                        OutputUtilities.newLine(builder);
+                        OutputUtilities.javaIndent(builder, 4);
+                        builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
+                                + column.getSqlType() + "},");
+                        OutputUtilities.newLine(builder);
+                        OutputUtilities.javaIndent(builder, 3);
+                        builder.append("</if>");
+                    }
                 }
             }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</set>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("where");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("delete_flag = '0'");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<if test=\"_parameter != null\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("<trim prefix=\"and (\" suffix=\")\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 4);
+            builder.append("<include refid=\"Update_By_Example_Where_Clause\" />");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</if>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("</update>");
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</set>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("where");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("delete_flag = '0'");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<if test=\"_parameter != null\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("<trim prefix=\"and (\" suffix=\")\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 4);
-        builder.append("<include refid=\"Update_By_Example_Where_Clause\" />");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</if>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("</update>");
 
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
@@ -1276,48 +1293,50 @@ public class MakeBaseXml {
         OutputUtilities.javaIndent(builder, 1);
         builder.append("</update>");
 
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<!-- 根据条件删除数据 逻辑删除 将【删除标识=1】 -->");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<delete id=\"deleteByExample\" parameterType=\"" + typeExample + "\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("update");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append(table.getTableName());
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("set");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("delete_flag = '1'");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("where");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("delete_flag = '0'");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<if test=\"_parameter != null\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("<trim prefix=\"and (\" suffix=\")\">");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 4);
-        builder.append("<include refid=\"Example_Where_Clause\" />");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 3);
-        builder.append("</trim>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("</if>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("</delete>");
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<!-- 根据条件删除数据 逻辑删除 将【删除标识=1】 -->");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<delete id=\"deleteByExample\" parameterType=\"" + typeExample + "\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("update");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append(table.getTableName());
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("set");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("delete_flag = '1'");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("where");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("delete_flag = '0'");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("<if test=\"_parameter != null\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("<trim prefix=\"and (\" suffix=\")\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 4);
+            builder.append("<include refid=\"Example_Where_Clause\" />");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("</trim>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("</if>");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("</delete>");
+        }
 
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
@@ -1358,41 +1377,44 @@ public class MakeBaseXml {
 
         // 有主键
         if (table.getPrimaryKey() != null && table.getPrimaryKey().size() > 0) {
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("<!-- 根据主键查询数据 未删除【删除标识=0】 -->");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(
-                    "<select id=\"selectByPrimaryKey\" parameterType=\"java.util.Map\" resultMap=\"BaseResultMap\">");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("select");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 3);
-            builder.append("<include refid=\"Base_Column_List\" />");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("from");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 3);
-            builder.append(table.getTableName());
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("where");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 3);
-            builder.append("delete_flag = '0'");
-            for (int i = 0; i < table.getPrimaryKey().size(); i++) {
+
+            if (LOGICAL) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("<!-- 根据主键查询数据 未删除【删除标识=0】 -->");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(
+                        "<select id=\"selectByPrimaryKey\" parameterType=\"java.util.Map\" resultMap=\"BaseResultMap\">");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
-                builder.append("and ");
-                Column column = table.getPrimaryKey().get(i);
-                builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append("}");
+                builder.append("select");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append("<include refid=\"Base_Column_List\" />");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("from");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append(table.getTableName());
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("where");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append("delete_flag = '0'");
+                for (int i = 0; i < table.getPrimaryKey().size(); i++) {
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 2);
+                    builder.append("and ");
+                    Column column = table.getPrimaryKey().get(i);
+                    builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append("}");
+                }
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("</select>");
             }
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("</select>");
 
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
@@ -1430,63 +1452,66 @@ public class MakeBaseXml {
             OutputUtilities.javaIndent(builder, 1);
             builder.append("</select>");
 
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("<!-- 根据主键修改数据 未删除【删除标识=0】 -->");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("<update id=\"updateByPrimaryKey\" parameterType=\"" + type + "\">");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("update");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 3);
-            builder.append(table.getTableName());
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("<set>");
-            for (Column column : table.getCols()) {
-                if (!column.getColumnName().equals("create_date") && !column.getColumnName().equals("create_user_id")) {
-                    OutputUtilities.newLine(builder);
-                    OutputUtilities.javaIndent(builder, 3);
-                    if (column.getColumnName().equals("update_date")) {
-                        builder.append(column.getColumnName()).append(" = ");
-                        if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
-                            builder.append("sysdate,");
-                        }
-                        else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
-                            builder.append("sysdate(),");
-                        }
-                        else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
-                            builder.append("now(),");
-                        }
-                    }
-                    else {
-                        builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
-                                + column.getSqlType() + "},");
-                    }
-                }
-            }
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("</set>");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("where");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 3);
-            builder.append("delete_flag = '0'");
-            for (int i = 0; i < table.getPrimaryKey().size(); i++) {
+            if (LOGICAL) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("<!-- 根据主键修改数据 未删除【删除标识=0】 -->");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("<update id=\"updateByPrimaryKey\" parameterType=\"" + type + "\">");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
-                builder.append("and ");
-                Column column = table.getPrimaryKey().get(i);
-                builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append(",jdbcType=")
-                        .append(column.getSqlType()).append("}");
+                builder.append("update");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append(table.getTableName());
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("<set>");
+                for (Column column : table.getCols()) {
+                    if (!column.getColumnName().equals("create_date")
+                            && !column.getColumnName().equals("create_user_id")) {
+                        OutputUtilities.newLine(builder);
+                        OutputUtilities.javaIndent(builder, 3);
+                        if (column.getColumnName().equals("update_date")) {
+                            builder.append(column.getColumnName()).append(" = ");
+                            if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
+                                builder.append("sysdate,");
+                            }
+                            else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
+                                builder.append("sysdate(),");
+                            }
+                            else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                                builder.append("now(),");
+                            }
+                        }
+                        else {
+                            builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
+                                    + column.getSqlType() + "},");
+                        }
+                    }
+                }
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("</set>");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("where");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append("delete_flag = '0'");
+                for (int i = 0; i < table.getPrimaryKey().size(); i++) {
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 2);
+                    builder.append("and ");
+                    Column column = table.getPrimaryKey().get(i);
+                    builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName())
+                            .append(",jdbcType=").append(column.getSqlType()).append("}");
+                }
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("</update>");
             }
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("</update>");
 
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
@@ -1532,73 +1557,76 @@ public class MakeBaseXml {
             OutputUtilities.javaIndent(builder, 1);
             builder.append("</update>");
 
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("<!-- 根据主键修改数据 字段为空不修改 未删除【删除标识=0】 -->");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("<update id=\"updateByPrimaryKeySelective\" parameterType=\"" + type + "\">");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("update");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 3);
-            builder.append(table.getTableName());
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("<set>");
-            for (Column column : table.getCols()) {
-                if (!column.getColumnName().equals("create_date") && !column.getColumnName().equals("create_user_id")) {
-                    OutputUtilities.newLine(builder);
-                    OutputUtilities.javaIndent(builder, 3);
-                    if (column.getColumnName().equals("update_date")) {
-                        builder.append(column.getColumnName()).append(" = ");
-                        if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
-                            builder.append("sysdate,");
-                        }
-                        else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
-                            builder.append("sysdate(),");
-                        }
-                        else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
-                            builder.append("now(),");
-                        }
-                    }
-                    else if (column.getColumnName().equals("update_user_id")) {
-                        builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
-                                + column.getSqlType() + "},");
-                    }
-                    else {
-                        builder.append("<if test=\"" + column.getJavaName() + " != null\">");
-                        OutputUtilities.newLine(builder);
-                        OutputUtilities.javaIndent(builder, 4);
-                        builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
-                                + column.getSqlType() + "},");
-                        OutputUtilities.newLine(builder);
-                        OutputUtilities.javaIndent(builder, 3);
-                        builder.append("</if>");
-                    }
-                }
-            }
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("</set>");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("where ");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 3);
-            builder.append("delete_flag = '0'");
-            for (int i = 0; i < table.getPrimaryKey().size(); i++) {
+            if (LOGICAL) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("<!-- 根据主键修改数据 字段为空不修改 未删除【删除标识=0】 -->");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("<update id=\"updateByPrimaryKeySelective\" parameterType=\"" + type + "\">");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
-                builder.append("and ");
-                Column column = table.getPrimaryKey().get(i);
-                builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append(",jdbcType=")
-                        .append(column.getSqlType()).append("}");
+                builder.append("update");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append(table.getTableName());
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("<set>");
+                for (Column column : table.getCols()) {
+                    if (!column.getColumnName().equals("create_date")
+                            && !column.getColumnName().equals("create_user_id")) {
+                        OutputUtilities.newLine(builder);
+                        OutputUtilities.javaIndent(builder, 3);
+                        if (column.getColumnName().equals("update_date")) {
+                            builder.append(column.getColumnName()).append(" = ");
+                            if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
+                                builder.append("sysdate,");
+                            }
+                            else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
+                                builder.append("sysdate(),");
+                            }
+                            else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+                                builder.append("now(),");
+                            }
+                        }
+                        else if (column.getColumnName().equals("update_user_id")) {
+                            builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
+                                    + column.getSqlType() + "},");
+                        }
+                        else {
+                            builder.append("<if test=\"" + column.getJavaName() + " != null\">");
+                            OutputUtilities.newLine(builder);
+                            OutputUtilities.javaIndent(builder, 4);
+                            builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
+                                    + column.getSqlType() + "},");
+                            OutputUtilities.newLine(builder);
+                            OutputUtilities.javaIndent(builder, 3);
+                            builder.append("</if>");
+                        }
+                    }
+                }
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("</set>");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("where ");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append("delete_flag = '0'");
+                for (int i = 0; i < table.getPrimaryKey().size(); i++) {
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 2);
+                    builder.append("and ");
+                    Column column = table.getPrimaryKey().get(i);
+                    builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName())
+                            .append(",jdbcType=").append(column.getSqlType()).append("}");
+                }
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("</update>");
             }
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("</update>");
 
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
@@ -1668,41 +1696,42 @@ public class MakeBaseXml {
             OutputUtilities.javaIndent(builder, 1);
             builder.append("</update>");
 
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("<!-- 根据主键删除数据 逻辑删除 将【删除标识=1】 -->");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-
-            builder.append("<update id=\"deleteByPrimaryKey\" parameterType=\"java.util.Map\">");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("update");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 3);
-            builder.append(table.getTableName());
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("set");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 3);
-            builder.append("delete_flag = '1'");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("where");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 3);
-            builder.append("delete_flag = '0'");
-            for (int i = 0; i < table.getPrimaryKey().size(); i++) {
+            if (LOGICAL) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("<!-- 根据主键删除数据 逻辑删除 将【删除标识=1】 -->");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("<update id=\"deleteByPrimaryKey\" parameterType=\"java.util.Map\">");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
-                builder.append("and ");
-                Column column = table.getPrimaryKey().get(i);
-                builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append("}");
+                builder.append("update");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append(table.getTableName());
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("set");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append("delete_flag = '1'");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("where");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append("delete_flag = '0'");
+                for (int i = 0; i < table.getPrimaryKey().size(); i++) {
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 2);
+                    builder.append("and ");
+                    Column column = table.getPrimaryKey().get(i);
+                    builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append("}");
+                }
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("</update>");
             }
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("</update>");
 
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);

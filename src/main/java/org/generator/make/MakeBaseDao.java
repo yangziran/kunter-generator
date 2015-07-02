@@ -25,6 +25,7 @@ public class MakeBaseDao {
 
     private final static String PACKAGES = PackageHolder.getBaseDaoPackage();
     private final static String ENTITY_PACKAGES = PackageHolder.getEntityPackage();
+    private final static boolean LOGICAL = Boolean.valueOf(PropertyHolder.getConfigProperty("logical"));
 
     public static void main(String[] args) throws Exception {
 
@@ -82,31 +83,35 @@ public class MakeBaseDao {
                 false, null, null, "Base" + table.getJavaName() + "Dao", table.getRemarks()));
 
         Method method = new Method();
-        method.setName("countByExample");
-        FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType("int");
-        method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
-        Parameter parameter = new Parameter(fqjt, "example");
-        method.addParameter(parameter);
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("/**");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * 根据条件统计表中数据数量 未删除【删除标识=0】");
-        for (Parameter parame : method.getParameters()) {
+        FullyQualifiedJavaType fqjt;
+        Parameter parameter;
+        if (LOGICAL) {
+            method.setName("countByExample");
+            fqjt = new FullyQualifiedJavaType("int");
+            method.setReturnType(fqjt);
+            fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
+            parameter = new Parameter(fqjt, "example");
+            method.addParameter(parameter);
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            builder.append("/**");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * 根据条件统计表中数据数量 未删除【删除标识=0】");
+            for (Parameter parame : method.getParameters()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * @return ").append(method.getReturnType()).append(" 数据条数");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" */");
+            OutputUtilities.newLine(builder);
+            builder.append(method.getFormattedContent(1, true));
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * @return ").append(method.getReturnType()).append(" 数据条数");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" */");
-        OutputUtilities.newLine(builder);
-        builder.append(method.getFormattedContent(1, true));
 
         OutputUtilities.newLine(builder);
         method = new Method();
@@ -136,33 +141,35 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(1, true));
 
-        OutputUtilities.newLine(builder);
-        method = new Method();
-        method.setName("selectByExample");
-        fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
-        method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
-        parameter = new Parameter(fqjt, "example");
-        method.addParameter(parameter);
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("/**");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * 根据条件查询表中数据 未删除【删除标识=0】");
-        for (Parameter parame : method.getParameters()) {
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            method = new Method();
+            method.setName("selectByExample");
+            fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
+            method.setReturnType(fqjt);
+            fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
+            parameter = new Parameter(fqjt, "example");
+            method.addParameter(parameter);
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            builder.append("/**");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * 根据条件查询表中数据 未删除【删除标识=0】");
+            for (Parameter parame : method.getParameters()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * @return ").append(method.getReturnType()).append(" 数据集合");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" */");
+            OutputUtilities.newLine(builder);
+            builder.append(method.getFormattedContent(1, true));
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * @return ").append(method.getReturnType()).append(" 数据集合");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" */");
-        OutputUtilities.newLine(builder);
-        builder.append(method.getFormattedContent(1, true));
 
         OutputUtilities.newLine(builder);
         method = new Method();
@@ -192,33 +199,35 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(1, true));
 
-        OutputUtilities.newLine(builder);
-        method = new Method();
-        method.setName("insert");
-        fqjt = new FullyQualifiedJavaType("int");
-        method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType(table.getJavaName());
-        parameter = new Parameter(fqjt, "record");
-        method.addParameter(parameter);
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("/**");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * 往表中插入一条数据 系统字段由系统处理");
-        for (Parameter parame : method.getParameters()) {
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            method = new Method();
+            method.setName("insert");
+            fqjt = new FullyQualifiedJavaType("int");
+            method.setReturnType(fqjt);
+            fqjt = new FullyQualifiedJavaType(table.getJavaName());
+            parameter = new Parameter(fqjt, "record");
+            method.addParameter(parameter);
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            builder.append("/**");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * 往表中插入一条数据 系统字段由系统处理");
+            for (Parameter parame : method.getParameters()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" */");
+            OutputUtilities.newLine(builder);
+            builder.append(method.getFormattedContent(1, true));
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" */");
-        OutputUtilities.newLine(builder);
-        builder.append(method.getFormattedContent(1, true));
 
         OutputUtilities.newLine(builder);
         method = new Method();
@@ -248,33 +257,35 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(1, true));
 
-        OutputUtilities.newLine(builder);
-        method = new Method();
-        method.setName("insertList");
-        fqjt = new FullyQualifiedJavaType("int");
-        method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
-        parameter = new Parameter(fqjt, "record");
-        method.addParameter(parameter);
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("/**");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * 往表中批量插入数据 系统字段由系统处理");
-        for (Parameter parame : method.getParameters()) {
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            method = new Method();
+            method.setName("insertList");
+            fqjt = new FullyQualifiedJavaType("int");
+            method.setReturnType(fqjt);
+            fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
+            parameter = new Parameter(fqjt, "record");
+            method.addParameter(parameter);
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            builder.append("/**");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * 往表中批量插入数据 系统字段由系统处理");
+            for (Parameter parame : method.getParameters()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" */");
+            OutputUtilities.newLine(builder);
+            builder.append(method.getFormattedContent(1, true));
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" */");
-        OutputUtilities.newLine(builder);
-        builder.append(method.getFormattedContent(1, true));
 
         OutputUtilities.newLine(builder);
         method = new Method();
@@ -304,33 +315,35 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(1, true));
 
-        OutputUtilities.newLine(builder);
-        method = new Method();
-        method.setName("insertSelective");
-        fqjt = new FullyQualifiedJavaType("int");
-        method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType(table.getJavaName());
-        parameter = new Parameter(fqjt, "record");
-        method.addParameter(parameter);
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("/**");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * 往表中插入一条数据 字段为空不插入 系统字段由系统处理");
-        for (Parameter parame : method.getParameters()) {
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            method = new Method();
+            method.setName("insertSelective");
+            fqjt = new FullyQualifiedJavaType("int");
+            method.setReturnType(fqjt);
+            fqjt = new FullyQualifiedJavaType(table.getJavaName());
+            parameter = new Parameter(fqjt, "record");
+            method.addParameter(parameter);
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            builder.append("/**");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * 往表中插入一条数据 字段为空不插入 系统字段由系统处理");
+            for (Parameter parame : method.getParameters()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" */");
+            OutputUtilities.newLine(builder);
+            builder.append(method.getFormattedContent(1, true));
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" */");
-        OutputUtilities.newLine(builder);
-        builder.append(method.getFormattedContent(1, true));
 
         OutputUtilities.newLine(builder);
         method = new Method();
@@ -360,33 +373,35 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(1, true));
 
-        OutputUtilities.newLine(builder);
-        method = new Method();
-        method.setName("insertListSelective");
-        fqjt = new FullyQualifiedJavaType("int");
-        method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
-        parameter = new Parameter(fqjt, "record");
-        method.addParameter(parameter);
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("/**");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * 往表中批量插入数据 字段为空不插入 系统字段由系统处理");
-        for (Parameter parame : method.getParameters()) {
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            method = new Method();
+            method.setName("insertListSelective");
+            fqjt = new FullyQualifiedJavaType("int");
+            method.setReturnType(fqjt);
+            fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
+            parameter = new Parameter(fqjt, "record");
+            method.addParameter(parameter);
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            builder.append("/**");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * 往表中批量插入数据 字段为空不插入 系统字段由系统处理");
+            for (Parameter parame : method.getParameters()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" */");
+            OutputUtilities.newLine(builder);
+            builder.append(method.getFormattedContent(1, true));
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" */");
-        OutputUtilities.newLine(builder);
-        builder.append(method.getFormattedContent(1, true));
 
         OutputUtilities.newLine(builder);
         method = new Method();
@@ -416,37 +431,39 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(1, true));
 
-        OutputUtilities.newLine(builder);
-        method = new Method();
-        method.setName("updateByExample");
-        fqjt = new FullyQualifiedJavaType("int");
-        method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("@Param(\"record\") " + table.getJavaName());
-        parameter = new Parameter(fqjt, "record");
-        method.addParameter(parameter);
-        fqjt = new FullyQualifiedJavaType("@Param(\"example\") " + table.getJavaName() + "Example");
-        parameter = new Parameter(fqjt, "example");
-        method.addParameter(parameter);
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("/**");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * 根据条件修改数据 未删除【删除标识=0】");
-        for (Parameter parame : method.getParameters()) {
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            method = new Method();
+            method.setName("updateByExample");
+            fqjt = new FullyQualifiedJavaType("int");
+            method.setReturnType(fqjt);
+            fqjt = new FullyQualifiedJavaType("@Param(\"record\") " + table.getJavaName());
+            parameter = new Parameter(fqjt, "record");
+            method.addParameter(parameter);
+            fqjt = new FullyQualifiedJavaType("@Param(\"example\") " + table.getJavaName() + "Example");
+            parameter = new Parameter(fqjt, "example");
+            method.addParameter(parameter);
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @param ").append(parame.getName()).append(" ")
-                    .append(parame.getType().toString().split(" ")[1]);
+            builder.append("/**");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * 根据条件修改数据 未删除【删除标识=0】");
+            for (Parameter parame : method.getParameters()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @param ").append(parame.getName()).append(" ")
+                        .append(parame.getType().toString().split(" ")[1]);
+            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" */");
+            OutputUtilities.newLine(builder);
+            builder.append(method.getFormattedContent(1, true));
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" */");
-        OutputUtilities.newLine(builder);
-        builder.append(method.getFormattedContent(1, true));
 
         OutputUtilities.newLine(builder);
         method = new Method();
@@ -480,37 +497,39 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(1, true));
 
-        OutputUtilities.newLine(builder);
-        method = new Method();
-        method.setName("updateByExampleSelective");
-        fqjt = new FullyQualifiedJavaType("int");
-        method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("@Param(\"record\") " + table.getJavaName());
-        parameter = new Parameter(fqjt, "record");
-        method.addParameter(parameter);
-        fqjt = new FullyQualifiedJavaType("@Param(\"example\") " + table.getJavaName() + "Example");
-        parameter = new Parameter(fqjt, "example");
-        method.addParameter(parameter);
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("/**");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * 根据条件修改数据 字段为空不修改 未删除【删除标识=0】");
-        for (Parameter parame : method.getParameters()) {
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            method = new Method();
+            method.setName("updateByExampleSelective");
+            fqjt = new FullyQualifiedJavaType("int");
+            method.setReturnType(fqjt);
+            fqjt = new FullyQualifiedJavaType("@Param(\"record\") " + table.getJavaName());
+            parameter = new Parameter(fqjt, "record");
+            method.addParameter(parameter);
+            fqjt = new FullyQualifiedJavaType("@Param(\"example\") " + table.getJavaName() + "Example");
+            parameter = new Parameter(fqjt, "example");
+            method.addParameter(parameter);
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @param ").append(parame.getName()).append(" ")
-                    .append(parame.getType().toString().split(" ")[1]);
+            builder.append("/**");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * 根据条件修改数据 字段为空不修改 未删除【删除标识=0】");
+            for (Parameter parame : method.getParameters()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @param ").append(parame.getName()).append(" ")
+                        .append(parame.getType().toString().split(" ")[1]);
+            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" */");
+            OutputUtilities.newLine(builder);
+            builder.append(method.getFormattedContent(1, true));
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" */");
-        OutputUtilities.newLine(builder);
-        builder.append(method.getFormattedContent(1, true));
 
         OutputUtilities.newLine(builder);
         method = new Method();
@@ -544,33 +563,35 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(1, true));
 
-        OutputUtilities.newLine(builder);
-        method = new Method();
-        method.setName("deleteByExample");
-        fqjt = new FullyQualifiedJavaType("int");
-        method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
-        parameter = new Parameter(fqjt, "example");
-        method.addParameter(parameter);
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("/**");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * 根据条件删除数据 逻辑删除 将【删除标识=1】");
-        for (Parameter parame : method.getParameters()) {
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            method = new Method();
+            method.setName("deleteByExample");
+            fqjt = new FullyQualifiedJavaType("int");
+            method.setReturnType(fqjt);
+            fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
+            parameter = new Parameter(fqjt, "example");
+            method.addParameter(parameter);
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            builder.append("/**");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * 根据条件删除数据 逻辑删除 将【删除标识=1】");
+            for (Parameter parame : method.getParameters()) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append(" */");
+            OutputUtilities.newLine(builder);
+            builder.append(method.getFormattedContent(1, true));
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append(" */");
-        OutputUtilities.newLine(builder);
-        builder.append(method.getFormattedContent(1, true));
 
         OutputUtilities.newLine(builder);
         method = new Method();
@@ -603,33 +624,35 @@ public class MakeBaseDao {
         // 有主键
         if (table.getPrimaryKey() != null && table.getPrimaryKey().size() > 0) {
 
-            OutputUtilities.newLine(builder);
-            method = new Method();
-            method.setName("selectByPrimaryKey");
-            fqjt = new FullyQualifiedJavaType(table.getJavaName());
-            method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("Map<String, Object>");
-            parameter = new Parameter(fqjt, "map");
-            method.addParameter(parameter);
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("/**");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * 根据主键查询数据 未删除【删除标识=0】");
-            for (Parameter parame : method.getParameters()) {
+            if (LOGICAL) {
+                OutputUtilities.newLine(builder);
+                method = new Method();
+                method.setName("selectByPrimaryKey");
+                fqjt = new FullyQualifiedJavaType(table.getJavaName());
+                method.setReturnType(fqjt);
+                fqjt = new FullyQualifiedJavaType("Map<String, Object>");
+                parameter = new Parameter(fqjt, "map");
+                method.addParameter(parameter);
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
-                builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+                builder.append("/**");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * 根据主键查询数据 未删除【删除标识=0】");
+                for (Parameter parame : method.getParameters()) {
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 1);
+                    builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+                }
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @return ").append(method.getReturnType()).append(" 数据对象");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" */");
+                OutputUtilities.newLine(builder);
+                builder.append(method.getFormattedContent(1, true));
             }
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @return ").append(method.getReturnType()).append(" 数据对象");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(" */");
-            OutputUtilities.newLine(builder);
-            builder.append(method.getFormattedContent(1, true));
 
             OutputUtilities.newLine(builder);
             method = new Method();
@@ -659,33 +682,35 @@ public class MakeBaseDao {
             OutputUtilities.newLine(builder);
             builder.append(method.getFormattedContent(1, true));
 
-            OutputUtilities.newLine(builder);
-            method = new Method();
-            method.setName("updateByPrimaryKey");
-            fqjt = new FullyQualifiedJavaType("int");
-            method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType(table.getJavaName());
-            parameter = new Parameter(fqjt, "record");
-            method.addParameter(parameter);
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("/**");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * 根据主键修改数据 未删除【删除标识=0】");
-            for (Parameter parame : method.getParameters()) {
+            if (LOGICAL) {
+                OutputUtilities.newLine(builder);
+                method = new Method();
+                method.setName("updateByPrimaryKey");
+                fqjt = new FullyQualifiedJavaType("int");
+                method.setReturnType(fqjt);
+                fqjt = new FullyQualifiedJavaType(table.getJavaName());
+                parameter = new Parameter(fqjt, "record");
+                method.addParameter(parameter);
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
-                builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+                builder.append("/**");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * 根据主键修改数据 未删除【删除标识=0】");
+                for (Parameter parame : method.getParameters()) {
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 1);
+                    builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+                }
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" */");
+                OutputUtilities.newLine(builder);
+                builder.append(method.getFormattedContent(1, true));
             }
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(" */");
-            OutputUtilities.newLine(builder);
-            builder.append(method.getFormattedContent(1, true));
 
             OutputUtilities.newLine(builder);
             method = new Method();
@@ -715,33 +740,35 @@ public class MakeBaseDao {
             OutputUtilities.newLine(builder);
             builder.append(method.getFormattedContent(1, true));
 
-            OutputUtilities.newLine(builder);
-            method = new Method();
-            method.setName("updateByPrimaryKeySelective");
-            fqjt = new FullyQualifiedJavaType("int");
-            method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType(table.getJavaName());
-            parameter = new Parameter(fqjt, "record");
-            method.addParameter(parameter);
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("/**");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * 根据主键修改数据 字段为空不修改 未删除【删除标识=0】");
-            for (Parameter parame : method.getParameters()) {
+            if (LOGICAL) {
+                OutputUtilities.newLine(builder);
+                method = new Method();
+                method.setName("updateByPrimaryKeySelective");
+                fqjt = new FullyQualifiedJavaType("int");
+                method.setReturnType(fqjt);
+                fqjt = new FullyQualifiedJavaType(table.getJavaName());
+                parameter = new Parameter(fqjt, "record");
+                method.addParameter(parameter);
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
-                builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+                builder.append("/**");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * 根据主键修改数据 字段为空不修改 未删除【删除标识=0】");
+                for (Parameter parame : method.getParameters()) {
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 1);
+                    builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+                }
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" */");
+                OutputUtilities.newLine(builder);
+                builder.append(method.getFormattedContent(1, true));
             }
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(" */");
-            OutputUtilities.newLine(builder);
-            builder.append(method.getFormattedContent(1, true));
 
             OutputUtilities.newLine(builder);
             method = new Method();
@@ -771,33 +798,35 @@ public class MakeBaseDao {
             OutputUtilities.newLine(builder);
             builder.append(method.getFormattedContent(1, true));
 
-            OutputUtilities.newLine(builder);
-            method = new Method();
-            method.setName("deleteByPrimaryKey");
-            fqjt = new FullyQualifiedJavaType("int");
-            method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("Map<String, Object>");
-            parameter = new Parameter(fqjt, "map");
-            method.addParameter(parameter);
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append("/**");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * 根据主键删除数据 逻辑删除 将【删除标识=1】");
-            for (Parameter parame : method.getParameters()) {
+            if (LOGICAL) {
+                OutputUtilities.newLine(builder);
+                method = new Method();
+                method.setName("deleteByPrimaryKey");
+                fqjt = new FullyQualifiedJavaType("int");
+                method.setReturnType(fqjt);
+                fqjt = new FullyQualifiedJavaType("Map<String, Object>");
+                parameter = new Parameter(fqjt, "map");
+                method.addParameter(parameter);
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
-                builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+                builder.append("/**");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * 根据主键删除数据 逻辑删除 将【删除标识=1】");
+                for (Parameter parame : method.getParameters()) {
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 1);
+                    builder.append(" * @param ").append(parame.getName()).append(" ").append(parame.getType());
+                }
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append(" */");
+                OutputUtilities.newLine(builder);
+                builder.append(method.getFormattedContent(1, true));
             }
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(" * @return ").append(method.getReturnType()).append(" 结果数量");
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 1);
-            builder.append(" */");
-            OutputUtilities.newLine(builder);
-            builder.append(method.getFormattedContent(1, true));
 
             OutputUtilities.newLine(builder);
             method = new Method();
