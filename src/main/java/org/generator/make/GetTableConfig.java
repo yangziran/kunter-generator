@@ -105,9 +105,12 @@ public class GetTableConfig {
             ResultSet key = metaData.getPrimaryKeys(connection.getCatalog(), metaData.getUserName(), TABLE_NAME);
             while (key.next()) {
                 Column column = new Column();
-                column.setColumnName(key.getString("COLUMN_NAME"));
-                column.setJavaName(
-                        StringUtility.convertFieldToParameter(key.getString("COLUMN_NAME").toLowerCase(), "_"));
+                String COLUMN_NAME = key.getString("COLUMN_NAME");
+                if (COLUMN_NAME.indexOf("‘") == 0 && COLUMN_NAME.lastIndexOf("’") > 1) {
+                    COLUMN_NAME = COLUMN_NAME.substring(1, COLUMN_NAME.length() - 1);
+                }
+                column.setColumnName(COLUMN_NAME);
+                column.setJavaName(StringUtility.convertFieldToParameter(COLUMN_NAME.toLowerCase(), "_"));
                 column.setPrimaryKeyOrder(String.valueOf(key.getRow()));
                 table.addPrimaryKey(column);
             }
@@ -116,9 +119,16 @@ public class GetTableConfig {
             ResultSet exp = metaData.getExportedKeys(connection.getCatalog(), metaData.getUserName(), TABLE_NAME);
             while (exp.next()) {
                 Column column = new Column();
-                column.setColumnName(exp.getString("PKCOLUMN_NAME"));
-                column.setJavaName(
-                        StringUtility.convertFieldToParameter(exp.getString("COLUMN_NAME").toLowerCase(), "_"));
+                String PKCOLUMN_NAME = exp.getString("PKCOLUMN_NAME");
+                if (PKCOLUMN_NAME.indexOf("‘") == 0 && PKCOLUMN_NAME.lastIndexOf("’") > 1) {
+                    PKCOLUMN_NAME = PKCOLUMN_NAME.substring(1, PKCOLUMN_NAME.length() - 1);
+                }
+                String COLUMN_NAME = exp.getString("COLUMN_NAME");
+                if (COLUMN_NAME.indexOf("‘") == 0 && COLUMN_NAME.lastIndexOf("’") > 1) {
+                    COLUMN_NAME = COLUMN_NAME.substring(1, COLUMN_NAME.length() - 1);
+                }
+                column.setColumnName(PKCOLUMN_NAME);
+                column.setJavaName(StringUtility.convertFieldToParameter(COLUMN_NAME.toLowerCase(), "_"));
                 table.addExportedKey(column);
             }
 
@@ -126,10 +136,13 @@ public class GetTableConfig {
             ResultSet columns = metaData.getColumns(connection.getCatalog(), metaData.getUserName(), TABLE_NAME, null);
             while (columns.next()) {
                 Column column = new Column();
+                String COLUMN_NAME = columns.getString("COLUMN_NAME");
+                if (COLUMN_NAME.indexOf("‘") == 0 && COLUMN_NAME.lastIndexOf("’") > 1) {
+                    COLUMN_NAME = COLUMN_NAME.substring(1, COLUMN_NAME.length() - 1);
+                }
                 column.setSerial(String.valueOf(columns.getRow()));
-                column.setColumnName(columns.getString("COLUMN_NAME"));
-                column.setJavaName(
-                        StringUtility.convertFieldToParameter(columns.getString("COLUMN_NAME").toLowerCase(), "_"));
+                column.setColumnName(COLUMN_NAME);
+                column.setJavaName(StringUtility.convertFieldToParameter(COLUMN_NAME.toLowerCase(), "_"));
                 column.setSqlType(JdbcTypeNameTranslator.getJdbcTypeName(columns.getInt("DATA_TYPE")));
                 column.setJavaType(JdbcTypeNameTranslator.getJavaType(columns.getInt("DATA_TYPE")));
                 column.setRemarks(columns.getString("REMARKS"));
