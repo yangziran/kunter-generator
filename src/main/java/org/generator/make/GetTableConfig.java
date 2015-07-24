@@ -123,12 +123,12 @@ public class GetTableConfig {
                 if (PKCOLUMN_NAME.indexOf("‘") == 0 && PKCOLUMN_NAME.lastIndexOf("’") > 1) {
                     PKCOLUMN_NAME = PKCOLUMN_NAME.substring(1, PKCOLUMN_NAME.length() - 1);
                 }
-                String COLUMN_NAME = exp.getString("COLUMN_NAME");
-                if (COLUMN_NAME.indexOf("‘") == 0 && COLUMN_NAME.lastIndexOf("’") > 1) {
-                    COLUMN_NAME = COLUMN_NAME.substring(1, COLUMN_NAME.length() - 1);
-                }
+                // String COLUMN_NAME = exp.getString("COLUMN_NAME");
+                // if (COLUMN_NAME.indexOf("‘") == 0 && COLUMN_NAME.lastIndexOf("’") > 1) {
+                // COLUMN_NAME = COLUMN_NAME.substring(1, COLUMN_NAME.length() - 1);
+                // }
                 column.setColumnName(PKCOLUMN_NAME);
-                column.setJavaName(StringUtility.convertFieldToParameter(COLUMN_NAME.toLowerCase(), "_"));
+                column.setJavaName(StringUtility.convertFieldToParameter(PKCOLUMN_NAME.toLowerCase(), "_"));
                 table.addExportedKey(column);
             }
 
