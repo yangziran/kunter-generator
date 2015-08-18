@@ -4,7 +4,7 @@
 [GitHub](https://github.com/angelsinklowcn/kunter-generator)
 [Bitbucket](https://bitbucket.org/angelsinklow/kunter-generator.git)
 
-## 特别声明：因为采用了12c特有分页语法，本工具Oracle暂时不支持Oracle 12c一下版本
+## 特别声明：因为采用了12c特有分页语法，本工具Oracle暂时不支持Oracle 12c以下版本
 
 本工具参考MyBatis官方generator设计而成，参考版本为（1.3.2）。具有生成项目基础代码、根据数据库生成Excel格式的设计文档、根据Excel格式生成创建数据库脚本功能，
 为了方便项目随时更换底层，生成的基础代码独立目录，不建议对生成的代码进行修改；目前设计支持Oracle、MySQL、PostgreSQL
