@@ -3,6 +3,7 @@
  */
 package org.generator.make;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.generator.config.PackageHolder;
@@ -54,6 +55,8 @@ public class MakeEntity {
         StringBuilder builder = new StringBuilder();
         // 包结构
         builder.append(JavaBeansUtil.getPackages(PACKAGES));
+        // 导包
+        builder.append(JavaBeansUtil.getImports("java.io.Serializable", false, true));
 
         OutputUtilities.newLine(builder);
         builder.append("/**");
@@ -72,10 +75,14 @@ public class MakeEntity {
         builder.append(" * @version 1.0 2015年1月1日");
         OutputUtilities.newLine(builder);
         builder.append(" */");
+        builder.append("@SuppressWarnings(\"serial\")");
 
+        // 实体实现序列化
+        List<String> superInterface = new ArrayList<String>();
+        superInterface.add("Serializable");
         // 类开始
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, false,
-                true, null, null, table.getJavaName(), table.getRemarks()));
+                true, null, superInterface, table.getJavaName(), table.getRemarks()));
 
         // 字段定义
         for (Column column : table.getCols()) {
@@ -98,8 +105,7 @@ public class MakeEntity {
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
         // 输出文件
-        FileUtil.writeFile(
-                PropertyHolder.getConfigProperty("target") + PACKAGES.replaceAll("\\.", "/") + "/"
-                        + table.getJavaName() + ".java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + PACKAGES.replaceAll("\\.", "/") + "/"
+                + table.getJavaName() + ".java", builder.toString());
     }
 }
