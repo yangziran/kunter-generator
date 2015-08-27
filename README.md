@@ -3,6 +3,7 @@
 [Git@OSC](http://git.oschina.net/nature/kunter-generator)
 [GitHub](https://github.com/angelsinklowcn/kunter-generator)
 [Bitbucket](https://bitbucket.org/angelsinklow/kunter-generator.git)
+[Coding](https://git.coding.net/kunter/kunter-generator.git)
 
 ## 特别声明：因为采用了12c特有分页语法，本工具Oracle暂时不支持Oracle 12c以下版本
 
