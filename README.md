@@ -1,7 +1,7 @@
 # kunter-generator
 
-[Git@OSC](http://git.oschina.net/nature/kunter-generator)
-[GitHub](https://github.com/angelsinklowcn/kunter-generator)
+[Git@OSC](https://git.oschina.net/nature/kunter-generator.git)
+[GitHub](https://github.com/angelsinklowcn/kunter-constant.git)
 [Bitbucket](https://bitbucket.org/angelsinklow/kunter-generator.git)
 [Coding](https://git.coding.net/kunter/kunter-generator.git)
 
