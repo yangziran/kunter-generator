@@ -63,10 +63,10 @@
 >>>    * 如果target参数直接指定的开发项目，如果需要，手动将BaseMapper和Mapper挪到/src/main/resources
 
 ### Main
-> org/generator/main/Generator.java
+> cn/kunter/common/generator/main/Generator.java
 
 ### 单文件生成
-> org/generator/make/Make*.java
+> cn/kunter/common/generator/make/Make*.java
 
 ### DAO方法列表
 * int countByExample(<?>Example example);
