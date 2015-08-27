@@ -118,7 +118,7 @@
         List<?> list = <?>Dao.selectByExample(example);
 
 # 技术交流
-* 邮箱：admin@kunter.cn‍
+* 邮箱：nature@kunter.cn‍
 * QQ讨论群：[325980480](http://jq.qq.com/?_wv=1027&k=TrLNcX)
 
 # 开源赞助
