@@ -932,10 +932,10 @@ public class MakeBaseXml {
                     }
                 }
                 else {
-                    builder.append("<if test=\"" + column.getJavaName() + " != null\">");
+                    builder.append("<if test=\"item." + column.getJavaName() + " != null\">");
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 5);
-                    builder.append("#{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                    builder.append("#{item." + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 4);
                     builder.append("</if>");
@@ -991,10 +991,10 @@ public class MakeBaseXml {
         for (Column column : table.getCols()) {
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 4);
-            builder.append("<if test=\"" + column.getJavaName() + " != null\">");
+            builder.append("<if test=\"item." + column.getJavaName() + " != null\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 5);
-            builder.append("#{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+            builder.append("#{item." + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 4);
             builder.append("</if>");
