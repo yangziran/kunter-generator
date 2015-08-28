@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -254,8 +253,8 @@ public class GetTableConfig {
                 // 长度
                 Integer length = null;
                 Cell cell = row.getCell(18);
-                if (JdbcTypeNameTranslator.getJdbcTypeName(Types.VARCHAR)
-                        .equals(JdbcTypeNameTranslator.getJdbcType(type))) {
+                Double cellVal = cell.getNumericCellValue();
+                if (null != cellVal) {
                     length = (int) cell.getNumericCellValue();
                 }
 
