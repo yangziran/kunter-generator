@@ -219,9 +219,9 @@ public class GetTableConfig {
             // 获取到当前的Sheet对象
             Sheet sheet = wb.getSheetAt(i);
             // 获取到表名称
-            String TABLE_NAME = sheet.getRow(1).getCell(3).getStringCellValue();
+            String TABLE_NAME = sheet.getRow(1).getCell(7).getStringCellValue();
             // 获取到表物理名称
-            String REMARKS = sheet.getRow(0).getCell(3).getStringCellValue();
+            String REMARKS = sheet.getRow(0).getCell(7).getStringCellValue();
 
             // 获取表信息
             Table table = new Table();
@@ -234,26 +234,26 @@ public class GetTableConfig {
                 // 获取到当前行对象
                 Row row = sheet.getRow(j);
                 // 编号
-                String serial = String.valueOf(row.getCell(0).getNumericCellValue());
+                String serial = row.getCell(0).getStringCellValue();
                 // 列名
-                String columnName = row.getCell(4).getStringCellValue();
+                String columnName = row.getCell(8).getStringCellValue();
                 // 物理名
-                String physical = row.getCell(1).getStringCellValue();
+                String physical = row.getCell(2).getStringCellValue();
                 // 类型
-                String type = row.getCell(8).getStringCellValue().toUpperCase();
+                String type = row.getCell(13).getStringCellValue().toUpperCase();
                 // 是否为空
-                String isNotNull = row.getCell(13).getStringCellValue();
+                String isNotNull = row.getCell(21).getStringCellValue();
                 // 主键
-                String primaryKey = row.getCell(15).getStringCellValue();
+                String primaryKey = row.getCell(23).getStringCellValue();
                 // 主键顺序
-                String primaryKeyOrder = String.valueOf(row.getCell(17).getNumericCellValue());
+                String primaryKeyOrder = row.getCell(25).getStringCellValue();
                 // 外键
-                String foreignKey = row.getCell(18).getStringCellValue();
+                String foreignKey = row.getCell(28).getStringCellValue();
                 // 备注
-                // String remarks = row.getCell(21).getStringCellValue();
+                // String remarks = row.getCell(30).getStringCellValue();
                 // 长度
                 Integer length = null;
-                Cell cell = row.getCell(11);
+                Cell cell = row.getCell(18);
                 if (JdbcTypeNameTranslator.getJdbcTypeName(Types.VARCHAR)
                         .equals(JdbcTypeNameTranslator.getJdbcType(type))) {
                     length = (int) cell.getNumericCellValue();
