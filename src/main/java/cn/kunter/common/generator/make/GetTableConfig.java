@@ -3,11 +3,6 @@
  */
 package cn.kunter.common.generator.make;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -15,13 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.db.ConnectionFactory;
@@ -30,6 +22,7 @@ import cn.kunter.common.generator.entity.Table;
 import cn.kunter.common.generator.type.DBType;
 import cn.kunter.common.generator.type.JdbcTypeNameTranslator;
 import cn.kunter.common.generator.type.SourceType;
+import cn.kunter.common.generator.util.ExcelUtil;
 import cn.kunter.common.generator.util.StringUtility;
 
 /**
@@ -176,41 +169,7 @@ public class GetTableConfig {
      */
     public static List<Table> getExcelTableConfig() throws Exception {
 
-        Workbook wb = null;
-        // 获取输入流对象
-        InputStream is = null;
-        try {
-            // 获取文件对象
-            File file = new File(PropertyHolder.getJDBCProperty("path.dictionary"));
-            // 判断文件是否存在
-            if (file.exists()) {
-                // 获取文件的后缀
-                String ext = FilenameUtils.getExtension(file.getName());
-                // 判断是否为2007及以上版本
-                boolean xlsx = ext.equals("xlsx");
-                // 获取输入流对象
-                is = new FileInputStream(file);
-                // 得到工作簿对象 2007及以上版本需要获取 XSSFWorkbook对象，95~2003版本需要获取HSSFWorkbook对象
-                wb = xlsx ? new XSSFWorkbook(is) : new HSSFWorkbook(is);
-            }
-        } catch (FileNotFoundException e) {
-            throw new Exception(e);
-        } catch (IOException e) {
-            throw new Exception(e);
-        } finally {
-            if (wb != null) {
-                wb.close();
-            }
-            // 输入流不为空
-            if (is != null) {
-                try {
-                    // 关闭输入流
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        Workbook wb = ExcelUtil.getWorkbook();
 
         List<Table> tableList = new ArrayList<Table>();
         // 获取到总的Sheet循环
