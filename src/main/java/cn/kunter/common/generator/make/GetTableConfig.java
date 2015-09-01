@@ -46,6 +46,7 @@ public class GetTableConfig {
      */
     public static List<Table> getTableConfig() throws Exception {
 
+        // 根据数据类型获取表结构信息
         if (SourceType.DB.getValue().equals(SOURCE_TYPE)) {
             return getDBTableConfig();
         }
@@ -62,6 +63,7 @@ public class GetTableConfig {
      */
     public static List<Table> getDBTableConfig() throws SQLException {
 
+        // 获取到数据库连接
         Connection connection = ConnectionFactory.getConnection();
 
         String model = PropertyHolder.getConfigProperty("model");
@@ -107,6 +109,8 @@ public class GetTableConfig {
                 column.setPrimaryKeyOrder(String.valueOf(key.getRow()));
                 table.addPrimaryKey(column);
             }
+            // 关闭连接
+            key.close();
 
             // 获取到外键集合
             ResultSet exp = metaData.getExportedKeys(connection.getCatalog(), metaData.getUserName(), TABLE_NAME);
@@ -124,6 +128,8 @@ public class GetTableConfig {
                 column.setJavaName(StringUtility.convertFieldToParameter(PKCOLUMN_NAME.toLowerCase(), "_"));
                 table.addExportedKey(column);
             }
+            // 关闭连接
+            exp.close();
 
             // 获取到列集合
             ResultSet columns = metaData.getColumns(connection.getCatalog(), metaData.getUserName(), TABLE_NAME, null);
@@ -143,8 +149,15 @@ public class GetTableConfig {
                 column.setLength(columns.getInt("COLUMN_SIZE"));
                 table.addCols(column);
             }
+            // 关闭连接
+            columns.close();
+
             tableList.add(table);
         }
+
+        // 关闭连接
+        tables.close();
+        connection.close();
 
         for (Table table : tableList) {
             for (Column column1 : table.getPrimaryKey()) {
