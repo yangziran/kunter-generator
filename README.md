@@ -14,6 +14,7 @@
 
 ## 更新日志
 
+- 2015-9-2 修改BaseDAO和BaseXML方法名称，在不需要逻辑操作的时候将物理操作的_physical后缀去除
 - 2015-8-28 修复Excel数据源读取不出数据的错误，修复Excel数据源长度读取问题，修复insertListSelective、insertListSelective_physical方法的SQL错误
 - 2015-8-21 修改实体生成实现Serializable接口
 - 2015-7-30 修复一些Bug，删除分支Dev，因为一些分支在Dev上修改还没同步到Master上面，一些通过Master代码生成会出现相应错误

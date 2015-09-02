@@ -10,6 +10,7 @@ import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Column;
 import cn.kunter.common.generator.entity.Table;
 import cn.kunter.common.generator.type.DBType;
+import cn.kunter.common.generator.util.DaoMethodNameUtil;
 import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
 
@@ -295,8 +296,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据条件统计表中数据数量 未删除【删除标识=0】 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<select id=\"countByExample\" parameterType=\"" + typeExample
-                    + "\" resultType=\"java.lang.Integer\">");
+            builder.append("<select id=\"").append(DaoMethodNameUtil.getCountByExample(LOGICAL))
+                    .append("\" parameterType=\"").append(typeExample).append("\" resultType=\"java.lang.Integer\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("select");
@@ -340,8 +341,8 @@ public class MakeBaseXml {
         builder.append("<!-- 根据条件统计表中数据数量 所有数据 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<select id=\"countByExample_physical\" parameterType=\"" + typeExample
-                + "\" resultType=\"java.lang.Integer\">");
+        builder.append("<select id=\"").append(DaoMethodNameUtil.getCountByExample(!LOGICAL))
+                .append("\" parameterType=\"").append(typeExample).append("\" resultType=\"java.lang.Integer\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("select");
@@ -385,8 +386,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据条件查询表中数据 未删除【删除标识=0】 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<select id=\"selectByExample\" parameterType=\"" + typeExample
-                    + "\" resultMap=\"BaseResultMap\">");
+            builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByExample(LOGICAL))
+                    .append("\" parameterType=\"").append(typeExample).append("\" resultMap=\"BaseResultMap\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("select");
@@ -468,8 +469,8 @@ public class MakeBaseXml {
         builder.append("<!-- 根据条件查询表中数据 所有数据 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<select id=\"selectByExample_physical\" parameterType=\"" + typeExample
-                + "\" resultMap=\"BaseResultMap\">");
+        builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByExample(!LOGICAL))
+                .append("\" parameterType=\"").append(typeExample).append("\" resultMap=\"BaseResultMap\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("select");
@@ -551,7 +552,8 @@ public class MakeBaseXml {
             builder.append("<!-- 往表中插入一条数据 系统字段由系统处理 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<insert id=\"insert\" parameterType=\"" + type + "\">");
+            builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsert(LOGICAL)).append("\" parameterType=\"")
+                    .append(type).append("\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("insert into");
@@ -606,7 +608,8 @@ public class MakeBaseXml {
         builder.append("<!-- 往表中插入一条数据 系统字段需要输入 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"insert_physical\" parameterType=\"" + type + "\">");
+        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsert(!LOGICAL)).append("\" parameterType=\"")
+                .append(type).append("\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("insert into");
@@ -645,7 +648,8 @@ public class MakeBaseXml {
             builder.append("<!-- 往表中批量插入数据 系统字段由系统处理 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<insert id=\"insertList\" parameterType=\"java.util.List\">");
+            builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertList(LOGICAL))
+                    .append("\" parameterType=\"java.util.List\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("insert into");
@@ -707,7 +711,8 @@ public class MakeBaseXml {
         builder.append("<!-- 往表中批量插入数据 系统字段需要输入 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"insertList_physical\" parameterType=\"java.util.List\">");
+        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertList(!LOGICAL))
+                .append("\" parameterType=\"java.util.List\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("insert into");
@@ -753,7 +758,8 @@ public class MakeBaseXml {
             builder.append("<!-- 往表中插入一条数据 字段为空不插入 系统字段由系统处理 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<insert id=\"insertSelective\" parameterType=\"" + type + "\">");
+            builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertSelective(LOGICAL))
+                    .append("\" parameterType=\"").append(type).append("\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("insert into");
@@ -826,7 +832,8 @@ public class MakeBaseXml {
         builder.append("<!-- 往表中插入一条数据 字段为空不插入 系统字段需要输入 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"insertSelective_physical\" parameterType=\"" + type + "\">");
+        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertSelective(LOGICAL))
+                .append("\" parameterType=\"").append(type).append("\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("insert into");
@@ -877,7 +884,8 @@ public class MakeBaseXml {
             builder.append("<!-- 往表中批量插入数据 字段为空不插入 系统字段由系统处理 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<insert id=\"insertListSelective\" parameterType=\"java.util.List\">");
+            builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertListSelective(LOGICAL))
+                    .append("\" parameterType=\"java.util.List\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("insert into");
@@ -957,7 +965,8 @@ public class MakeBaseXml {
         builder.append("<!-- 往表中批量插入数据 字段为空不插入 系统字段需要输入 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"insertListSelective_physical\" parameterType=\"java.util.List\">");
+        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertListSelective(!LOGICAL))
+                .append("\" parameterType=\"java.util.List\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("insert into");
@@ -1015,7 +1024,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据条件修改数据 未删除【删除标识=0】 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<update id=\"updateByExample\" parameterType=\"java.util.Map\">");
+            builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByExample(LOGICAL))
+                    .append("\" parameterType=\"java.util.Map\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("update");
@@ -1081,7 +1091,8 @@ public class MakeBaseXml {
         builder.append("<!-- 根据条件修改数据 所有数据 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<update id=\"updateByExample_physical\" parameterType=\"java.util.Map\">");
+        builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByExample(!LOGICAL))
+                .append("\" parameterType=\"java.util.Map\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("update");
@@ -1147,7 +1158,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据条件修改数据 字段为空不修改 未删除【删除标识=0】 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<update id=\"updateByExampleSelective\" parameterType=\"java.util.Map\">");
+            builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByExampleSelective(LOGICAL))
+                    .append("\" parameterType=\"java.util.Map\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("update");
@@ -1223,7 +1235,8 @@ public class MakeBaseXml {
         builder.append("<!-- 根据条件修改数据 字段为空不修改 所有数据 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<update id=\"updateByExampleSelective_physical\" parameterType=\"java.util.Map\">");
+        builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByExampleSelective(!LOGICAL))
+                .append("\" parameterType=\"java.util.Map\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("update");
@@ -1299,7 +1312,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据条件删除数据 逻辑删除 将【删除标识=1】 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<delete id=\"deleteByExample\" parameterType=\"" + typeExample + "\">");
+            builder.append("<delete id=\"").append(DaoMethodNameUtil.getDeleteByExample(LOGICAL))
+                    .append("\" parameterType=\"").append(typeExample).append("\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("update");
@@ -1343,7 +1357,8 @@ public class MakeBaseXml {
         builder.append("<!-- 根据条件删除数据 物理删除 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<delete id=\"deleteByExample_physical\" parameterType=\"" + typeExample + "\">");
+        builder.append("<delete id=\"").append(DaoMethodNameUtil.getDeleteByExample(!LOGICAL))
+                .append("\" parameterType=\"").append(typeExample).append("\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("delete from");
@@ -1384,8 +1399,8 @@ public class MakeBaseXml {
                 builder.append("<!-- 根据主键查询数据 未删除【删除标识=0】 -->");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
-                builder.append(
-                        "<select id=\"selectByPrimaryKey\" parameterType=\"java.util.Map\" resultMap=\"BaseResultMap\">");
+                builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByPrimaryKey(LOGICAL))
+                        .append("\" parameterType=\"java.util.Map\" resultMap=\"BaseResultMap\">");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("select");
@@ -1421,8 +1436,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据主键查询数据 所有数据 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append(
-                    "<select id=\"selectByPrimaryKey_physical\" parameterType=\"java.util.Map\" resultMap=\"BaseResultMap\">");
+            builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByPrimaryKey(!LOGICAL))
+                    .append("\" parameterType=\"java.util.Map\" resultMap=\"BaseResultMap\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("select");
@@ -1458,7 +1473,8 @@ public class MakeBaseXml {
                 builder.append("<!-- 根据主键修改数据 未删除【删除标识=0】 -->");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
-                builder.append("<update id=\"updateByPrimaryKey\" parameterType=\"" + type + "\">");
+                builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByPrimaryKey(LOGICAL))
+                        .append("\" parameterType=\"").append(type).append("\">");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("update");
@@ -1518,7 +1534,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据主键修改数据 所有数据 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<update id=\"updateByPrimaryKey_physical\" parameterType=\"" + type + "\">");
+            builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByPrimaryKey(!LOGICAL))
+                    .append("\" parameterType=\"").append(type).append("\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("update");
@@ -1563,7 +1580,8 @@ public class MakeBaseXml {
                 builder.append("<!-- 根据主键修改数据 字段为空不修改 未删除【删除标识=0】 -->");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
-                builder.append("<update id=\"updateByPrimaryKeySelective\" parameterType=\"" + type + "\">");
+                builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByPrimaryKeySelective(LOGICAL))
+                        .append("\" parameterType=\"").append(type).append("\">");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("update");
@@ -1633,7 +1651,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据主键修改数据 字段为空不修改 所有数据 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<update id=\"updateByPrimaryKeySelective_physical\" parameterType=\"" + type + "\">");
+            builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByPrimaryKeySelective(!LOGICAL))
+                    .append("\" parameterType=\"").append(type).append("\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("update");
@@ -1702,7 +1721,8 @@ public class MakeBaseXml {
                 builder.append("<!-- 根据主键删除数据 逻辑删除 将【删除标识=1】 -->");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
-                builder.append("<update id=\"deleteByPrimaryKey\" parameterType=\"java.util.Map\">");
+                builder.append("<update id=\"").append(DaoMethodNameUtil.getDeleteByPrimaryKey(LOGICAL))
+                        .append("\" parameterType=\"java.util.Map\">");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("update");
@@ -1738,7 +1758,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据主键删除数据 物理删除 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<delete id=\"deleteByPrimaryKey_physical\" parameterType=\"java.util.Map\">");
+            builder.append("<delete id=\"").append(DaoMethodNameUtil.getDeleteByPrimaryKey(!LOGICAL))
+                    .append("\" parameterType=\"java.util.Map\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("delete from");

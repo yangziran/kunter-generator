@@ -12,6 +12,7 @@ import cn.kunter.common.generator.entity.Parameter;
 import cn.kunter.common.generator.entity.Table;
 import cn.kunter.common.generator.type.FullyQualifiedJavaType;
 import cn.kunter.common.generator.type.JavaVisibility;
+import cn.kunter.common.generator.util.DaoMethodNameUtil;
 import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.JavaBeansUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
@@ -86,7 +87,7 @@ public class MakeBaseDao {
         FullyQualifiedJavaType fqjt;
         Parameter parameter;
         if (LOGICAL) {
-            method.setName("countByExample");
+            method.setName(DaoMethodNameUtil.getCountByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
@@ -115,7 +116,7 @@ public class MakeBaseDao {
 
         OutputUtilities.newLine(builder);
         method = new Method();
-        method.setName("countByExample_physical");
+        method.setName(DaoMethodNameUtil.getCountByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
         fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
@@ -144,7 +145,7 @@ public class MakeBaseDao {
         if (LOGICAL) {
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName("selectByExample");
+            method.setName(DaoMethodNameUtil.getSelectByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
@@ -173,7 +174,7 @@ public class MakeBaseDao {
 
         OutputUtilities.newLine(builder);
         method = new Method();
-        method.setName("selectByExample_physical");
+        method.setName(DaoMethodNameUtil.getSelectByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
         method.setReturnType(fqjt);
         fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
@@ -202,7 +203,7 @@ public class MakeBaseDao {
         if (LOGICAL) {
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName("insert");
+            method.setName(DaoMethodNameUtil.getInsert(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType(table.getJavaName());
@@ -231,7 +232,7 @@ public class MakeBaseDao {
 
         OutputUtilities.newLine(builder);
         method = new Method();
-        method.setName("insert_physical");
+        method.setName(DaoMethodNameUtil.getInsert(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
         fqjt = new FullyQualifiedJavaType(table.getJavaName());
@@ -260,7 +261,7 @@ public class MakeBaseDao {
         if (LOGICAL) {
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName("insertList");
+            method.setName(DaoMethodNameUtil.getInsertList(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
@@ -289,7 +290,7 @@ public class MakeBaseDao {
 
         OutputUtilities.newLine(builder);
         method = new Method();
-        method.setName("insertList_physical");
+        method.setName(DaoMethodNameUtil.getInsertList(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
         fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
@@ -318,7 +319,7 @@ public class MakeBaseDao {
         if (LOGICAL) {
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName("insertSelective");
+            method.setName(DaoMethodNameUtil.getInsertSelective(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType(table.getJavaName());
@@ -347,7 +348,7 @@ public class MakeBaseDao {
 
         OutputUtilities.newLine(builder);
         method = new Method();
-        method.setName("insertSelective_physical");
+        method.setName(DaoMethodNameUtil.getInsertSelective(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
         fqjt = new FullyQualifiedJavaType(table.getJavaName());
@@ -376,7 +377,7 @@ public class MakeBaseDao {
         if (LOGICAL) {
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName("insertListSelective");
+            method.setName(DaoMethodNameUtil.getInsertListSelective(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
@@ -405,7 +406,7 @@ public class MakeBaseDao {
 
         OutputUtilities.newLine(builder);
         method = new Method();
-        method.setName("insertListSelective_physical");
+        method.setName(DaoMethodNameUtil.getInsertListSelective(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
         fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
@@ -434,7 +435,7 @@ public class MakeBaseDao {
         if (LOGICAL) {
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName("updateByExample");
+            method.setName(DaoMethodNameUtil.getUpdateByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType("@Param(\"record\") " + table.getJavaName());
@@ -467,7 +468,7 @@ public class MakeBaseDao {
 
         OutputUtilities.newLine(builder);
         method = new Method();
-        method.setName("updateByExample_physical");
+        method.setName(DaoMethodNameUtil.getUpdateByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
         fqjt = new FullyQualifiedJavaType("@Param(\"record\") " + table.getJavaName());
@@ -500,7 +501,7 @@ public class MakeBaseDao {
         if (LOGICAL) {
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName("updateByExampleSelective");
+            method.setName(DaoMethodNameUtil.getUpdateByExampleSelective(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType("@Param(\"record\") " + table.getJavaName());
@@ -533,7 +534,7 @@ public class MakeBaseDao {
 
         OutputUtilities.newLine(builder);
         method = new Method();
-        method.setName("updateByExampleSelective_physical");
+        method.setName(DaoMethodNameUtil.getUpdateByExampleSelective(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
         fqjt = new FullyQualifiedJavaType("@Param(\"record\") " + table.getJavaName());
@@ -566,7 +567,7 @@ public class MakeBaseDao {
         if (LOGICAL) {
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName("deleteByExample");
+            method.setName(DaoMethodNameUtil.getDeleteByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
@@ -595,7 +596,7 @@ public class MakeBaseDao {
 
         OutputUtilities.newLine(builder);
         method = new Method();
-        method.setName("deleteByExample_physical");
+        method.setName(DaoMethodNameUtil.getDeleteByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
         fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
@@ -627,7 +628,7 @@ public class MakeBaseDao {
             if (LOGICAL) {
                 OutputUtilities.newLine(builder);
                 method = new Method();
-                method.setName("selectByPrimaryKey");
+                method.setName(DaoMethodNameUtil.getSelectByPrimaryKey(LOGICAL));
                 fqjt = new FullyQualifiedJavaType(table.getJavaName());
                 method.setReturnType(fqjt);
                 fqjt = new FullyQualifiedJavaType("Map<String, Object>");
@@ -656,7 +657,7 @@ public class MakeBaseDao {
 
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName("selectByPrimaryKey_physical");
+            method.setName(DaoMethodNameUtil.getSelectByPrimaryKey(!LOGICAL));
             fqjt = new FullyQualifiedJavaType(table.getJavaName());
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType("Map<String, Object>");
@@ -685,7 +686,7 @@ public class MakeBaseDao {
             if (LOGICAL) {
                 OutputUtilities.newLine(builder);
                 method = new Method();
-                method.setName("updateByPrimaryKey");
+                method.setName(DaoMethodNameUtil.getUpdateByPrimaryKey(LOGICAL));
                 fqjt = new FullyQualifiedJavaType("int");
                 method.setReturnType(fqjt);
                 fqjt = new FullyQualifiedJavaType(table.getJavaName());
@@ -714,7 +715,7 @@ public class MakeBaseDao {
 
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName("updateByPrimaryKey_physical");
+            method.setName(DaoMethodNameUtil.getUpdateByPrimaryKey(!LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType(table.getJavaName());
@@ -743,7 +744,7 @@ public class MakeBaseDao {
             if (LOGICAL) {
                 OutputUtilities.newLine(builder);
                 method = new Method();
-                method.setName("updateByPrimaryKeySelective");
+                method.setName(DaoMethodNameUtil.getUpdateByPrimaryKeySelective(LOGICAL));
                 fqjt = new FullyQualifiedJavaType("int");
                 method.setReturnType(fqjt);
                 fqjt = new FullyQualifiedJavaType(table.getJavaName());
@@ -772,7 +773,7 @@ public class MakeBaseDao {
 
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName("updateByPrimaryKeySelective_physical");
+            method.setName(DaoMethodNameUtil.getUpdateByPrimaryKeySelective(!LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType(table.getJavaName());
@@ -801,7 +802,7 @@ public class MakeBaseDao {
             if (LOGICAL) {
                 OutputUtilities.newLine(builder);
                 method = new Method();
-                method.setName("deleteByPrimaryKey");
+                method.setName(DaoMethodNameUtil.getDeleteByPrimaryKey(LOGICAL));
                 fqjt = new FullyQualifiedJavaType("int");
                 method.setReturnType(fqjt);
                 fqjt = new FullyQualifiedJavaType("Map<String, Object>");
@@ -830,7 +831,7 @@ public class MakeBaseDao {
 
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName("deleteByPrimaryKey_physical");
+            method.setName(DaoMethodNameUtil.getDeleteByPrimaryKey(!LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType("Map<String, Object>");
