@@ -24,9 +24,7 @@ import cn.kunter.common.generator.util.OutputUtilities;
  */
 public class MakeBaseDao {
 
-    private final static String PACKAGES = PackageHolder.getBaseDaoPackage();
-    private final static String ENTITY_PACKAGES = PackageHolder.getEntityPackage();
-    private final static boolean LOGICAL = Boolean.valueOf(PropertyHolder.getConfigProperty("logical"));
+    private final static boolean LOGICAL = PropertyHolder.getBooleanVal("logical");
 
     public static void main(String[] args) throws Exception {
 
@@ -56,14 +54,17 @@ public class MakeBaseDao {
      */
     public static void makerBaseDao(Table table) throws Exception {
 
+        String baseDaoPackages = PackageHolder.getBaseDaoPackage(table.getTableName());
+        String entityPackages = PackageHolder.getEntityPackage(table.getTableName());
+
         StringBuilder builder = new StringBuilder();
-        builder.append(JavaBeansUtil.getPackages(PACKAGES));
+        builder.append(JavaBeansUtil.getPackages(baseDaoPackages));
 
         builder.append(JavaBeansUtil.getImports("java.util.List", false, true));
         builder.append(JavaBeansUtil.getImports("java.util.Map", false, false));
         builder.append(JavaBeansUtil.getImports("org.apache.ibatis.annotations.Param", false, true));
-        builder.append(JavaBeansUtil.getImports(ENTITY_PACKAGES + "." + table.getJavaName(), false, true));
-        builder.append(JavaBeansUtil.getImports(ENTITY_PACKAGES + "." + table.getJavaName() + "Example", false, false));
+        builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName(), false, true));
+        builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName() + "Example", false, false));
 
         OutputUtilities.newLine(builder);
         builder.append("/**");
@@ -857,10 +858,9 @@ public class MakeBaseDao {
             OutputUtilities.newLine(builder);
             builder.append(method.getFormattedContent(1, true));
         }
-
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + PACKAGES.replaceAll("\\.", "/") + "/Base"
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseDaoPackages.replaceAll("\\.", "/") + "/Base"
                 + table.getJavaName() + "Dao.java", builder.toString());
     }
 }

@@ -22,8 +22,6 @@ import cn.kunter.common.generator.util.OutputUtilities;
  */
 public class MakeEntity {
 
-    private final static String PACKAGES = PackageHolder.getEntityPackage();
-
     public static void main(String[] args) throws Exception {
 
         List<Table> tables = GetTableConfig.getTableConfig();
@@ -52,9 +50,11 @@ public class MakeEntity {
      */
     public static void makerEntity(Table table) throws Exception {
 
+        String entityPackages = PackageHolder.getEntityPackage(table.getTableName());
+
         StringBuilder builder = new StringBuilder();
         // 包结构
-        builder.append(JavaBeansUtil.getPackages(PACKAGES));
+        builder.append(JavaBeansUtil.getPackages(entityPackages));
         // 导包
         builder.append(JavaBeansUtil.getImports("java.io.Serializable", false, true));
 
@@ -100,12 +100,11 @@ public class MakeEntity {
             builder.append(JavaBeansUtil.getJavaBeansSetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
                     column.getJavaType(), column.getRemarks()));
         }
-
         // 类结束
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
         // 输出文件
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + PACKAGES.replaceAll("\\.", "/") + "/"
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + entityPackages.replaceAll("\\.", "/") + "/"
                 + table.getJavaName() + ".java", builder.toString());
     }
 }

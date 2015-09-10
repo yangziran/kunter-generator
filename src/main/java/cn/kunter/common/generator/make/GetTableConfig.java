@@ -22,7 +22,9 @@ import cn.kunter.common.generator.entity.Table;
 import cn.kunter.common.generator.type.DBType;
 import cn.kunter.common.generator.type.JdbcTypeNameTranslator;
 import cn.kunter.common.generator.type.SourceType;
+import cn.kunter.common.generator.util.CollectionUtil;
 import cn.kunter.common.generator.util.ExcelUtil;
+import cn.kunter.common.generator.util.LogUtil;
 import cn.kunter.common.generator.util.StringUtility;
 
 /**
@@ -46,13 +48,24 @@ public class GetTableConfig {
      */
     public static List<Table> getTableConfig() throws Exception {
 
+        LogUtil.infoStart(GetTableConfig.class, "getTableConfig");
+
+        List<Table> tableList = new ArrayList<Table>();
         // 根据数据类型获取表结构信息
         if (SourceType.DB.getValue().equals(SOURCE_TYPE)) {
-            return getDBTableConfig();
+            tableList.addAll(getDBTableConfig());
         }
         else {
-            return getExcelTableConfig();
+            tableList.addAll(getExcelTableConfig());
         }
+
+        CollectionUtil.sortByProperty(tableList, "tableName", "String", CollectionUtil.ASC);
+
+        LogUtil.info(GetTableConfig.class, "getTableConfig", "获取到表" + tableList.size() + "个");
+
+        LogUtil.infoEnd(GetTableConfig.class, "getTableConfig");
+
+        return tableList;
     }
 
     /**
@@ -63,27 +76,46 @@ public class GetTableConfig {
      */
     public static List<Table> getDBTableConfig() throws SQLException {
 
+        LogUtil.infoStart(GetTableConfig.class, "getDBTableConfig");
+
         // 获取到数据库连接
         Connection connection = ConnectionFactory.getConnection();
 
-        String model = PropertyHolder.getConfigProperty("model");
-        StringBuilder tableName = new StringBuilder();
-        if (StringUtility.isNotEmpty(model)) {
-            tableName.append(model).append("_");
-        }
-        String tablec = PropertyHolder.getConfigProperty("table");
-        if (StringUtility.isNotEmpty(tablec)) {
-            tableName.append(tablec);
-        }
-        else {
-            tableName.append("%");
+        // 处理表名称 支持全库生成 有以下几种模式:1、全库，%；2、多表，xx_%|xx_%,yy_%|xx_%,yy_bb|xx_aa,yy_bb
+        String tableName = PropertyHolder.getConfigProperty("table");
+        String[] tableNames = tableName.split(",");
+
+        List<Table> tableList = new ArrayList<Table>();
+        for (String string : tableNames) {
+            String name = DB_TYPE.equals(DBType.ORACLE.getValue()) ? string.toUpperCase() : string.toLowerCase();
+
+            tableList.addAll(getTableList(connection, name));
         }
 
+        // 关闭连接
+        connection.close();
+
+        LogUtil.infoEnd(GetTableConfig.class, "getDBTableConfig");
+
+        return tableList;
+    }
+
+    /**
+     * 处理配置文件中设定的表结构
+     * @param connection
+     * @param tableName
+     * @return
+     * @throws SQLException
+     * @author 阳自然
+     */
+    private static List<Table> getTableList(Connection connection, String tableName) throws SQLException {
+
+        LogUtil.infoStart(GetTableConfig.class, "getTableList");
+
         DatabaseMetaData metaData = connection.getMetaData();
+
         // 第一个参数：数据库名称，第二个参数：模式、登录名，第三个参数：表名称，第四个参数：类型(数组)
-        ResultSet tables = metaData.getTables(
-                connection.getCatalog(), metaData.getUserName(), DB_TYPE.equals(DBType.ORACLE.getValue())
-                        ? tableName.toString().toUpperCase() : tableName.toString().toLowerCase(),
+        ResultSet tables = metaData.getTables(connection.getCatalog(), metaData.getUserName(), tableName,
                 new String[] { "TABLE" });
 
         List<Table> tableList = new ArrayList<Table>();
@@ -157,7 +189,6 @@ public class GetTableConfig {
 
         // 关闭连接
         tables.close();
-        connection.close();
 
         for (Table table : tableList) {
             for (Column column1 : table.getPrimaryKey()) {
@@ -171,6 +202,8 @@ public class GetTableConfig {
             }
         }
 
+        LogUtil.infoEnd(GetTableConfig.class, "getTableList");
+
         return tableList;
     }
 
@@ -181,6 +214,8 @@ public class GetTableConfig {
      * @throws Exception
      */
     public static List<Table> getExcelTableConfig() throws Exception {
+
+        LogUtil.infoStart(GetTableConfig.class, "getExcelTableConfig");
 
         Workbook wb = ExcelUtil.getWorkbook();
 
@@ -251,6 +286,8 @@ public class GetTableConfig {
 
             tableList.add(table);
         }
+
+        LogUtil.infoEnd(GetTableConfig.class, "getExcelTableConfig");
 
         return tableList;
     }

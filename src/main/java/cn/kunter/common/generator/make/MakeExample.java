@@ -26,8 +26,6 @@ import cn.kunter.common.generator.util.OutputUtilities;
  */
 public class MakeExample {
 
-    private final static String PACKAGES = PackageHolder.getEntityPackage();
-
     public static void main(String[] args) throws Exception {
 
         List<Table> tables = GetTableConfig.getTableConfig();
@@ -56,9 +54,11 @@ public class MakeExample {
      */
     public static void makerExample(Table table) throws Exception {
 
+        String entityPackages = PackageHolder.getEntityPackage(table.getTableName());
+
         StringBuilder builder = new StringBuilder();
         // 包结构
-        builder.append(JavaBeansUtil.getPackages(PACKAGES));
+        builder.append(JavaBeansUtil.getPackages(entityPackages));
         // 导包
         builder.append(JavaBeansUtil.getImports("java.util.ArrayList", false, true));
         builder.append(JavaBeansUtil.getImports("java.util.List", false, false));
@@ -300,8 +300,8 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "EqualTo");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " =\", value, \"" + cols.getJavaName()
-                    + "\");");
+            method.addBodyLine(
+                    "addCriterion(\"" + cols.getColumnName() + " =\", value, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -314,8 +314,8 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "NotEqualTo");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " <>\", value, \"" + cols.getJavaName()
-                    + "\");");
+            method.addBodyLine(
+                    "addCriterion(\"" + cols.getColumnName() + " <>\", value, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -328,8 +328,8 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "GreaterThan");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " >\", value, \"" + cols.getJavaName()
-                    + "\");");
+            method.addBodyLine(
+                    "addCriterion(\"" + cols.getColumnName() + " >\", value, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -342,8 +342,8 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "GreaterThanOrEqualTo");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " >=\", value, \"" + cols.getJavaName()
-                    + "\");");
+            method.addBodyLine(
+                    "addCriterion(\"" + cols.getColumnName() + " >=\", value, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -356,8 +356,8 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "LessThan");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " <\", value, \"" + cols.getJavaName()
-                    + "\");");
+            method.addBodyLine(
+                    "addCriterion(\"" + cols.getColumnName() + " <\", value, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -370,8 +370,8 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "LessThanOrEqualTo");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " <=\", value, \"" + cols.getJavaName()
-                    + "\");");
+            method.addBodyLine(
+                    "addCriterion(\"" + cols.getColumnName() + " <=\", value, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -384,8 +384,8 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "values");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "In");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " in\", values, \"" + cols.getJavaName()
-                    + "\");");
+            method.addBodyLine(
+                    "addCriterion(\"" + cols.getColumnName() + " in\", values, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -398,8 +398,8 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "values");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "NotIn");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " not in\", values, \"" + cols.getJavaName()
-                    + "\");");
+            method.addBodyLine(
+                    "addCriterion(\"" + cols.getColumnName() + " not in\", values, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -739,8 +739,7 @@ public class MakeExample {
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
         // 输出文件
-        FileUtil.writeFile(
-                PropertyHolder.getConfigProperty("target") + PACKAGES.replaceAll("\\.", "/") + "/"
-                        + table.getJavaName() + "Example.java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + entityPackages.replaceAll("\\.", "/") + "/"
+                + table.getJavaName() + "Example.java", builder.toString());
     }
 }

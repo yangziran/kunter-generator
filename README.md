@@ -1,7 +1,7 @@
 # kunter-generator
 
 [Git@OSC](https://git.oschina.net/nature/kunter-generator.git)
-[GitHub](https://github.com/angelsinklowcn/kunter-constant.git)
+[GitHub](https://github.com/angelsinklowcn/kunter-generator.git)
 [Bitbucket](https://bitbucket.org/angelsinklow/kunter-generator.git)
 [Coding](https://git.coding.net/kunter/kunter-generator.git)
 
@@ -10,10 +10,9 @@
 本工具参考MyBatis官方generator设计而成，参考版本为（1.3.2）。具有生成项目基础代码、根据数据库生成Excel格式的设计文档、根据Excel格式生成创建数据库脚本功能，
 为了方便项目随时更换底层，生成的基础代码独立目录，不建议对生成的代码进行修改；目前设计支持Oracle、MySQL、PostgreSQL
 
-添加参数logical(是否逻辑操作)，值：true/false;配置需要逻辑操作需要库表中存在字段：delete_flag、create_date、create_user_id、update_date、update_user_id，正常数据delete_flag值为“0”，逻辑删除将delete_flag的值变更为“1”，其他四个字段也相应的由系统控制
-
 ## 更新日志
 
+- 2015-9-10 修改代码生成逻辑，变更代码生成方式支持跨模块生成
 - 2015-9-2 修改BaseDAO和BaseXML方法名称，在不需要逻辑操作的时候将物理操作的_physical后缀去除
 - 2015-8-28 修复Excel数据源读取不出数据的错误，修复Excel数据源长度读取问题，修复insertListSelective、insertListSelective_physical方法的SQL错误
 - 2015-8-21 修改实体生成实现Serializable接口
@@ -46,13 +45,16 @@
 >>  [d] DB.xx：数据库连接属性，数据库类型相关连接属性，设置DB类型必须设值
 
 > 1.2 config.properties
->>  [a] model：模块名称，默认表前缀，例：base
+>>  [a] model：是否按模块生成，值：true|false；如果设置为true，则通过“_”截取表名称第一个作为模块化包名称
 
->>  [b] package：基础包名，所有包前缀，例：com.kunter
+>>  [b] logical：是否逻辑操作，值：true|false;配置需要逻辑操作需要库表中存在字段：delete_flag、create_date、create_user_id、update_date、update_user_id，正常数据delete_flag值为“0”，逻辑删除将delete_flag的值变更为“1”，其他四个字段也相应的由系统控制
 
->>  [c] table：表名称，支持通配符 ** 数据源类型为EXCEL，则参数无效 建议使用EXCEL的时候分模块保存设计文档 **
+>>  [c] package：基础包名，所有包前缀，例：cn.kunter
 
->>  [d] target：输出目录，可以为绝对目录或者相对目录，例：target/ 当前kunter-generator下的target/
+>>  [d] table：表名称，支持通配符“%”，多表名通过“,”分割 例：%|base_%|base_%,admin_account
+>>    ** 数据源类型为EXCEL，则参数无效 建议使用EXCEL的时候分模块保存设计文档 **
+
+>>  [e] target：输出目录，可以为绝对目录或者相对目录，例：target/ 当前kunter-generator下的target/
 
 >>>  根据以上配置，模拟生成如下所述文件：
 >>>    * BaseDAO：com.kunter.base.dao.base

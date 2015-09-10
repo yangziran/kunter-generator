@@ -18,9 +18,6 @@ import cn.kunter.common.generator.util.OutputUtilities;
  */
 public class MakeXml {
 
-    private final static String PACKAGES = PackageHolder.getXmlPackage();
-    private final static String DAO_PACKAGES = PackageHolder.getDaoPackage();
-
     public static void main(String[] args) throws Exception {
 
         List<Table> tables = GetTableConfig.getTableConfig();
@@ -49,20 +46,23 @@ public class MakeXml {
      */
     public static void makerXml(Table table) throws Exception {
 
-        String namespace = DAO_PACKAGES + "." + table.getJavaName() + "Dao";
+        String xmlPackages = PackageHolder.getXmlPackage(table.getTableName());
+        String daoPackages = PackageHolder.getDaoPackage(table.getTableName());
+
+        String namespace = daoPackages + "." + table.getJavaName() + "Dao";
 
         StringBuilder builder = new StringBuilder();
         builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         OutputUtilities.newLine(builder);
-        builder.append("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
+        builder.append(
+                "<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
         OutputUtilities.newLine(builder);
         builder.append("<mapper namespace=\"" + namespace + "\">");
 
         OutputUtilities.newLine(builder);
         builder.append("</mapper>");
 
-        FileUtil.writeFile(
-                PropertyHolder.getConfigProperty("target") + PACKAGES.replaceAll("\\.", "/") + "/"
-                        + table.getJavaName() + "Mapper.xml", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + xmlPackages.replaceAll("\\.", "/") + "/"
+                + table.getJavaName() + "Mapper.xml", builder.toString());
     }
 }

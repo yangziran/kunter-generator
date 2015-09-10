@@ -24,7 +24,6 @@ public class Generator {
     public static void main(String[] args) throws Exception {
 
         List<Table> tables = GetTableConfig.getTableConfig();
-        System.out.println("Table数量：" + tables.size());
 
         for (final Table table : tables) {
             Thread thread = new Thread(new Runnable() {

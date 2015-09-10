@@ -21,11 +21,8 @@ import cn.kunter.common.generator.util.OutputUtilities;
  */
 public class MakeBaseXml {
 
-    private final static boolean LOGICAL = Boolean.valueOf(PropertyHolder.getConfigProperty("logical"));
+    private final static boolean LOGICAL = PropertyHolder.getBooleanVal("logical");
     private final static String DB_TYPE = DBType.valueOf(PropertyHolder.getJDBCProperty("DB")).getValue();
-    private final static String PACKAGES = PackageHolder.getBaseXmlPackage();
-    private final static String DAO_PACKAGES = PackageHolder.getDaoPackage();
-    private final static String ENTITY_PACKAGES = PackageHolder.getEntityPackage();
 
     public static void main(String[] args) throws Exception {
 
@@ -55,9 +52,12 @@ public class MakeBaseXml {
      */
     public static void makerBaseXml(Table table) throws Exception {
 
-        String namespace = DAO_PACKAGES + "." + table.getJavaName() + "Dao";
-        String type = ENTITY_PACKAGES + "." + table.getJavaName();
-        String typeExample = ENTITY_PACKAGES + "." + table.getJavaName() + "Example";
+        String daoPackages = PackageHolder.getDaoPackage(table.getTableName());
+        String entityPackages = PackageHolder.getEntityPackage(table.getTableName());
+
+        String namespace = daoPackages + "." + table.getJavaName() + "Dao";
+        String type = entityPackages + "." + table.getJavaName();
+        String typeExample = entityPackages + "." + table.getJavaName() + "Example";
 
         StringBuilder builder = new StringBuilder();
         builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
@@ -1787,7 +1787,8 @@ public class MakeBaseXml {
         OutputUtilities.newLine(builder);
         builder.append("</mapper>");
 
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + PACKAGES.replaceAll("\\.", "/") + "/Base"
+        String baseXmlPackages = PackageHolder.getBaseXmlPackage(table.getTableName());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseXmlPackages.replaceAll("\\.", "/") + "/Base"
                 + table.getJavaName() + "Mapper.xml", builder.toString());
     }
 }

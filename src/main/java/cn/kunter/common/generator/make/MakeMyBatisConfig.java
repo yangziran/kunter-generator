@@ -10,7 +10,6 @@ import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Table;
 import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
-import cn.kunter.common.generator.util.StringUtility;
 
 /**
  * MyBatisConfig生成
@@ -18,10 +17,6 @@ import cn.kunter.common.generator.util.StringUtility;
  * @version 1.0 2014年11月16日
  */
 public class MakeMyBatisConfig {
-
-    private final static String ENTITY_PACKAGES = PackageHolder.getEntityPackage();
-    private final static String BASEXML_PACKAGES = PackageHolder.getBaseXmlPackage();
-    private final static String XML_PACKAGES = PackageHolder.getXmlPackage();
 
     public static void main(String[] args) throws Exception {
 
@@ -37,64 +32,107 @@ public class MakeMyBatisConfig {
      */
     public static void makerMyBatisConfig(List<Table> tables) throws Exception {
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        OutputUtilities.newLine(builder);
-        builder.append("<!DOCTYPE configuration PUBLIC \"-//mybatis.org//DTD Config 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-config.dtd\">");
-        OutputUtilities.newLine(builder);
-        builder.append("<configuration>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<settings>");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 2);
-        builder.append("<setting name=\"logImpl\" value=\"LOG4J2\" />");
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("</settings>");
+        StringBuilder builder1 = new StringBuilder();
+        builder1.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        OutputUtilities.newLine(builder1);
+        builder1.append(
+                "<!DOCTYPE configuration PUBLIC \"-//mybatis.org//DTD Config 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-config.dtd\">");
+        OutputUtilities.newLine(builder1);
+        builder1.append("<configuration>");
+        OutputUtilities.newLine(builder1);
+        OutputUtilities.javaIndent(builder1, 1);
+        builder1.append("<settings>");
+        OutputUtilities.newLine(builder1);
+        OutputUtilities.javaIndent(builder1, 2);
+        builder1.append("<setting name=\"logImpl\" value=\"LOG4J2\" />");
+        OutputUtilities.newLine(builder1);
+        OutputUtilities.javaIndent(builder1, 1);
+        builder1.append("</settings>");
 
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<typeAliases>");
-        for (Table table : tables) {
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("<typeAlias alias=\"" + table.getJavaName() + "\" type=\"" + ENTITY_PACKAGES + "."
-                    + table.getJavaName() + "\" />");
+        OutputUtilities.newLine(builder1);
+        OutputUtilities.javaIndent(builder1, 1);
+        builder1.append("<typeAliases>");
+
+        StringBuilder builder2 = new StringBuilder();
+        OutputUtilities.newLine(builder2);
+        OutputUtilities.javaIndent(builder2, 1);
+        builder2.append("</typeAliases>");
+        OutputUtilities.newLine(builder2);
+        OutputUtilities.javaIndent(builder2, 1);
+        builder2.append("<mappers>");
+
+        StringBuilder builder3 = new StringBuilder();
+        OutputUtilities.newLine(builder3);
+        OutputUtilities.javaIndent(builder3, 1);
+        builder3.append("</mappers>");
+        OutputUtilities.newLine(builder3);
+        builder3.append("</configuration>");
+
+        StringBuilder typeAlias = new StringBuilder();
+        StringBuilder mapper = new StringBuilder();
+        StringBuilder mybatis = new StringBuilder();
+        if (PropertyHolder.getBooleanVal("model")) {
+
+            String model = null;
+            for (Table table : tables) {
+                String tModel = table.getTableName().split("_")[0];
+                if (model == null) {
+                    model = tModel;
+                }
+
+                setTable(typeAlias, mapper, table);
+
+                if (!tModel.equals(model)) {
+
+                    mybatis.append(builder1).append(typeAlias).append(builder2).append(mapper).append(builder3);
+
+                    StringBuilder configName = new StringBuilder();
+                    configName.append("mybatis-config-").append(model).append(".xml");
+
+                    FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + configName.toString(),
+                            mybatis.toString());
+
+                    typeAlias.setLength(0);
+                    mapper.setLength(0);
+                    model = tModel;
+                }
+            }
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("</typeAliases>");
+        else {
 
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("<mappers>");
-        for (Table table : tables) {
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("<mapper resource=\"" + BASEXML_PACKAGES.replaceAll("\\.", "/") + "/Base"
-                    + table.getJavaName() + "Mapper.xml\" />");
+            for (Table table : tables) {
+                setTable(typeAlias, mapper, table);
+            }
 
-            OutputUtilities.newLine(builder);
-            OutputUtilities.javaIndent(builder, 2);
-            builder.append("<mapper resource=\"" + XML_PACKAGES.replaceAll("\\.", "/") + "/" + table.getJavaName()
-                    + "Mapper.xml\" />");
+            mybatis.append(builder1).append(typeAlias).append(builder2).append(mapper).append(builder3);
+
+            FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + "mybatis-config.xml", mybatis.toString());
         }
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("</mappers>");
+    }
 
-        OutputUtilities.newLine(builder);
-        builder.append("</configuration>");
+    /**
+     * 设置MyBatisConfig中的实体和SQLMapper
+     * @param typeAlias
+     * @param mapper
+     * @param table
+     * @author 阳自然
+     */
+    private static void setTable(StringBuilder typeAlias, StringBuilder mapper, Table table) {
 
-        StringBuilder configName = new StringBuilder();
-        configName.append("mybatis-config");
-        String model = PropertyHolder.getConfigProperty("model");
-        if (StringUtility.isNotEmpty(model)) {
-            configName.append("-").append(model);
-        }
-        configName.append(".xml");
+        OutputUtilities.newLine(typeAlias);
+        OutputUtilities.javaIndent(typeAlias, 2);
+        typeAlias.append("<typeAlias alias=\"" + table.getJavaName() + "\" type=\""
+                + PackageHolder.getEntityPackage(table.getTableName()) + "." + table.getJavaName() + "\" />");
 
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + configName.toString(), builder.toString());
+        OutputUtilities.newLine(mapper);
+        OutputUtilities.javaIndent(mapper, 2);
+        mapper.append(
+                "<mapper resource=\"" + PackageHolder.getBaseXmlPackage(table.getTableName()).replaceAll("\\.", "/")
+                        + "/Base" + table.getJavaName() + "Mapper.xml\" />");
+
+        OutputUtilities.newLine(mapper);
+        OutputUtilities.javaIndent(mapper, 2);
+        mapper.append("<mapper resource=\"" + PackageHolder.getXmlPackage(table.getTableName()).replaceAll("\\.", "/")
+                + "/" + table.getJavaName() + "Mapper.xml\" />");
     }
 }

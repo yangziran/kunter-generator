@@ -72,4 +72,8 @@ public abstract class PropertyHolder {
     public static String getConfigProperty(String name) {
         return getConfigProperties().getProperty(name);
     }
+
+    public static Boolean getBooleanVal(String key) {
+        return Boolean.valueOf(getConfigProperties().getProperty(key));
+    }
 }

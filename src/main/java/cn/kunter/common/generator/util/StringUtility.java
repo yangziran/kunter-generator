@@ -324,4 +324,19 @@ public class StringUtility {
 
         return buffer.toString();
     }
+
+    /**
+     * 将对象转换成字符串,如果该对象为null 则直接反回null
+     * @param object 待转换对象
+     * @return String 转换后String对象
+     */
+    public static String parseString(Object object) {
+        // 如果对象为空
+        if (null == object) {
+            // 直接返回null
+            return null;
+        }
+        // 转换类型 并返回
+        return String.valueOf(object);
+    }
 }

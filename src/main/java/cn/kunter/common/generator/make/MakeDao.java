@@ -20,9 +20,6 @@ import cn.kunter.common.generator.util.OutputUtilities;
  */
 public class MakeDao {
 
-    private final static String PACKAGES = PackageHolder.getDaoPackage();
-    private final static String BASEDAO_PACKAGES = PackageHolder.getBaseDaoPackage();
-
     public static void main(String[] args) throws Exception {
 
         List<Table> tables = GetTableConfig.getTableConfig();
@@ -51,10 +48,13 @@ public class MakeDao {
      */
     public static void makerDao(Table table) throws Exception {
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(JavaBeansUtil.getPackages(PACKAGES));
+        String daoPackages = PackageHolder.getDaoPackage(table.getTableName());
+        String baseDaoPackages = PackageHolder.getBaseDaoPackage(table.getTableName());
 
-        builder.append(JavaBeansUtil.getImports(BASEDAO_PACKAGES + ".Base" + table.getJavaName() + "Dao", false, true));
+        StringBuilder builder = new StringBuilder();
+        builder.append(JavaBeansUtil.getPackages(daoPackages));
+
+        builder.append(JavaBeansUtil.getImports(baseDaoPackages + ".Base" + table.getJavaName() + "Dao", false, true));
 
         OutputUtilities.newLine(builder);
         builder.append("/**");
@@ -76,8 +76,7 @@ public class MakeDao {
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
-        FileUtil.writeFile(
-                PropertyHolder.getConfigProperty("target") + PACKAGES.replaceAll("\\.", "/") + "/"
-                        + table.getJavaName() + "Dao.java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + daoPackages.replaceAll("\\.", "/") + "/"
+                + table.getJavaName() + "Dao.java", builder.toString());
     }
 }

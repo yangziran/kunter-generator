@@ -23,7 +23,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Column;
 import cn.kunter.common.generator.entity.Table;
-import cn.kunter.common.generator.util.StringUtility;
 
 /**
  * 根据DB创建Excel格式的数据库设计文档
@@ -60,16 +59,8 @@ public class MakeDatabaseOfExcel {
             makerTableSheet(workbook, table);
         }
 
-        StringBuilder fileName = new StringBuilder();
-        String model = PropertyHolder.getConfigProperty("model");
-        if (StringUtility.isNotEmpty(model)) {
-            fileName.append(model).append("-");
-        }
-        fileName.append("表结构一览.xlsx");
-
         // 新建一输出文件流
-        FileOutputStream fileOut = new FileOutputStream(
-                PropertyHolder.getConfigProperty("target") + fileName.toString());
+        FileOutputStream fileOut = new FileOutputStream(PropertyHolder.getConfigProperty("target") + "表结构一览.xlsx");
 
         // 把相应的Excel 工作簿存盘
         workbook.write(fileOut);
