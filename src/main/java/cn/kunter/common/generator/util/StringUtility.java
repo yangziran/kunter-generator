@@ -191,8 +191,6 @@ public class StringUtility {
         StringBuffer buffer = new StringBuffer();
         // 如果分隔符为空
         if (isEmpty(op)) {
-            // 去除表开头的"T_"
-            tableName = tableName.substring(2, tableName.length());
             if (flag) {
                 // 将字符串所有字母大写
                 buffer.append(tableName.toUpperCase());
@@ -207,10 +205,10 @@ public class StringUtility {
 
             // 分割字符串
             String[] tableNameArray = tableName.split(op);
-            // 循环分割好的字符串数组 从1开始：去除表开头的"T_"
-            for (int i = 1; i < tableNameArray.length; i++) {
+            // 循环分割好的字符串数组
+            for (int i = 0; i < tableNameArray.length; i++) {
                 if (flag) {
-                    if (i == 1) {
+                    if (i == 0) {
                         // 将字符串所有字母大写
                         buffer.append(tableNameArray[i].toUpperCase());
                     }
