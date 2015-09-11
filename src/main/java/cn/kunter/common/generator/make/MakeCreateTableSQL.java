@@ -4,7 +4,9 @@
 package cn.kunter.common.generator.make;
 
 import java.sql.Types;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Column;
@@ -39,33 +41,34 @@ public class MakeCreateTableSQL {
      */
     public static void makerCreateTableSQL(List<Table> tables) throws Exception {
 
-        StringBuilder builder = new StringBuilder();
         if (PropertyHolder.getBooleanVal("model")) {
 
-            String model = null;
+            Map<String, StringBuilder> sqlMap = new HashMap<>();
             for (Table table : tables) {
                 String tModel = table.getTableName().split("_")[0];
-                if (model == null) {
-                    model = tModel;
+                if (!sqlMap.containsKey(tModel)) {
+                    StringBuilder builder = new StringBuilder();
+                    setSQL(builder, table);
+
+                    sqlMap.put(tModel, builder);
                 }
-
-                setSQL(builder, table);
-
-                if (!tModel.equals(model)) {
-
-                    StringBuilder createSQLName = new StringBuilder();
-                    createSQLName.append("CreateTableSQL-").append(model).append(".sql");
-
-                    FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + createSQLName.toString(),
-                            builder.toString());
-
-                    builder.setLength(0);
-                    model = tModel;
+                else {
+                    setSQL(sqlMap.get(tModel), table);
                 }
+            }
+
+            for (String model : sqlMap.keySet()) {
+
+                StringBuilder createSQLName = new StringBuilder();
+                createSQLName.append("CreateTableSQL-").append(model).append(".sql");
+
+                FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + createSQLName.toString(),
+                        sqlMap.get(model).toString());
             }
         }
         else {
 
+            StringBuilder builder = new StringBuilder();
             for (Table table : tables) {
                 setSQL(builder, table);
             }

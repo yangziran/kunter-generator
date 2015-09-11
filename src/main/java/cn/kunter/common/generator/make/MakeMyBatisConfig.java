@@ -3,7 +3,9 @@
  */
 package cn.kunter.common.generator.make;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.kunter.common.generator.config.PackageHolder;
 import cn.kunter.common.generator.config.PropertyHolder;
@@ -68,38 +70,42 @@ public class MakeMyBatisConfig {
         OutputUtilities.newLine(builder3);
         builder3.append("</configuration>");
 
-        StringBuilder typeAlias = new StringBuilder();
-        StringBuilder mapper = new StringBuilder();
         StringBuilder mybatis = new StringBuilder();
         if (PropertyHolder.getBooleanVal("model")) {
 
-            String model = null;
+            Map<String, StringBuilder[]> configMap = new HashMap<>();
             for (Table table : tables) {
                 String tModel = table.getTableName().split("_")[0];
-                if (model == null) {
-                    model = tModel;
+                if (!configMap.containsKey(tModel)) {
+                    StringBuilder typeAlias = new StringBuilder();
+                    StringBuilder mapper = new StringBuilder();
+                    setTable(typeAlias, mapper, table);
+
+                    configMap.put(tModel, new StringBuilder[] { typeAlias, mapper });
                 }
-
-                setTable(typeAlias, mapper, table);
-
-                if (!tModel.equals(model)) {
-
-                    mybatis.append(builder1).append(typeAlias).append(builder2).append(mapper).append(builder3);
-
-                    StringBuilder configName = new StringBuilder();
-                    configName.append("mybatis-config-").append(model).append(".xml");
-
-                    FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + configName.toString(),
-                            mybatis.toString());
-
-                    typeAlias.setLength(0);
-                    mapper.setLength(0);
-                    model = tModel;
+                else {
+                    StringBuilder[] builder = configMap.get(tModel);
+                    setTable(builder[0], builder[1], table);
                 }
+            }
+
+            for (String model : configMap.keySet()) {
+                StringBuilder[] builder = configMap.get(model);
+
+                mybatis.setLength(0);
+                mybatis.append(builder1).append(builder[0]).append(builder2).append(builder[1]).append(builder3);
+
+                StringBuilder configName = new StringBuilder();
+                configName.append("mybatis-config-").append(model).append(".xml");
+
+                FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + configName.toString(),
+                        mybatis.toString());
             }
         }
         else {
 
+            StringBuilder typeAlias = new StringBuilder();
+            StringBuilder mapper = new StringBuilder();
             for (Table table : tables) {
                 setTable(typeAlias, mapper, table);
             }
