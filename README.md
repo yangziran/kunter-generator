@@ -12,6 +12,7 @@
 
 ## 更新日志
 
+- 2015-9-21 合并 loocao 推送的 非逻辑删除生成insertSelective方法时,加上_physical的问题
 - 2015-9-11 修复MyBatisConfig和CreateTableSQL在分模块生成文件的错误；修改类名生成逻辑，支持不同模块下相同表名
 - 2015-9-10 修改代码生成逻辑，变更代码生成方式支持跨模块生成
 - 2015-9-2 修改BaseDAO和BaseXML方法名称，在不需要逻辑操作的时候将物理操作的_physical后缀去除
