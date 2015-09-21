@@ -832,7 +832,7 @@ public class MakeBaseXml {
         builder.append("<!-- 往表中插入一条数据 字段为空不插入 系统字段需要输入 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertSelective(LOGICAL))
+        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertSelective(!LOGICAL))
                 .append("\" parameterType=\"").append(type).append("\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
