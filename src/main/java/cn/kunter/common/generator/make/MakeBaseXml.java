@@ -283,6 +283,7 @@ public class MakeBaseXml {
                 OutputUtilities.javaIndent(builder, 2);
             }
             Column column = table.getCols().get(i);
+            builder.append(table.getAlias()).append(".");
             builder.append(column.getColumnName());
         }
         OutputUtilities.newLine(builder);
@@ -310,11 +311,13 @@ public class MakeBaseXml {
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
             builder.append(table.getTableName());
+            builder.append(" ").append(table.getAlias());
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("where");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
+            builder.append(table.getAlias()).append(".");
             builder.append("delete_flag = '0'");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
@@ -355,6 +358,7 @@ public class MakeBaseXml {
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 3);
         builder.append(table.getTableName());
+        builder.append(" ").append(table.getAlias());
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("where");
@@ -409,11 +413,13 @@ public class MakeBaseXml {
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
             builder.append(table.getTableName());
+            builder.append(" ").append(table.getAlias());
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("where");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
+            builder.append(table.getAlias()).append(".");
             builder.append("delete_flag = '0'");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
@@ -492,6 +498,7 @@ public class MakeBaseXml {
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 3);
         builder.append(table.getTableName());
+        builder.append(" ").append(table.getAlias());
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("where");
@@ -1032,6 +1039,7 @@ public class MakeBaseXml {
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
             builder.append(table.getTableName());
+            builder.append(" ").append(table.getAlias());
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("<trim prefix=\"set\" suffix=\"\" suffixOverrides=\",\">");
@@ -1039,6 +1047,7 @@ public class MakeBaseXml {
                 if (!column.getColumnName().equals("create_date") && !column.getColumnName().equals("create_user_id")) {
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 3);
+                    builder.append(table.getAlias()).append(".");
                     if (column.getColumnName().equals("update_date")) {
                         builder.append(column.getColumnName()).append(" = ");
                         if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
@@ -1065,6 +1074,7 @@ public class MakeBaseXml {
             builder.append("where");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
+            builder.append(table.getAlias()).append(".");
             builder.append("delete_flag = '0'");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
@@ -1099,6 +1109,7 @@ public class MakeBaseXml {
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 3);
         builder.append(table.getTableName());
+        builder.append(" ").append(table.getAlias());
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("<trim prefix=\"set\" suffix=\"\" suffixOverrides=\",\">");
@@ -1106,6 +1117,7 @@ public class MakeBaseXml {
             if (!column.getColumnName().equals("create_date") && !column.getColumnName().equals("create_user_id")) {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 3);
+                builder.append(table.getAlias()).append(".");
                 if (column.getColumnName().equals("update_date")) {
                     builder.append(column.getColumnName()).append(" = ");
                     if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
@@ -1166,6 +1178,7 @@ public class MakeBaseXml {
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
             builder.append(table.getTableName());
+            builder.append(" ").append(table.getAlias());
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("<set>");
@@ -1174,6 +1187,7 @@ public class MakeBaseXml {
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 3);
                     if (column.getColumnName().equals("update_date")) {
+                        builder.append(table.getAlias()).append(".");
                         builder.append(column.getColumnName()).append(" = ");
                         if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
                             builder.append("sysdate,");
@@ -1186,6 +1200,7 @@ public class MakeBaseXml {
                         }
                     }
                     else if (column.getColumnName().equals("update_user_id")) {
+                        builder.append(table.getAlias()).append(".");
                         builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
                                 + column.getSqlType() + "},");
                     }
@@ -1193,6 +1208,7 @@ public class MakeBaseXml {
                         builder.append("<if test=\"record." + column.getJavaName() + " != null\">");
                         OutputUtilities.newLine(builder);
                         OutputUtilities.javaIndent(builder, 4);
+                        builder.append(table.getAlias()).append(".");
                         builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
                                 + column.getSqlType() + "},");
                         OutputUtilities.newLine(builder);
@@ -1209,6 +1225,7 @@ public class MakeBaseXml {
             builder.append("where");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
+            builder.append(table.getAlias()).append(".");
             builder.append("delete_flag = '0'");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
@@ -1243,6 +1260,7 @@ public class MakeBaseXml {
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 3);
         builder.append(table.getTableName());
+        builder.append(" ").append(table.getAlias());
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("<set>");
@@ -1251,6 +1269,7 @@ public class MakeBaseXml {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 3);
                 if (column.getColumnName().equals("update_date")) {
+                    builder.append(table.getAlias()).append(".");
                     builder.append(column.getColumnName()).append(" = ");
                     if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
                         builder.append("sysdate,");
@@ -1263,6 +1282,7 @@ public class MakeBaseXml {
                     }
                 }
                 else if (column.getColumnName().equals("update_user_id")) {
+                    builder.append(table.getAlias()).append(".");
                     builder.append(column.getColumnName()).append(" = #{record." + column.getJavaName())
                             .append(",jdbcType=").append(column.getSqlType() + "},");
                 }
@@ -1270,6 +1290,7 @@ public class MakeBaseXml {
                     builder.append("<if test=\"record.").append(column.getJavaName()).append(" != null\">");
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 4);
+                    builder.append(table.getAlias()).append(".");
                     builder.append(column.getColumnName()).append(" = #{record." + column.getJavaName())
                             .append(",jdbcType=").append(column.getSqlType() + "},");
                     OutputUtilities.newLine(builder);
@@ -1320,17 +1341,20 @@ public class MakeBaseXml {
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
             builder.append(table.getTableName());
+            builder.append(" ").append(table.getAlias());
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("set");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
+            builder.append(table.getAlias()).append(".");
             builder.append("delete_flag = '1'");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("where");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
+            builder.append(table.getAlias()).append(".");
             builder.append("delete_flag = '0'");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
@@ -1365,6 +1389,7 @@ public class MakeBaseXml {
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 3);
         builder.append(table.getTableName());
+        builder.append(" ").append(table.getAlias());
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("where");
@@ -1413,17 +1438,20 @@ public class MakeBaseXml {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 3);
                 builder.append(table.getTableName());
+                builder.append(" ").append(table.getAlias());
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("where");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 3);
+                builder.append(table.getAlias()).append(".");
                 builder.append("delete_flag = '0'");
                 for (int i = 0; i < table.getPrimaryKey().size(); i++) {
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 2);
                     builder.append("and ");
                     Column column = table.getPrimaryKey().get(i);
+                    builder.append(table.getAlias()).append(".");
                     builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append("}");
                 }
                 OutputUtilities.newLine(builder);
@@ -1450,6 +1478,7 @@ public class MakeBaseXml {
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
             builder.append(table.getTableName());
+            builder.append(" ").append(table.getAlias());
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("where");
@@ -1461,6 +1490,7 @@ public class MakeBaseXml {
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("and ");
                 Column column = table.getPrimaryKey().get(i);
+                builder.append(table.getAlias()).append(".");
                 builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append("}");
             }
             OutputUtilities.newLine(builder);
@@ -1481,6 +1511,7 @@ public class MakeBaseXml {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 3);
                 builder.append(table.getTableName());
+                builder.append(" ").append(table.getAlias());
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("<set>");
@@ -1489,6 +1520,7 @@ public class MakeBaseXml {
                             && !column.getColumnName().equals("create_user_id")) {
                         OutputUtilities.newLine(builder);
                         OutputUtilities.javaIndent(builder, 3);
+                        builder.append(table.getAlias()).append(".");
                         if (column.getColumnName().equals("update_date")) {
                             builder.append(column.getColumnName()).append(" = ");
                             if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
@@ -1515,12 +1547,14 @@ public class MakeBaseXml {
                 builder.append("where");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 3);
+                builder.append(table.getAlias()).append(".");
                 builder.append("delete_flag = '0'");
                 for (int i = 0; i < table.getPrimaryKey().size(); i++) {
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 2);
                     builder.append("and ");
                     Column column = table.getPrimaryKey().get(i);
+                    builder.append(table.getAlias()).append(".");
                     builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName())
                             .append(",jdbcType=").append(column.getSqlType()).append("}");
                 }
@@ -1542,6 +1576,7 @@ public class MakeBaseXml {
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
             builder.append(table.getTableName());
+            builder.append(" ").append(table.getAlias());
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("<set>");
@@ -1549,6 +1584,7 @@ public class MakeBaseXml {
                 if (!column.getColumnName().equals("create_date") && !column.getColumnName().equals("create_user_id")) {
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 3);
+                    builder.append(table.getAlias()).append(".");
                     builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
                             + column.getSqlType() + "},");
                 }
@@ -1567,6 +1603,7 @@ public class MakeBaseXml {
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("and ");
                 Column column = table.getPrimaryKey().get(i);
+                builder.append(table.getAlias()).append(".");
                 builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append(",jdbcType=")
                         .append(column.getSqlType()).append("}");
             }
@@ -1588,6 +1625,7 @@ public class MakeBaseXml {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 3);
                 builder.append(table.getTableName());
+                builder.append(" ").append(table.getAlias());
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("<set>");
@@ -1597,6 +1635,7 @@ public class MakeBaseXml {
                         OutputUtilities.newLine(builder);
                         OutputUtilities.javaIndent(builder, 3);
                         if (column.getColumnName().equals("update_date")) {
+                            builder.append(table.getAlias()).append(".");
                             builder.append(column.getColumnName()).append(" = ");
                             if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
                                 builder.append("sysdate,");
@@ -1609,6 +1648,7 @@ public class MakeBaseXml {
                             }
                         }
                         else if (column.getColumnName().equals("update_user_id")) {
+                            builder.append(table.getAlias()).append(".");
                             builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
                                     + column.getSqlType() + "},");
                         }
@@ -1616,6 +1656,7 @@ public class MakeBaseXml {
                             builder.append("<if test=\"" + column.getJavaName() + " != null\">");
                             OutputUtilities.newLine(builder);
                             OutputUtilities.javaIndent(builder, 4);
+                            builder.append(table.getAlias()).append(".");
                             builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
                                     + column.getSqlType() + "},");
                             OutputUtilities.newLine(builder);
@@ -1632,12 +1673,14 @@ public class MakeBaseXml {
                 builder.append("where ");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 3);
+                builder.append(table.getAlias()).append(".");
                 builder.append("delete_flag = '0'");
                 for (int i = 0; i < table.getPrimaryKey().size(); i++) {
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 2);
                     builder.append("and ");
                     Column column = table.getPrimaryKey().get(i);
+                    builder.append(table.getAlias()).append(".");
                     builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName())
                             .append(",jdbcType=").append(column.getSqlType()).append("}");
                 }
@@ -1659,6 +1702,7 @@ public class MakeBaseXml {
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
             builder.append(table.getTableName());
+            builder.append(" ").append(table.getAlias());
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("<set>");
@@ -1667,6 +1711,7 @@ public class MakeBaseXml {
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 3);
                     if (column.getColumnName().equals("update_date")) {
+                        builder.append(table.getAlias()).append(".");
                         builder.append(column.getColumnName()).append(" = ");
                         if (DB_TYPE.equals(DBType.ORACLE.getValue())) {
                             builder.append("sysdate,");
@@ -1679,6 +1724,7 @@ public class MakeBaseXml {
                         }
                     }
                     else if (column.getColumnName().equals("update_user_id")) {
+                        builder.append(table.getAlias()).append(".");
                         builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
                                 + column.getSqlType() + "},");
                     }
@@ -1686,6 +1732,7 @@ public class MakeBaseXml {
                         builder.append("<if test=\"" + column.getJavaName() + " != null\">");
                         OutputUtilities.newLine(builder);
                         OutputUtilities.javaIndent(builder, 4);
+                        builder.append(table.getAlias()).append(".");
                         builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
                                 + column.getSqlType() + "},");
                         OutputUtilities.newLine(builder);
@@ -1708,6 +1755,7 @@ public class MakeBaseXml {
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("and ");
                 Column column = table.getPrimaryKey().get(i);
+                builder.append(table.getAlias()).append(".");
                 builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append(",jdbcType=")
                         .append(column.getSqlType()).append("}");
             }
