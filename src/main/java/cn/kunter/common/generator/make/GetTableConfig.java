@@ -115,8 +115,13 @@ public class GetTableConfig {
         DatabaseMetaData metaData = connection.getMetaData();
 
         // 第一个参数：数据库名称，第二个参数：模式、登录名，第三个参数：表名称，第四个参数：类型(数组)
-        ResultSet tables = metaData.getTables(connection.getCatalog(), metaData.getUserName(), tableName,
-                new String[] { "TABLE" });
+        // System.out.println(metaData.getUserName()); TODO Oracle没做测试
+        ResultSet set = metaData.getSchemas(connection.getCatalog(), "");
+        String schema = "";
+        if (set.next()) {
+            schema = set.getString(2);
+        }
+        ResultSet tables = metaData.getTables(connection.getCatalog(), schema, tableName, new String[] { "TABLE" });
 
         List<Table> tableList = new ArrayList<Table>();
         while (tables.next()) {
@@ -130,7 +135,7 @@ public class GetTableConfig {
             table.setRemarks(REMARKS);
 
             // 获取到主键集合
-            ResultSet key = metaData.getPrimaryKeys(connection.getCatalog(), metaData.getUserName(), TABLE_NAME);
+            ResultSet key = metaData.getPrimaryKeys(connection.getCatalog(), schema, TABLE_NAME);
             while (key.next()) {
                 Column column = new Column();
                 String COLUMN_NAME = key.getString("COLUMN_NAME");
@@ -146,7 +151,7 @@ public class GetTableConfig {
             key.close();
 
             // 获取到外键集合
-            ResultSet exp = metaData.getExportedKeys(connection.getCatalog(), metaData.getUserName(), TABLE_NAME);
+            ResultSet exp = metaData.getExportedKeys(connection.getCatalog(), schema, TABLE_NAME);
             while (exp.next()) {
                 Column column = new Column();
                 String PKCOLUMN_NAME = exp.getString("PKCOLUMN_NAME");
@@ -165,7 +170,7 @@ public class GetTableConfig {
             exp.close();
 
             // 获取到列集合
-            ResultSet columns = metaData.getColumns(connection.getCatalog(), metaData.getUserName(), TABLE_NAME, null);
+            ResultSet columns = metaData.getColumns(connection.getCatalog(), schema, TABLE_NAME, null);
             while (columns.next()) {
                 Column column = new Column();
                 String COLUMN_NAME = columns.getString("COLUMN_NAME");
