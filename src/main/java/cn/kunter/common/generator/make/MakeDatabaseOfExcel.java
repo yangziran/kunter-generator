@@ -367,6 +367,8 @@ public class MakeDatabaseOfExcel {
             cell = row.createCell(2, Cell.CELL_TYPE_STRING);
             cell.setCellStyle(getLinkStyle(workbook));
             cell.setCellValue(table.getTableName());
+            link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+            link.setAddress("#" + table.getTableName() + "!A1");
             cell.setHyperlink(link);
             cell = row.createCell(3, Cell.CELL_TYPE_STRING);
             cell.setCellStyle(getCellStyle(workbook));
