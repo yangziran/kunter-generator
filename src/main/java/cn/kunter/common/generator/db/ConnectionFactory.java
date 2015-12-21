@@ -67,12 +67,21 @@ public class ConnectionFactory {
         Driver driver = getDriver(config);
 
         Properties props = new Properties();
+        // 不推荐建立无服务器的身份验证SSL连接
+        // 据MySQL的5.5.45+，5.6.26+和5.7.6+要求SSL连接必须在默认情况下建立的，
+        // 如果没有设置明确的选项。为了符合现有的应用程序不使用SSL的verifyServerCertificate属性设置为“假”。
+        // 您需要既可以明确地设置useSSL= false来禁用SSL，或者设置useSSL= TRUE，并提供信任存储服务器证书验证。
+        props.setProperty("useSSL", "false");
         // 设置可以获取remarks信息
         props.setProperty("remarks", "true");
         // 设置可以获取tables remarks信息
         props.setProperty("useInformationSchema", "true");
         // 设置连接编码
         props.setProperty("characterEncoding", "utf8");
+        // 当数据库连接异常中断时，是否自动重新连接？
+        props.setProperty("autoReconnect", "true");
+        // 自动重连成功后，连接是否设置为只读？
+        props.setProperty("failOverReadOnly", "false");
 
         if (StringUtility.isNotEmpty(config.getUserId())) {
             props.setProperty("user", config.getUserId());
