@@ -101,8 +101,7 @@ public class MakeCreateTableSQL {
                 OutputUtilities.javaIndent(builder, 1);
                 builder.append("\"").append(column.getColumnName()).append("\" ");
                 builder.append(column.getSqlType());
-                if (JdbcTypeNameTranslator.getJdbcTypeName(Types.VARCHAR)
-                        .equals(JdbcTypeNameTranslator.getJdbcType(column.getSqlType()))) {
+                if (Types.VARCHAR == JdbcTypeNameTranslator.getJdbcType(column.getSqlType())) {
                     builder.append("(").append(column.getLength()).append(")");
                 }
                 if (StringUtility.isNotEmpty(column.getIsNotNull())) {
@@ -166,8 +165,7 @@ public class MakeCreateTableSQL {
                 OutputUtilities.javaIndent(builder, 1);
                 builder.append(column.getColumnName()).append(" ");
                 builder.append(column.getSqlType());
-                if (JdbcTypeNameTranslator.getJdbcTypeName(Types.VARCHAR)
-                        .equals(JdbcTypeNameTranslator.getJdbcType(column.getSqlType()))) {
+                if (Types.VARCHAR == JdbcTypeNameTranslator.getJdbcType(column.getSqlType())) {
                     builder.append("(").append(column.getLength()).append(")");
                 }
                 if (StringUtility.isNotEmpty(column.getIsNotNull())) {
@@ -179,10 +177,8 @@ public class MakeCreateTableSQL {
                 }
                 OutputUtilities.newLine(builder);
             }
-            builder.append(")engine=innodb DEFAULT CHARSET=utf8;");
-            OutputUtilities.newLine(builder);
-            builder.append("ALTER TABLE ").append(table.getTableName()).append(" COMMENT '").append(table.getRemarks())
-                    .append("';");
+            builder.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='");
+            builder.append(table.getRemarks()).append("';");
             OutputUtilities.newLine(builder);
             // 判断当前表有主键时
             if (table.getPrimaryKey() != null || table.getPrimaryKey().size() > 0) {
@@ -227,8 +223,7 @@ public class MakeCreateTableSQL {
                 OutputUtilities.javaIndent(builder, 1);
                 builder.append(column.getColumnName()).append(" ");
                 builder.append(column.getSqlType());
-                if (JdbcTypeNameTranslator.getJdbcTypeName(Types.VARCHAR)
-                        .equals(JdbcTypeNameTranslator.getJdbcType(column.getSqlType()))) {
+                if (Types.VARCHAR == JdbcTypeNameTranslator.getJdbcType(column.getSqlType())) {
                     builder.append("(").append(column.getLength()).append(")");
                 }
                 if (StringUtility.isNotEmpty(column.getIsNotNull())) {
