@@ -99,7 +99,7 @@ public class MakeExample {
         builder.append(" */");
         // 类开始
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, false,
-                true, null, null, table.getJavaName() + "Example", table.getRemarks()));
+                true, null, null, table.getJavaName() + "Example", table.getRemarks(), true));
 
         // 字段定义
         for (Column column : table.getExample()) {
@@ -168,9 +168,10 @@ public class MakeExample {
                 false, null, "clear", null, null, bodyLines, null));
 
         /** ---------- GeneratedCriteria Start ---------- */
+        OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PROTECTED.getValue(), true, true, false, false,
-                true, null, null, "GeneratedCriteria", null));
+                true, null, null, "GeneratedCriteria", null, false));
 
         Field field = new Field();
         field.setVisibility(JavaVisibility.PROTECTED);
@@ -467,14 +468,16 @@ public class MakeExample {
             builder.append(method.getFormattedContent(2, false));
         }
 
+        OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append(JavaBeansUtil.getJavaBeansEnd());
+        builder.append(JavaBeansUtil.getJavaBeansEnd(false));
         /** ---------- GeneratedCriteria End ---------- */
 
         /** ---------- Criteria Start ---------- */
+        OutputUtilities.newLine(builder, 2);
         OutputUtilities.javaIndent(builder, 1);
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, true, false, false,
-                true, "GeneratedCriteria", null, "Criteria", null));
+                true, "GeneratedCriteria", null, "Criteria", null, false));
 
         method = new Method();
         method.setVisibility(JavaVisibility.PROTECTED);
@@ -484,14 +487,16 @@ public class MakeExample {
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(2, false));
 
+        OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append(JavaBeansUtil.getJavaBeansEnd());
+        builder.append(JavaBeansUtil.getJavaBeansEnd(false));
         /** ---------- Criteria End ---------- */
 
         /** ---------- Criterion Start ---------- */
+        OutputUtilities.newLine(builder, 2);
         OutputUtilities.javaIndent(builder, 1);
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, true, false, false,
-                true, null, null, "Criterion", null));
+                true, null, null, "Criterion", null, false));
 
         field = new Field();
         field.setVisibility(JavaVisibility.PRIVATE);
@@ -732,8 +737,9 @@ public class MakeExample {
         OutputUtilities.newLine(builder, 2);
         builder.append(method.getFormattedContent(2, false));
 
+        OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append(JavaBeansUtil.getJavaBeansEnd());
+        builder.append(JavaBeansUtil.getJavaBeansEnd(false));
         /** ---------- Criterion End ---------- */
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());

@@ -193,6 +193,7 @@ public class JavaBeansUtil {
      * @param superInterface 实现
      * @param name 名称
      * @param remarks 备注
+     * @param newLine 是否新起一行
      * @return
      * @author yangziran
      */
@@ -206,10 +207,13 @@ public class JavaBeansUtil {
         String superClass,
         List<String> superInterface,
         String name,
-        String remarks) {
+        String remarks,
+        boolean newLine) {
 
         StringBuilder buffer = new StringBuilder();
-        OutputUtilities.newLine(buffer);
+        if (newLine) {
+            OutputUtilities.newLine(buffer);
+        }
         buffer.append(visibility);
         if (isAbstract) {
             buffer.append("abstract ");
@@ -251,16 +255,60 @@ public class JavaBeansUtil {
     }
 
     /**
+     * 类开始
+     * @param visibility 修饰符
+     * @param isAbstract 是否Abstract
+     * @param isStatic 是否Static
+     * @param isFinal 是否Final
+     * @param isInterface 是否Interface
+     * @param isClass 是否Class
+     * @param superClass 继承
+     * @param superInterface 实现
+     * @param name 名称
+     * @param remarks 备注
+     * @return
+     * @author yangziran
+     */
+    public static String getJavaBeansStart(
+        String visibility,
+        boolean isAbstract,
+        boolean isStatic,
+        boolean isFinal,
+        boolean isInterface,
+        boolean isClass,
+        String superClass,
+        List<String> superInterface,
+        String name,
+        String remarks) {
+
+        return getJavaBeansStart(visibility, isAbstract, isStatic, isFinal, isInterface, isClass, superClass,
+                superInterface, name, remarks, true);
+    }
+
+    /**
+     * 类结束
+     * @param newLine 是否新起一行
+     * @return
+     * @author yangziran
+     */
+    public static String getJavaBeansEnd(boolean newLine) {
+
+        StringBuilder buffer = new StringBuilder();
+        if (newLine) {
+            OutputUtilities.newLine(buffer);
+        }
+        buffer.append("}");
+        return buffer.toString();
+    }
+
+    /**
      * 类结束
      * @return
      * @author yangziran
      */
     public static String getJavaBeansEnd() {
 
-        StringBuilder buffer = new StringBuilder();
-        OutputUtilities.newLine(buffer);
-        buffer.append("}");
-        return buffer.toString();
+        return getJavaBeansEnd(true);
     }
 
     /**
