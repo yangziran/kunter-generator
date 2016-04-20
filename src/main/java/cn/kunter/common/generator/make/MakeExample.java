@@ -15,6 +15,7 @@ import cn.kunter.common.generator.entity.Parameter;
 import cn.kunter.common.generator.entity.Table;
 import cn.kunter.common.generator.type.FullyQualifiedJavaType;
 import cn.kunter.common.generator.type.JavaVisibility;
+import cn.kunter.common.generator.util.DateUtil;
 import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.JavaBeansUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
@@ -94,7 +95,7 @@ public class MakeExample {
         OutputUtilities.newLine(builder);
         builder.append(" * @author 工具生成");
         OutputUtilities.newLine(builder);
-        builder.append(" * @version 1.0 2015年1月1日");
+        builder.append(" * @version 1.0 " + DateUtil.getSysDate());
         OutputUtilities.newLine(builder);
         builder.append(" */");
         // 类开始

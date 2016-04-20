@@ -9,6 +9,7 @@ import cn.kunter.common.generator.config.PackageHolder;
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Table;
 import cn.kunter.common.generator.type.JavaVisibility;
+import cn.kunter.common.generator.util.DateUtil;
 import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.JavaBeansUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
@@ -68,7 +69,7 @@ public class MakeDao {
         OutputUtilities.newLine(builder);
         builder.append(" * @author TODO 请在此处填写你的名字");
         OutputUtilities.newLine(builder);
-        builder.append(" * @version 1.0 2015年1月1日");
+        builder.append(" * @version 1.0 " + DateUtil.getSysDate());
         OutputUtilities.newLine(builder);
         builder.append(" */");
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, true,

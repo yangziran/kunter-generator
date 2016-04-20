@@ -49,10 +49,16 @@ public class Table {
         oredCriteria.setRemarks("条件集合");
         example.add(oredCriteria);
 
+        Column currentPage = new Column();
+        currentPage.setJavaName("currentPage");
+        currentPage.setJavaType("Integer");
+        currentPage.setRemarks("分页 当前页");
+        example.add(currentPage);
+
         Column currentSize = new Column();
         currentSize.setJavaName("currentSize");
         currentSize.setJavaType("Integer");
-        currentSize.setRemarks("分页 当前条数");
+        currentSize.setRemarks("分页 当前页起始条数");
         example.add(currentSize);
 
         Column pageSize = new Column();
