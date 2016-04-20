@@ -25,6 +25,11 @@ public class MakePageEntity {
 
     public static void main(String[] args) throws Exception {
 
+        MakePageEntity.makePageEntity();
+    }
+
+    public static void makePageEntity() throws Exception {
+
         Table table = new Table();
         table.setJavaName("Page");
 
@@ -63,11 +68,6 @@ public class MakePageEntity {
         rows.setJavaType("List<?>");
         rows.setRemarks("当前页面显示数据");
         table.addCols(rows);
-
-        MakePageEntity.makePageEntity(table);
-    }
-
-    public static void makePageEntity(Table table) throws Exception {
 
         String pageEntityPackages = PackageHolder.getPageEntityPackage();
 

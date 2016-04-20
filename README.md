@@ -12,6 +12,7 @@
 
 ## 更新日志
 
+- 2016-4-20 修正Example文件生成的格式，修正Page计算逻辑，修改文件生成日期为当前日期，Example文件中添加由当前页和当前页显示条数计算当前页起始条数，添加分页对象Page的生成
 - 2015-12-21 添加JDBC连接参数，修复生成Excel一览页面表名称链接问题，修复Excel生成SQL类型读取错误
 - 2015-12-18 修复PostgreSQL读取不到表列表的BUG
 - 2015-12-8 添加表的别名，为了自定义联合查询可以方便使用生成的SQL片段，别名规则：表名存在“_”分隔符额取每段首字母，不存在分隔符则截取表名前三位，不满前三位的使用表全称。
@@ -28,6 +29,7 @@
 ## 基础代码生成
 
 生成文件列表：
+- Page
 - BaseDAO
 - DAO
 - BaseMapper
@@ -62,12 +64,13 @@
 >>  [e] target：输出目录，可以为绝对目录或者相对目录，例：target/ 当前kunter-generator下的target/
 
 >>>  根据以上配置，模拟生成如下所述文件：
->>>    * BaseDAO：com.kunter.base.dao.base
->>>    * DAO：com.kunter.base.dao
->>>    * BaseMapper：com/kunter/base/xml/base
->>>    * Mapper：com/kunter/base/xml
->>>    * EO：com.kunter.base.eo
->>>    * EOExample：com.kunter.base.eo
+>>>    * Page：cn.kunter.common.eo
+>>>    * BaseDAO：cn.kunter.base.dao.base
+>>>    * DAO：cn.kunter.base.dao
+>>>    * BaseMapper：cn/kunter/base/xml/base
+>>>    * Mapper：cn/kunter/base/xml
+>>>    * EO：cn.kunter.base.eo
+>>>    * EOExample：cn.kunter.base.eo
 >>>    * mybatis-config-base.xml：指定的target目录下
 >>>    * 如果target参数直接指定的开发项目，如果需要，手动将BaseMapper和Mapper挪到/src/main/resources
 

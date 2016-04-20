@@ -13,6 +13,7 @@ import cn.kunter.common.generator.make.MakeDao;
 import cn.kunter.common.generator.make.MakeEntity;
 import cn.kunter.common.generator.make.MakeExample;
 import cn.kunter.common.generator.make.MakeMyBatisConfig;
+import cn.kunter.common.generator.make.MakePageEntity;
 import cn.kunter.common.generator.make.MakeXml;
 
 /**
@@ -45,5 +46,6 @@ public class Generator {
         }
 
         MakeMyBatisConfig.makerMyBatisConfig(tables);
+        MakePageEntity.makePageEntity();
     }
 }
