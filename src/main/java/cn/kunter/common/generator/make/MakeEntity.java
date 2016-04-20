@@ -76,6 +76,7 @@ public class MakeEntity {
         builder.append(" * @version 1.0 " + DateUtil.getSysDate());
         OutputUtilities.newLine(builder);
         builder.append(" */");
+        OutputUtilities.newLine(builder);
         builder.append("@SuppressWarnings(\"serial\")");
 
         // 实体实现序列化

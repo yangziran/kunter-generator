@@ -36,6 +36,16 @@ public class PackageHolder {
     }
 
     /**
+     * 获取到分页对象类包名
+     * @return
+     * @author yangziran
+     */
+    public static String getPageEntityPackage() {
+
+        return getPackage("common").append("eo").toString();
+    }
+
+    /**
      * 获取到实体类包名
      * @param tableName 表名称，model为true的时候通过“_”截取表名称前前一节为包名
      * @return

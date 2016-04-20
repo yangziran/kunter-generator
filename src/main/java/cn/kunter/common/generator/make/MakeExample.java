@@ -19,7 +19,6 @@ import cn.kunter.common.generator.util.DateUtil;
 import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.JavaBeansUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
-import cn.kunter.common.generator.util.StringUtility;
 
 /**
  * 实体查询条件生成
@@ -125,63 +124,20 @@ public class MakeExample {
 
             // 特殊处理分页计算当前页起始条数
             if (column.getJavaName().equals("currentSize")) {
-                StringBuilder currentSize = new StringBuilder();
-                if (StringUtility.isNotEmpty(column.getRemarks())) {
-                    OutputUtilities.newLine(currentSize);
-                    OutputUtilities.javaIndent(currentSize, 1);
-                    currentSize.append("/**");
-                    OutputUtilities.newLine(currentSize);
-                    OutputUtilities.javaIndent(currentSize, 1);
-                    currentSize.append(" * ").append("取得 ").append(column.getRemarks());
-                    OutputUtilities.newLine(currentSize);
-                    OutputUtilities.javaIndent(currentSize, 1);
-                    currentSize.append(" * ").append("@return ").append(column.getRemarks());
-                    OutputUtilities.newLine(currentSize);
-                    OutputUtilities.javaIndent(currentSize, 1);
-                    currentSize.append(" */");
-                }
-                OutputUtilities.newLine(currentSize);
-                OutputUtilities.javaIndent(currentSize, 1);
-                currentSize.append(JavaVisibility.PUBLIC.getValue()).append(column.getJavaType()).append(" ")
-                        .append(JavaBeansUtil.getGetterMethodName(column.getJavaName())).append("() {");
-                OutputUtilities.newLine(currentSize);
-                OutputUtilities.javaIndent(currentSize, 2);
-
-                currentSize.append("if (currentPage > 0) {");
-                OutputUtilities.newLine(currentSize);
-                OutputUtilities.javaIndent(currentSize, 3);
-                currentSize.append("--currentPage;");
-                OutputUtilities.newLine(currentSize);
-                OutputUtilities.javaIndent(currentSize, 2);
-                currentSize.append("}");
-                OutputUtilities.newLine(currentSize);
-                OutputUtilities.javaIndent(currentSize, 2);
-                currentSize.append("if (currentPage == 0) {");
-                OutputUtilities.newLine(currentSize);
-                OutputUtilities.javaIndent(currentSize, 3);
-                currentSize.append("currentSize = 0;");
-                OutputUtilities.newLine(currentSize);
-                OutputUtilities.javaIndent(currentSize, 2);
-                currentSize.append("}");
-                OutputUtilities.newLine(currentSize);
-                OutputUtilities.javaIndent(currentSize, 2);
-                currentSize.append("else {");
-                OutputUtilities.newLine(currentSize);
-                OutputUtilities.javaIndent(currentSize, 3);
-                currentSize.append("currentSize = currentPage * pageSize;");
-                OutputUtilities.newLine(currentSize);
-                OutputUtilities.javaIndent(currentSize, 2);
-                currentSize.append("}");
-                OutputUtilities.newLine(currentSize);
-                OutputUtilities.javaIndent(currentSize, 2);
-                currentSize.append("return ").append(column.getJavaName()).append(";");
-
-                OutputUtilities.newLine(currentSize);
-                OutputUtilities.javaIndent(currentSize, 1);
-                currentSize.append("}");
-                OutputUtilities.newLine(currentSize);
-
-                builder.append(currentSize);
+                List<String> bodyLines = new ArrayList<String>();
+                bodyLines.add("if (currentPage > 0) {");
+                bodyLines.add("--currentPage;");
+                bodyLines.add("}");
+                bodyLines.add("if (currentPage == 0) {");
+                bodyLines.add("currentSize = 0;");
+                bodyLines.add("}");
+                bodyLines.add("else {");
+                bodyLines.add("currentSize = currentPage * pageSize;");
+                bodyLines.add("}");
+                bodyLines.add("return currentSize;");
+                builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false,
+                        false, false, column.getJavaType(), column.getJavaName(), null, null, bodyLines,
+                        "取得 分页 当前页起始条数"));
             }
             else {
                 builder.append(JavaBeansUtil.getJavaBeansGetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),

@@ -458,6 +458,17 @@ public class JavaBeansUtil {
         String remarks) {
 
         StringBuilder buffer = new StringBuilder();
+        if (null != remarks && "" != remarks) {
+            OutputUtilities.newLine(buffer);
+            OutputUtilities.javaIndent(buffer, indentLevel);
+            buffer.append("/**");
+            OutputUtilities.newLine(buffer);
+            OutputUtilities.javaIndent(buffer, indentLevel);
+            buffer.append(" * ").append(remarks);
+            OutputUtilities.newLine(buffer);
+            OutputUtilities.javaIndent(buffer, indentLevel);
+            buffer.append(" */");
+        }
         OutputUtilities.newLine(buffer);
         OutputUtilities.javaIndent(buffer, indentLevel);
         if (!isInterface) {
