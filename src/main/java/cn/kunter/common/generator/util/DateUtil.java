@@ -14,7 +14,7 @@ public class DateUtil {
     /** 格式化日期对象 */
     private static SimpleDateFormat format = new SimpleDateFormat();
     /** 日期格式： yyyy年M月dd日 */
-    public static final String PATTERN_YYYY_M_DD_NC = "yyyy年M月dd日";
+    public static final String PATTERN_YYYY_M_D_NC = "yyyy年M月d日";
 
     /**
      * 取得系统日期
@@ -23,7 +23,7 @@ public class DateUtil {
      */
     public static String getSysDate() {
 
-        format.applyPattern(PATTERN_YYYY_M_DD_NC);
+        format.applyPattern(PATTERN_YYYY_M_D_NC);
         String returnString = format.format(new Date());
         return returnString;
     }

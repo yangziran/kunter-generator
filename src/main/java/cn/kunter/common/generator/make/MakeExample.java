@@ -19,6 +19,7 @@ import cn.kunter.common.generator.util.DateUtil;
 import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.JavaBeansUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
+import cn.kunter.common.generator.util.StringUtility;
 
 /**
  * 实体查询条件生成
@@ -122,8 +123,70 @@ public class MakeExample {
 
         for (Column column : table.getExample()) {
 
-            builder.append(JavaBeansUtil.getJavaBeansGetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
-                    column.getJavaType(), column.getRemarks()));
+            // 特殊处理分页计算当前页起始条数
+            if (column.getJavaName().equals("currentSize")) {
+                StringBuilder currentSize = new StringBuilder();
+                if (StringUtility.isNotEmpty(column.getRemarks())) {
+                    OutputUtilities.newLine(currentSize);
+                    OutputUtilities.javaIndent(currentSize, 1);
+                    currentSize.append("/**");
+                    OutputUtilities.newLine(currentSize);
+                    OutputUtilities.javaIndent(currentSize, 1);
+                    currentSize.append(" * ").append("取得 ").append(column.getRemarks());
+                    OutputUtilities.newLine(currentSize);
+                    OutputUtilities.javaIndent(currentSize, 1);
+                    currentSize.append(" * ").append("@return ").append(column.getRemarks());
+                    OutputUtilities.newLine(currentSize);
+                    OutputUtilities.javaIndent(currentSize, 1);
+                    currentSize.append(" */");
+                }
+                OutputUtilities.newLine(currentSize);
+                OutputUtilities.javaIndent(currentSize, 1);
+                currentSize.append(JavaVisibility.PUBLIC.getValue()).append(column.getJavaType()).append(" ")
+                        .append(JavaBeansUtil.getGetterMethodName(column.getJavaName())).append("() {");
+                OutputUtilities.newLine(currentSize);
+                OutputUtilities.javaIndent(currentSize, 2);
+
+                currentSize.append("if (currentPage > 0) {");
+                OutputUtilities.newLine(currentSize);
+                OutputUtilities.javaIndent(currentSize, 3);
+                currentSize.append("--currentPage;");
+                OutputUtilities.newLine(currentSize);
+                OutputUtilities.javaIndent(currentSize, 2);
+                currentSize.append("}");
+                OutputUtilities.newLine(currentSize);
+                OutputUtilities.javaIndent(currentSize, 2);
+                currentSize.append("if (currentPage == 0) {");
+                OutputUtilities.newLine(currentSize);
+                OutputUtilities.javaIndent(currentSize, 3);
+                currentSize.append("currentSize = 0;");
+                OutputUtilities.newLine(currentSize);
+                OutputUtilities.javaIndent(currentSize, 2);
+                currentSize.append("}");
+                OutputUtilities.newLine(currentSize);
+                OutputUtilities.javaIndent(currentSize, 2);
+                currentSize.append("else {");
+                OutputUtilities.newLine(currentSize);
+                OutputUtilities.javaIndent(currentSize, 3);
+                currentSize.append("currentSize = currentPage * pageSize;");
+                OutputUtilities.newLine(currentSize);
+                OutputUtilities.javaIndent(currentSize, 2);
+                currentSize.append("}");
+                OutputUtilities.newLine(currentSize);
+                OutputUtilities.javaIndent(currentSize, 2);
+                currentSize.append("return ").append(column.getJavaName()).append(";");
+
+                OutputUtilities.newLine(currentSize);
+                OutputUtilities.javaIndent(currentSize, 1);
+                currentSize.append("}");
+                OutputUtilities.newLine(currentSize);
+
+                builder.append(currentSize);
+            }
+            else {
+                builder.append(JavaBeansUtil.getJavaBeansGetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
+                        column.getJavaType(), column.getRemarks()));
+            }
 
             builder.append(JavaBeansUtil.getJavaBeansSetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
                     column.getJavaType(), column.getRemarks()));
