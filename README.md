@@ -10,8 +10,11 @@
 本工具参考MyBatis官方generator设计而成，参考版本为（1.3.2）。具有生成项目基础代码、根据数据库生成Excel格式的设计文档、根据Excel格式生成创建数据库脚本功能，
 为了方便项目随时更换底层，生成的基础代码独立目录，不建议对生成的代码进行修改；目前设计支持Oracle、MySQL、PostgreSQL
 
+## 添加Service层代码生成，老的代码生成器不支持Service生成，调整了生成代码结构、整合了BaseDAO和BaseService，代码运行GeneratorService会生成整套新代码
+
 ## 更新日志
 
+- 2016-4-21 调整项目包结构，添加Service层代码生成
 - 2016-4-20 修正Example文件生成的格式，修正Page计算逻辑，修改文件生成日期为当前日期，Example文件中添加由当前页和当前页显示条数计算当前页起始条数，添加分页对象Page的生成
 - 2015-12-21 添加JDBC连接参数，修复生成Excel一览页面表名称链接问题，修复Excel生成SQL类型读取错误
 - 2015-12-18 修复PostgreSQL读取不到表列表的BUG
@@ -29,8 +32,12 @@
 ## 基础代码生成
 
 生成文件列表：
-- Page
-- BaseDAO
+- Page *
+- BaseService *
+- BaseServiceImpl *
+- Service *
+- ServiceImpl *
+- BaseDAO ^
 - DAO
 - BaseMapper
 - Mapper
@@ -39,6 +46,8 @@
 - mybatis-config-*.xml
 - CreateTableSQL-*.sql(从EXCEL设计文档生成指定数据库的建表语句)
 - 表结构一览.xlsx(从数据库生成EXCEL设计文档)
+
+##### 标*的表示新的代码生成文件，标^的表示两套生成的不一致不兼容
 
 配置说明：
 ####1. 配置文件目录：/src/main/resources
@@ -64,8 +73,22 @@
 >>  [e] target：输出目录，可以为绝对目录或者相对目录，例：target/ 当前kunter-generator下的target/
 
 >>>  根据以上配置，模拟生成如下所述文件：
->>>    * Page：cn.kunter.common.eo
 >>>    * BaseDAO：cn.kunter.base.dao.base
+>>>    * DAO：cn.kunter.base.dao
+>>>    * BaseMapper：cn/kunter/base/xml/base
+>>>    * Mapper：cn/kunter/base/xml
+>>>    * EO：cn.kunter.base.eo
+>>>    * EOExample：cn.kunter.base.eo
+>>>    * mybatis-config-base.xml：指定的target目录下
+>>>    * 如果target参数直接指定的开发项目，如果需要，手动将BaseMapper和Mapper挪到/src/main/resources
+
+>>>  新的生成器，模拟生成如下所述文件：
+>>>    * Page：cn.kunter.common.eo
+>>>    * BaseService：cn.kunter.common.service
+>>>    * BastServiceImpl：cn.kunter.common.service.impl
+>>>    * Service：cn.kunter.base.service
+>>>    * ServiceImpl：cn.kunter.base.service.impl
+>>>    * BaseDAO：cn.kunter.common.dao
 >>>    * DAO：cn.kunter.base.dao
 >>>    * BaseMapper：cn/kunter/base/xml/base
 >>>    * Mapper：cn/kunter/base/xml
@@ -76,6 +99,9 @@
 
 ### Main
 > cn/kunter/common/generator/main/Generator.java
+
+> cn/kunter/common/generator/main/GeneratorService.java
+>> 两套代码DAO不兼容,老版本的生成的DAO无法适用生成的Service
 
 ### 单文件生成
 > cn/kunter/common/generator/make/Make*.java
@@ -97,6 +123,36 @@
 * int updateByExample_physical(@Param("record") <?> record, @Param("example") <?>Example example);
 * int updateByExampleSelective(@Param("record") <?> record, @Param("example") <?>Example example);
 * int updateByExampleSelective_physical(@Param("record") <?> record, @Param("example") <?>Example example);
+* int deleteByExample(<?>Example example);
+* int deleteByExample_physical(<?>Example example);
+* <?> selectByPrimaryKey(Map<String, Object> map);
+* <?> selectByPrimaryKey_physical(Map<String, Object> map);
+* int updateByPrimaryKey(<?> record);
+* int updateByPrimaryKey_physical(<?> record);
+* int updateByPrimaryKeySelective(<?> record);
+* int updateByPrimaryKeySelective_physical(<?> record);
+* int deleteByPrimaryKey(Map<String, Object> map);
+* int deleteByPrimaryKey_physical(Map<String, Object> map);
+
+### Service方法列表
+* int countByExample(<?>Example example);
+* int countByExample_physical(<?>Example example);
+* List<?> selectByExample(<?>Example example);
+* List<?> selectByExample_physical(<?>Example example);
+* Page selectPageByExample(<?>Example example);
+* Page selectPageByExample_physical(<?>Example example);
+* int insert(<?> record);
+* int insert_physical(<?> record);
+* int insertList(List<?> record);
+* int insertList_physical(List<?> record);
+* int insertSelective(<?> record);
+* int insertSelective_physical(<?> record);
+* int insertListSelective(List<?> record);
+* int insertListSelective_physical(List<?> record);
+* int updateByExample(<?> record, <?>Example example);
+* int updateByExample_physical(<?> record, <?>Example example);
+* int updateByExampleSelective(<?> record, <?>Example example);
+* int updateByExampleSelective_physical(<?> record, <?>Example example);
 * int deleteByExample(<?>Example example);
 * int deleteByExample_physical(<?>Example example);
 * <?> selectByPrimaryKey(Map<String, Object> map);

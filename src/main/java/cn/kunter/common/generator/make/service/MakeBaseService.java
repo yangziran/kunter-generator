@@ -1,15 +1,12 @@
 /**
  * 
  */
-package cn.kunter.common.generator.make;
-
-import java.util.List;
+package cn.kunter.common.generator.make.service;
 
 import cn.kunter.common.generator.config.PackageHolder;
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Method;
 import cn.kunter.common.generator.entity.Parameter;
-import cn.kunter.common.generator.entity.Table;
 import cn.kunter.common.generator.type.FullyQualifiedJavaType;
 import cn.kunter.common.generator.type.JavaVisibility;
 import cn.kunter.common.generator.util.DaoMethodNameUtil;
@@ -19,61 +16,39 @@ import cn.kunter.common.generator.util.JavaBeansUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
 
 /**
- * 自动生成DAO生成
+ * 生成基础Service类
  * @author yangziran
- * @version 1.0 2014年11月16日
+ * @version 1.0 2016年4月21日
  */
-public class MakeBaseDao {
+public class MakeBaseService {
 
     private final static boolean LOGICAL = PropertyHolder.getBooleanVal("logical");
 
     public static void main(String[] args) throws Exception {
 
-        List<Table> tables = GetTableConfig.getTableConfig();
-
-        for (final Table table : tables) {
-
-            Thread thread = new Thread(new Runnable() {
-
-                public void run() {
-                    try {
-                        MakeBaseDao.makerBaseDao(table);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            thread.start();
-        }
+        MakeBaseService.makeBaseService();
     }
 
     /**
-     * 自动生成DAO生成
-     * @param table
+     * 生成基础Service类
      * @throws Exception
      * @author yangziran
      */
-    public static void makerBaseDao(Table table) throws Exception {
+    public static void makeBaseService() throws Exception {
 
-        String baseDaoPackages = PackageHolder.getBaseDaoPackage(table.getTableName());
-        String entityPackages = PackageHolder.getEntityPackage(table.getTableName());
+        String baseServicePackages = PackageHolder.getBaseServicePackage();
 
         StringBuilder builder = new StringBuilder();
-        builder.append(JavaBeansUtil.getPackages(baseDaoPackages));
+        builder.append(JavaBeansUtil.getPackages(baseServicePackages));
 
         builder.append(JavaBeansUtil.getImports("java.util.List", false, true));
         builder.append(JavaBeansUtil.getImports("java.util.Map", false, false));
-        builder.append(JavaBeansUtil.getImports("org.apache.ibatis.annotations.Param", false, true));
-        builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName(), false, true));
-        builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName() + "Example", false, false));
+        builder.append(JavaBeansUtil.getImports(PackageHolder.getPageEntityPackage() + ".Page", false, true));
 
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
-        builder.append(" * 类名称：");
-        builder.append(table.getTableName());
-        builder.append("表的BaseDAO接口类");
-        builder.append("Base" + table.getJavaName() + "Dao");
+        builder.append(" * 类名称：公共业务处理类 BaseService");
         OutputUtilities.newLine(builder);
         builder.append(" * 内容摘要：针对于单表的基础操作：增删改查以及统计方法，包含物理逻辑操作");
         OutputUtilities.newLine(builder);
@@ -83,7 +58,7 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         builder.append(" */");
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), true, false, false, true,
-                false, null, null, "Base" + table.getJavaName() + "Dao", table.getRemarks()));
+                false, null, null, "BaseService<T, Example>", null));
 
         Method method = new Method();
         FullyQualifiedJavaType fqjt;
@@ -92,7 +67,7 @@ public class MakeBaseDao {
             method.setName(DaoMethodNameUtil.getCountByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
+            fqjt = new FullyQualifiedJavaType("Example");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -111,7 +86,7 @@ public class MakeBaseDao {
         method.setName(DaoMethodNameUtil.getCountByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
+        fqjt = new FullyQualifiedJavaType("Example");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
@@ -128,9 +103,9 @@ public class MakeBaseDao {
             OutputUtilities.newLine(builder);
             method = new Method();
             method.setName(DaoMethodNameUtil.getSelectByExample(LOGICAL));
-            fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
+            fqjt = new FullyQualifiedJavaType("List<T>");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
+            fqjt = new FullyQualifiedJavaType("Example");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -147,9 +122,9 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         method = new Method();
         method.setName(DaoMethodNameUtil.getSelectByExample(!LOGICAL));
-        fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
+        fqjt = new FullyQualifiedJavaType("List<T>");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
+        fqjt = new FullyQualifiedJavaType("Example");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
@@ -165,10 +140,48 @@ public class MakeBaseDao {
         if (LOGICAL) {
             OutputUtilities.newLine(builder);
             method = new Method();
+            method.setName(DaoMethodNameUtil.getSelectPageByExample(LOGICAL));
+            fqjt = new FullyQualifiedJavaType("Page");
+            method.setReturnType(fqjt);
+            fqjt = new FullyQualifiedJavaType("Example");
+            parameter = new Parameter(fqjt, "example");
+            method.addParameter(parameter);
+            method.addJavaDocLine("/**");
+            method.addJavaDocLine(" * 根据条件分页查询表中数据 未删除【删除标识=0】");
+            for (Parameter parame : method.getParameters()) {
+                method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
+            }
+            method.addJavaDocLine(" * @return " + method.getReturnType() + " 分页对象");
+            method.addJavaDocLine(" */");
+            OutputUtilities.newLine(builder);
+            builder.append(method.getFormattedContent(1, true));
+        }
+
+        OutputUtilities.newLine(builder);
+        method = new Method();
+        method.setName(DaoMethodNameUtil.getSelectPageByExample(!LOGICAL));
+        fqjt = new FullyQualifiedJavaType("Page");
+        method.setReturnType(fqjt);
+        fqjt = new FullyQualifiedJavaType("Example");
+        parameter = new Parameter(fqjt, "example");
+        method.addParameter(parameter);
+        method.addJavaDocLine("/**");
+        method.addJavaDocLine(" * 根据条件分页查询表中数据 所有数据");
+        for (Parameter parame : method.getParameters()) {
+            method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
+        }
+        method.addJavaDocLine(" * @return " + method.getReturnType() + " 分页对象");
+        method.addJavaDocLine(" */");
+        OutputUtilities.newLine(builder);
+        builder.append(method.getFormattedContent(1, true));
+
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            method = new Method();
             method.setName(DaoMethodNameUtil.getInsert(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType(table.getJavaName());
+            fqjt = new FullyQualifiedJavaType("T");
             parameter = new Parameter(fqjt, "record");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -187,7 +200,7 @@ public class MakeBaseDao {
         method.setName(DaoMethodNameUtil.getInsert(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType(table.getJavaName());
+        fqjt = new FullyQualifiedJavaType("T");
         parameter = new Parameter(fqjt, "record");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
@@ -206,7 +219,7 @@ public class MakeBaseDao {
             method.setName(DaoMethodNameUtil.getInsertList(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
+            fqjt = new FullyQualifiedJavaType("List<T>");
             parameter = new Parameter(fqjt, "record");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -225,7 +238,7 @@ public class MakeBaseDao {
         method.setName(DaoMethodNameUtil.getInsertList(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
+        fqjt = new FullyQualifiedJavaType("List<T>");
         parameter = new Parameter(fqjt, "record");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
@@ -244,7 +257,7 @@ public class MakeBaseDao {
             method.setName(DaoMethodNameUtil.getInsertSelective(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType(table.getJavaName());
+            fqjt = new FullyQualifiedJavaType("T");
             parameter = new Parameter(fqjt, "record");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -263,7 +276,7 @@ public class MakeBaseDao {
         method.setName(DaoMethodNameUtil.getInsertSelective(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType(table.getJavaName());
+        fqjt = new FullyQualifiedJavaType("T");
         parameter = new Parameter(fqjt, "record");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
@@ -282,7 +295,7 @@ public class MakeBaseDao {
             method.setName(DaoMethodNameUtil.getInsertListSelective(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
+            fqjt = new FullyQualifiedJavaType("List<T>");
             parameter = new Parameter(fqjt, "record");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -301,7 +314,7 @@ public class MakeBaseDao {
         method.setName(DaoMethodNameUtil.getInsertListSelective(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("List<" + table.getJavaName() + ">");
+        fqjt = new FullyQualifiedJavaType("List<T>");
         parameter = new Parameter(fqjt, "record");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
@@ -320,17 +333,16 @@ public class MakeBaseDao {
             method.setName(DaoMethodNameUtil.getUpdateByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("@Param(\"record\") " + table.getJavaName());
+            fqjt = new FullyQualifiedJavaType("T");
             parameter = new Parameter(fqjt, "record");
             method.addParameter(parameter);
-            fqjt = new FullyQualifiedJavaType("@Param(\"example\") " + table.getJavaName() + "Example");
+            fqjt = new FullyQualifiedJavaType("Example");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
             method.addJavaDocLine(" * 根据条件修改数据 未删除【删除标识=0】");
             for (Parameter parame : method.getParameters()) {
-                method.addJavaDocLine(
-                        " * @param " + parame.getName() + " " + parame.getType().toString().split(" ")[1]);
+                method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
             }
             method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
             method.addJavaDocLine(" */");
@@ -343,16 +355,16 @@ public class MakeBaseDao {
         method.setName(DaoMethodNameUtil.getUpdateByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("@Param(\"record\") " + table.getJavaName());
+        fqjt = new FullyQualifiedJavaType("T");
         parameter = new Parameter(fqjt, "record");
         method.addParameter(parameter);
-        fqjt = new FullyQualifiedJavaType("@Param(\"example\") " + table.getJavaName() + "Example");
+        fqjt = new FullyQualifiedJavaType("Example");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 根据条件修改数据 所有数据");
         for (Parameter parame : method.getParameters()) {
-            method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType().toString().split(" ")[1]);
+            method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
         }
         method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
         method.addJavaDocLine(" */");
@@ -365,17 +377,16 @@ public class MakeBaseDao {
             method.setName(DaoMethodNameUtil.getUpdateByExampleSelective(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("@Param(\"record\") " + table.getJavaName());
+            fqjt = new FullyQualifiedJavaType("T");
             parameter = new Parameter(fqjt, "record");
             method.addParameter(parameter);
-            fqjt = new FullyQualifiedJavaType("@Param(\"example\") " + table.getJavaName() + "Example");
+            fqjt = new FullyQualifiedJavaType("Example");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
             method.addJavaDocLine(" * 根据条件修改数据 字段为空不修改 未删除【删除标识=0】");
             for (Parameter parame : method.getParameters()) {
-                method.addJavaDocLine(
-                        " * @param " + parame.getName() + " " + parame.getType().toString().split(" ")[1]);
+                method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
             }
             method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
             method.addJavaDocLine(" */");
@@ -388,16 +399,16 @@ public class MakeBaseDao {
         method.setName(DaoMethodNameUtil.getUpdateByExampleSelective(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("@Param(\"record\") " + table.getJavaName());
+        fqjt = new FullyQualifiedJavaType("T");
         parameter = new Parameter(fqjt, "record");
         method.addParameter(parameter);
-        fqjt = new FullyQualifiedJavaType("@Param(\"example\") " + table.getJavaName() + "Example");
+        fqjt = new FullyQualifiedJavaType("Example");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 根据条件修改数据 字段为空不修改 所有数据");
         for (Parameter parame : method.getParameters()) {
-            method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType().toString().split(" ")[1]);
+            method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
         }
         method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
         method.addJavaDocLine(" */");
@@ -410,7 +421,7 @@ public class MakeBaseDao {
             method.setName(DaoMethodNameUtil.getDeleteByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
+            fqjt = new FullyQualifiedJavaType("Example");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -429,7 +440,7 @@ public class MakeBaseDao {
         method.setName(DaoMethodNameUtil.getDeleteByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType(table.getJavaName() + "Example");
+        fqjt = new FullyQualifiedJavaType("Example");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
@@ -442,39 +453,17 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(1, true));
 
-        // 有主键
-        if (table.getPrimaryKey() != null && table.getPrimaryKey().size() > 0) {
-
-            if (LOGICAL) {
-                OutputUtilities.newLine(builder);
-                method = new Method();
-                method.setName(DaoMethodNameUtil.getSelectByPrimaryKey(LOGICAL));
-                fqjt = new FullyQualifiedJavaType(table.getJavaName());
-                method.setReturnType(fqjt);
-                fqjt = new FullyQualifiedJavaType("Map<String, Object>");
-                parameter = new Parameter(fqjt, "map");
-                method.addParameter(parameter);
-                method.addJavaDocLine("/**");
-                method.addJavaDocLine(" * 根据主键查询数据 未删除【删除标识=0】");
-                for (Parameter parame : method.getParameters()) {
-                    method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
-                }
-                method.addJavaDocLine(" * @return " + method.getReturnType() + " 数据对象");
-                method.addJavaDocLine(" */");
-                OutputUtilities.newLine(builder);
-                builder.append(method.getFormattedContent(1, true));
-            }
-
+        if (LOGICAL) {
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName(DaoMethodNameUtil.getSelectByPrimaryKey(!LOGICAL));
-            fqjt = new FullyQualifiedJavaType(table.getJavaName());
+            method.setName(DaoMethodNameUtil.getSelectByPrimaryKey(LOGICAL));
+            fqjt = new FullyQualifiedJavaType("T");
             method.setReturnType(fqjt);
             fqjt = new FullyQualifiedJavaType("Map<String, Object>");
             parameter = new Parameter(fqjt, "map");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
-            method.addJavaDocLine(" * 根据主键查询数据 所有数据");
+            method.addJavaDocLine(" * 根据主键查询数据 未删除【删除标识=0】");
             for (Parameter parame : method.getParameters()) {
                 method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
             }
@@ -482,113 +471,37 @@ public class MakeBaseDao {
             method.addJavaDocLine(" */");
             OutputUtilities.newLine(builder);
             builder.append(method.getFormattedContent(1, true));
+        }
 
-            if (LOGICAL) {
-                OutputUtilities.newLine(builder);
-                method = new Method();
-                method.setName(DaoMethodNameUtil.getUpdateByPrimaryKey(LOGICAL));
-                fqjt = new FullyQualifiedJavaType("int");
-                method.setReturnType(fqjt);
-                fqjt = new FullyQualifiedJavaType(table.getJavaName());
-                parameter = new Parameter(fqjt, "record");
-                method.addParameter(parameter);
-                method.addJavaDocLine("/**");
-                method.addJavaDocLine(" * 根据主键修改数据 未删除【删除标识=0】");
-                for (Parameter parame : method.getParameters()) {
-                    method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
-                }
-                method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
-                method.addJavaDocLine(" */");
-                OutputUtilities.newLine(builder);
-                builder.append(method.getFormattedContent(1, true));
-            }
+        OutputUtilities.newLine(builder);
+        method = new Method();
+        method.setName(DaoMethodNameUtil.getSelectByPrimaryKey(!LOGICAL));
+        fqjt = new FullyQualifiedJavaType("T");
+        method.setReturnType(fqjt);
+        fqjt = new FullyQualifiedJavaType("Map<String, Object>");
+        parameter = new Parameter(fqjt, "map");
+        method.addParameter(parameter);
+        method.addJavaDocLine("/**");
+        method.addJavaDocLine(" * 根据主键查询数据 所有数据");
+        for (Parameter parame : method.getParameters()) {
+            method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
+        }
+        method.addJavaDocLine(" * @return " + method.getReturnType() + " 数据对象");
+        method.addJavaDocLine(" */");
+        OutputUtilities.newLine(builder);
+        builder.append(method.getFormattedContent(1, true));
 
+        if (LOGICAL) {
             OutputUtilities.newLine(builder);
             method = new Method();
-            method.setName(DaoMethodNameUtil.getUpdateByPrimaryKey(!LOGICAL));
+            method.setName(DaoMethodNameUtil.getUpdateByPrimaryKey(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType(table.getJavaName());
+            fqjt = new FullyQualifiedJavaType("T");
             parameter = new Parameter(fqjt, "record");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
-            method.addJavaDocLine(" * 根据主键修改数据 所有数据");
-            for (Parameter parame : method.getParameters()) {
-                method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
-            }
-            method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
-            method.addJavaDocLine(" */");
-            OutputUtilities.newLine(builder);
-            builder.append(method.getFormattedContent(1, true));
-
-            if (LOGICAL) {
-                OutputUtilities.newLine(builder);
-                method = new Method();
-                method.setName(DaoMethodNameUtil.getUpdateByPrimaryKeySelective(LOGICAL));
-                fqjt = new FullyQualifiedJavaType("int");
-                method.setReturnType(fqjt);
-                fqjt = new FullyQualifiedJavaType(table.getJavaName());
-                parameter = new Parameter(fqjt, "record");
-                method.addParameter(parameter);
-                method.addJavaDocLine("/**");
-                method.addJavaDocLine(" * 根据主键修改数据 字段为空不修改 未删除【删除标识=0】");
-                for (Parameter parame : method.getParameters()) {
-                    method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
-                }
-                method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
-                method.addJavaDocLine(" */");
-                OutputUtilities.newLine(builder);
-                builder.append(method.getFormattedContent(1, true));
-            }
-
-            OutputUtilities.newLine(builder);
-            method = new Method();
-            method.setName(DaoMethodNameUtil.getUpdateByPrimaryKeySelective(!LOGICAL));
-            fqjt = new FullyQualifiedJavaType("int");
-            method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType(table.getJavaName());
-            parameter = new Parameter(fqjt, "record");
-            method.addParameter(parameter);
-            method.addJavaDocLine("/**");
-            method.addJavaDocLine(" * 根据主键修改数据 字段为空不修改 所有数据");
-            for (Parameter parame : method.getParameters()) {
-                method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
-            }
-            method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
-            method.addJavaDocLine(" */");
-            OutputUtilities.newLine(builder);
-            builder.append(method.getFormattedContent(1, true));
-
-            if (LOGICAL) {
-                OutputUtilities.newLine(builder);
-                method = new Method();
-                method.setName(DaoMethodNameUtil.getDeleteByPrimaryKey(LOGICAL));
-                fqjt = new FullyQualifiedJavaType("int");
-                method.setReturnType(fqjt);
-                fqjt = new FullyQualifiedJavaType("Map<String, Object>");
-                parameter = new Parameter(fqjt, "map");
-                method.addParameter(parameter);
-                method.addJavaDocLine("/**");
-                method.addJavaDocLine(" * 根据主键删除数据 逻辑删除 将【删除标识=1】");
-                for (Parameter parame : method.getParameters()) {
-                    method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
-                }
-                method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
-                method.addJavaDocLine(" */");
-                OutputUtilities.newLine(builder);
-                builder.append(method.getFormattedContent(1, true));
-            }
-
-            OutputUtilities.newLine(builder);
-            method = new Method();
-            method.setName(DaoMethodNameUtil.getDeleteByPrimaryKey(!LOGICAL));
-            fqjt = new FullyQualifiedJavaType("int");
-            method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("Map<String, Object>");
-            parameter = new Parameter(fqjt, "map");
-            method.addParameter(parameter);
-            method.addJavaDocLine("/**");
-            method.addJavaDocLine(" * 根据主键删除数据 物理删除");
+            method.addJavaDocLine(" * 根据主键修改数据 未删除【删除标识=0】");
             for (Parameter parame : method.getParameters()) {
                 method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
             }
@@ -597,9 +510,103 @@ public class MakeBaseDao {
             OutputUtilities.newLine(builder);
             builder.append(method.getFormattedContent(1, true));
         }
+
+        OutputUtilities.newLine(builder);
+        method = new Method();
+        method.setName(DaoMethodNameUtil.getUpdateByPrimaryKey(!LOGICAL));
+        fqjt = new FullyQualifiedJavaType("int");
+        method.setReturnType(fqjt);
+        fqjt = new FullyQualifiedJavaType("T");
+        parameter = new Parameter(fqjt, "record");
+        method.addParameter(parameter);
+        method.addJavaDocLine("/**");
+        method.addJavaDocLine(" * 根据主键修改数据 所有数据");
+        for (Parameter parame : method.getParameters()) {
+            method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
+        }
+        method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
+        method.addJavaDocLine(" */");
+        OutputUtilities.newLine(builder);
+        builder.append(method.getFormattedContent(1, true));
+
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            method = new Method();
+            method.setName(DaoMethodNameUtil.getUpdateByPrimaryKeySelective(LOGICAL));
+            fqjt = new FullyQualifiedJavaType("int");
+            method.setReturnType(fqjt);
+            fqjt = new FullyQualifiedJavaType("T");
+            parameter = new Parameter(fqjt, "record");
+            method.addParameter(parameter);
+            method.addJavaDocLine("/**");
+            method.addJavaDocLine(" * 根据主键修改数据 字段为空不修改 未删除【删除标识=0】");
+            for (Parameter parame : method.getParameters()) {
+                method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
+            }
+            method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
+            method.addJavaDocLine(" */");
+            OutputUtilities.newLine(builder);
+            builder.append(method.getFormattedContent(1, true));
+        }
+
+        OutputUtilities.newLine(builder);
+        method = new Method();
+        method.setName(DaoMethodNameUtil.getUpdateByPrimaryKeySelective(!LOGICAL));
+        fqjt = new FullyQualifiedJavaType("int");
+        method.setReturnType(fqjt);
+        fqjt = new FullyQualifiedJavaType("T");
+        parameter = new Parameter(fqjt, "record");
+        method.addParameter(parameter);
+        method.addJavaDocLine("/**");
+        method.addJavaDocLine(" * 根据主键修改数据 字段为空不修改 所有数据");
+        for (Parameter parame : method.getParameters()) {
+            method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
+        }
+        method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
+        method.addJavaDocLine(" */");
+        OutputUtilities.newLine(builder);
+        builder.append(method.getFormattedContent(1, true));
+
+        if (LOGICAL) {
+            OutputUtilities.newLine(builder);
+            method = new Method();
+            method.setName(DaoMethodNameUtil.getDeleteByPrimaryKey(LOGICAL));
+            fqjt = new FullyQualifiedJavaType("int");
+            method.setReturnType(fqjt);
+            fqjt = new FullyQualifiedJavaType("Map<String, Object>");
+            parameter = new Parameter(fqjt, "map");
+            method.addParameter(parameter);
+            method.addJavaDocLine("/**");
+            method.addJavaDocLine(" * 根据主键删除数据 逻辑删除 将【删除标识=1】");
+            for (Parameter parame : method.getParameters()) {
+                method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
+            }
+            method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
+            method.addJavaDocLine(" */");
+            OutputUtilities.newLine(builder);
+            builder.append(method.getFormattedContent(1, true));
+        }
+
+        OutputUtilities.newLine(builder);
+        method = new Method();
+        method.setName(DaoMethodNameUtil.getDeleteByPrimaryKey(!LOGICAL));
+        fqjt = new FullyQualifiedJavaType("int");
+        method.setReturnType(fqjt);
+        fqjt = new FullyQualifiedJavaType("Map<String, Object>");
+        parameter = new Parameter(fqjt, "map");
+        method.addParameter(parameter);
+        method.addJavaDocLine("/**");
+        method.addJavaDocLine(" * 根据主键删除数据 物理删除");
+        for (Parameter parame : method.getParameters()) {
+            method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType());
+        }
+        method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
+        method.addJavaDocLine(" */");
+        OutputUtilities.newLine(builder);
+        builder.append(method.getFormattedContent(1, true));
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseDaoPackages.replaceAll("\\.", "/") + "/Base"
-                + table.getJavaName() + "Dao.java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseServicePackages.replaceAll("\\.", "/")
+                + "/BaseService.java", builder.toString());
     }
 }
