@@ -16,6 +16,8 @@ public class DaoMethodNameUtil {
     private static final String COUNTBYEXAMPLE = "countByExample";
     /** 根据条件查询 */
     private static final String SELECTBYEXAMPLE = "selectByExample";
+    /** 根据条件分页查询 */
+    private static final String SELECTPAGEBYEXAMPLE = "selectPageByExample";
     /** 插入数据 */
     private static final String INSERT = "insert";
     /** 批量插入数据 */
@@ -57,6 +59,16 @@ public class DaoMethodNameUtil {
      */
     public static String getSelectByExample(boolean physical) {
         return physical ? SELECTBYEXAMPLE : SELECTBYEXAMPLE + PHYSICAL;
+    }
+
+    /**
+     * 获取分页查询数据方法名称
+     * @param physical 是否逻辑操作 物理操作logical参数取非传入
+     * @return String 方法名称
+     * @author 阳自然
+     */
+    public static String getSelectPageByExample(boolean physical) {
+        return physical ? SELECTPAGEBYEXAMPLE : SELECTPAGEBYEXAMPLE + PHYSICAL;
     }
 
     /**

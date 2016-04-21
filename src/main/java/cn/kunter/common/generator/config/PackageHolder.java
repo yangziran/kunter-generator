@@ -36,16 +36,6 @@ public class PackageHolder {
     }
 
     /**
-     * 获取到分页对象类包名
-     * @return
-     * @author yangziran
-     */
-    public static String getPageEntityPackage() {
-
-        return getPackage("common").append("eo").toString();
-    }
-
-    /**
      * 获取到实体类包名
      * @param tableName 表名称，model为true的时候通过“_”截取表名称前前一节为包名
      * @return
@@ -98,5 +88,67 @@ public class PackageHolder {
     public static String getXmlPackage(String tableName) {
 
         return getPackage(tableName).append("xml").toString();
+    }
+
+    /**
+     * 获取到分页对象类包名
+     * @return
+     * @author yangziran
+     */
+    public static String getPageEntityPackage() {
+
+        return getPackage("common").append("eo").toString();
+    }
+
+    /**
+     * 获取到CommonBaseDAO包名
+     * @return
+     * @author yangziran
+     */
+    public static String getCommonBaseDaoPackage() {
+
+        return getPackage("common").append("dao").toString();
+    }
+
+    /**
+     * 获取到BaseService包名
+     * @return
+     * @author yangziran
+     */
+    public static String getBaseServicePackage() {
+
+        return getPackage("common").append("service").toString();
+    }
+
+    /**
+     * 获取到BaseServiceImpl包名
+     * @return
+     * @author yangziran
+     */
+    public static String getBaseServiceImplPackage() {
+
+        return getPackage("common").append("service.impl").toString();
+    }
+
+    /**
+     * 获取到自动生成Service包名
+     * @param tableName 表名称，model为true的时候通过“_”截取表名称前前一节为包名
+     * @return
+     * @author yangziran
+     */
+    public static String getServicePackage(String tableName) {
+
+        return getPackage(tableName).append("service").toString();
+    }
+
+    /**
+     * 获取到扩展ServiceImpl包名
+     * @param tableName 表名称，model为true的时候通过“_”截取表名称前前一节为包名
+     * @return
+     * @author yangziran
+     */
+    public static String getServiceImplPackage(String tableName) {
+
+        return getPackage(tableName).append("service.impl").toString();
     }
 }
