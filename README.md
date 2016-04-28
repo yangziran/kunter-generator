@@ -11,9 +11,17 @@
 为了方便项目随时更换底层，生成的基础代码独立目录，不建议对生成的代码进行修改；目前设计支持Oracle、MySQL、PostgreSQL
 
 ## 添加Service层代码生成，老的代码生成器不支持Service生成，调整了生成代码结构、整合了BaseDAO和BaseService，代码运行GeneratorService会生成整套新代码
+BaseDAO和BaseService、BaseServiceImpl Jar：
+仓库：http://maven.kunter.cn/content/groups/public/
+<dependency>
+  <groupId>cn.kunter</groupId>
+  <artifactId>kunter-base</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+</dependency>
 
 ## 更新日志
 
+- 2016-4-28 调整代码，共通dao和service引用jar包
 - 2016-4-21 调整项目包结构，添加Service层代码生成
 - 2016-4-20 修正Example文件生成的格式，修正Page计算逻辑，修改文件生成日期为当前日期，Example文件中添加由当前页和当前页显示条数计算当前页起始条数，添加分页对象Page的生成
 - 2015-12-21 添加JDBC连接参数，修复生成Excel一览页面表名称链接问题，修复Excel生成SQL类型读取错误
