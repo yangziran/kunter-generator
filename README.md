@@ -16,7 +16,7 @@ BaseDAO和BaseService、BaseServiceImpl Jar：
 <dependency>
   <groupId>cn.kunter</groupId>
   <artifactId>kunter-base</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
 </dependency>
 
 ## 更新日志
