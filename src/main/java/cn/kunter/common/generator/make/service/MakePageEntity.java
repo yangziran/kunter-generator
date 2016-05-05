@@ -132,7 +132,6 @@ public class MakePageEntity {
         builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), true, false, false, false, false,
                 false, null, table.getJavaName(), parameters, null, bodyLines, null));
 
-        OutputUtilities.newLine(builder);
         // Get/Set
         for (Column column : table.getCols()) {
 
@@ -174,6 +173,50 @@ public class MakePageEntity {
             builder.append(JavaBeansUtil.getJavaBeansSetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
                     column.getJavaType(), column.getRemarks()));
         }
+
+        Column currentPage = new Column();
+        currentPage.setJavaName("currentPage");
+        currentPage.setJavaType("int");
+        Column perPage = new Column();
+        perPage.setJavaName("perPage");
+        perPage.setJavaType("int");
+        Column totalRecord = new Column();
+        totalRecord.setJavaName("totalRecord");
+        totalRecord.setJavaType("int");
+
+        List<Column> getStartRecordParameters = new ArrayList<>();
+        getStartRecordParameters.add(currentPage);
+        getStartRecordParameters.add(perPage);
+        List<String> getStartRecord = new ArrayList<String>();
+        getStartRecord.add("int startRecord = 0;");
+        getStartRecord.add("if (currentPage > 0) {");
+        getStartRecord.add("--currentPage;");
+        getStartRecord.add("}");
+        getStartRecord.add("if (currentPage == 0) {");
+        getStartRecord.add("startRecord = 0;");
+        getStartRecord.add("}");
+        getStartRecord.add("else {");
+        getStartRecord.add("startRecord = currentPage * perPage;");
+        getStartRecord.add("}");
+        getStartRecord.add("return startRecord;");
+        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, true,
+                false, "int", "getStartRecord", getStartRecordParameters, null, getStartRecord, "获取起始条数"));
+
+        List<Column> getTotalPageConutParameters = new ArrayList<>();
+        getTotalPageConutParameters.add(totalRecord);
+        getTotalPageConutParameters.add(perPage);
+        List<String> getTotalPageConut = new ArrayList<String>();
+        getTotalPageConut.add("int totalPage = 0;");
+        getTotalPageConut.add("if (totalRecord % perPage == 0) {");
+        getTotalPageConut.add("totalPage = totalRecord / perPage;");
+        getTotalPageConut.add("}");
+        getTotalPageConut.add("else {");
+        getTotalPageConut.add("totalPage = totalRecord / perPage + 1;");
+        getTotalPageConut.add("}");
+        getTotalPageConut.add("return totalPage;");
+        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, true,
+                false, "int", "getTotalPageConut", getTotalPageConutParameters, null, getTotalPageConut, "获取总页数"));
+
         // 类结束
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
