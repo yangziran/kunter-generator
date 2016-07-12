@@ -105,10 +105,10 @@ public class MakeServiceImpl {
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
         builder.append(JavaVisibility.PRIVATE.getValue() + " " + table.getJavaName() + "Dao "
-                + StringUtility.convertTableNameToParameter(table.getJavaName(), "", false) + "Dao;");
+                + StringUtility.uncapitalize(table.getJavaName()) + "Dao;");
 
         List<String> bodyLines = new ArrayList<>();
-        bodyLines.add("return " + StringUtility.convertTableNameToParameter(table.getJavaName(), "", false) + "Dao;");
+        bodyLines.add("return " + StringUtility.uncapitalize(table.getJavaName()) + "Dao;");
         OutputUtilities.newLine(builder);
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);

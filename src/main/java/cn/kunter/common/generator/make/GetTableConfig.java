@@ -170,7 +170,7 @@ public class GetTableConfig {
             exp.close();
 
             // 获取到列集合
-            ResultSet columns = metaData.getColumns(connection.getCatalog(), schema, TABLE_NAME, null);
+            ResultSet columns = metaData.getColumns(connection.getCatalog(), schema, TABLE_NAME, "%");
             while (columns.next()) {
                 Column column = new Column();
                 String COLUMN_NAME = columns.getString("COLUMN_NAME");
