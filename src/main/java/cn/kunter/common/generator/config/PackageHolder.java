@@ -151,13 +151,6 @@ public class PackageHolder {
         return getPackage("common").append("service.impl").toString();
     }
 
-    public static void main(String[] args) {
-        System.out.println(getPageEntityPackage());
-        System.out.println(getCommonBaseDaoPackage());
-        System.out.println(getBaseServicePackage());
-        System.out.println(getBaseServiceImplPackage());
-    }
-
     /**
      * 获取到自动生成Service包名
      * @param tableName 表名称，model为true的时候通过“_”截取表名称前前一节为包名
