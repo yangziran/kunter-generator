@@ -12,6 +12,7 @@ import cn.kunter.common.generator.util.StringUtility;
  */
 public class PackageHolder {
 
+    private final static String BASE_PACKAGES = PropertyHolder.getConfigProperty("basePackage");
     private final static String PACKAGES = PropertyHolder.getConfigProperty("package");
     private final static boolean MODEL = PropertyHolder.getBooleanVal("model");
 
@@ -97,6 +98,11 @@ public class PackageHolder {
      */
     public static String getPageEntityPackage() {
 
+        // 默认使用kunter-base包中的Page对象
+        if (StringUtility.isNotEmpty(BASE_PACKAGES)) {
+            return new StringBuilder(BASE_PACKAGES).append(".eo").toString();
+        }
+
         return getPackage("common").append("eo").toString();
     }
 
@@ -106,6 +112,11 @@ public class PackageHolder {
      * @author yangziran
      */
     public static String getCommonBaseDaoPackage() {
+
+        // 默认使用kunter-base包中的Dao对象
+        if (StringUtility.isNotEmpty(BASE_PACKAGES)) {
+            return new StringBuilder(BASE_PACKAGES).append(".dao").toString();
+        }
 
         return getPackage("common").append("dao").toString();
     }
@@ -117,6 +128,11 @@ public class PackageHolder {
      */
     public static String getBaseServicePackage() {
 
+        // 默认使用kunter-base包中的Service对象
+        if (StringUtility.isNotEmpty(BASE_PACKAGES)) {
+            return new StringBuilder(BASE_PACKAGES).append(".service").toString();
+        }
+
         return getPackage("common").append("service").toString();
     }
 
@@ -127,7 +143,19 @@ public class PackageHolder {
      */
     public static String getBaseServiceImplPackage() {
 
+        // 默认使用kunter-base包中的ServiceImpl对象
+        if (StringUtility.isNotEmpty(BASE_PACKAGES)) {
+            return new StringBuilder(BASE_PACKAGES).append(".service.impl").toString();
+        }
+
         return getPackage("common").append("service.impl").toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getPageEntityPackage());
+        System.out.println(getCommonBaseDaoPackage());
+        System.out.println(getBaseServicePackage());
+        System.out.println(getBaseServiceImplPackage());
     }
 
     /**
