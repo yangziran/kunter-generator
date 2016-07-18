@@ -21,6 +21,8 @@ BaseDAO和BaseService、BaseServiceImpl Jar：
 
 ## 更新日志
 
+- 2016-7-18 修复生成的Example文件中currentSize属性get方法名称的问题
+- 2016-7-14 修复因升级MySQL Connector Java版本升级造成的获取字段备注中文乱码问题
 - 2016-4-28 调整代码，共通dao和service引用jar包
 - 2016-4-21 调整项目包结构，添加Service层代码生成
 - 2016-4-20 修正Example文件生成的格式，修正Page计算逻辑，修改文件生成日期为当前日期，Example文件中添加由当前页和当前页显示条数计算当前页起始条数，添加分页对象Page的生成

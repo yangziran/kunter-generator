@@ -136,8 +136,8 @@ public class MakeExample {
                 bodyLines.add("}");
                 bodyLines.add("return currentSize;");
                 builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false,
-                        false, false, column.getJavaType(), column.getJavaName(), null, null, bodyLines,
-                        "取得 分页 当前页起始条数"));
+                        false, false, column.getJavaType(), JavaBeansUtil.getGetterMethodName(column.getJavaName()),
+                        null, null, bodyLines, "取得 分页 当前页起始条数"));
             }
             else {
                 builder.append(JavaBeansUtil.getJavaBeansGetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
