@@ -125,6 +125,7 @@ public class MakeExample {
             // 特殊处理分页计算当前页起始条数
             if (column.getJavaName().equals("currentSize")) {
                 List<String> bodyLines = new ArrayList<String>();
+                bodyLines.add("if (currentPage != null) {");
                 bodyLines.add("if (currentPage > 0) {");
                 bodyLines.add("--currentPage;");
                 bodyLines.add("}");
@@ -133,6 +134,7 @@ public class MakeExample {
                 bodyLines.add("}");
                 bodyLines.add("else {");
                 bodyLines.add("currentSize = currentPage * pageSize;");
+                bodyLines.add("}");
                 bodyLines.add("}");
                 bodyLines.add("return currentSize;");
                 builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false,
