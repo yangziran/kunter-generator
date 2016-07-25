@@ -131,7 +131,7 @@ public class GetTableConfig {
             String REMARKS = tables.getString("REMARKS");
             table.setTableName(TABLE_NAME);
             table.setJavaName(StringUtility.convertTableNameToClass(TABLE_NAME.toLowerCase(), "_", false));
-            table.setAlias(StringUtility.convertTableNameToAlias(TABLE_NAME.toLowerCase(), "_"));
+//            table.setAlias(StringUtility.convertTableNameToAlias(TABLE_NAME.toLowerCase(), "_"));
             table.setRemarks(REMARKS);
 
             // 获取到主键集合
@@ -239,7 +239,7 @@ public class GetTableConfig {
             Table table = new Table();
             table.setTableName(TABLE_NAME);
             table.setJavaName(StringUtility.convertTableNameToClass(TABLE_NAME.toLowerCase(), "_", false));
-            table.setAlias(StringUtility.convertTableNameToAlias(TABLE_NAME.toLowerCase(), "_"));
+//            table.setAlias(StringUtility.convertTableNameToAlias(TABLE_NAME.toLowerCase(), "_"));
             table.setRemarks(REMARKS);
 
             // 获取到当前Sheet的最后一行下标加1为总行数 循环行
