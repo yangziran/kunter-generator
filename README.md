@@ -5,6 +5,8 @@
 [Bitbucket](https://bitbucket.org/angelsinklow/kunter-generator.git)
 [Coding](https://git.coding.net/kunter/kunter-generator.git)
 
+## 因服务器问题，Maven私库无法提供服务，如需下载kunter-base包请私信我
+
 ## 特别声明：因为采用了12c特有分页语法，本工具Oracle暂时不支持Oracle 12c以下版本
 
 本工具参考MyBatis官方generator设计而成，参考版本为（1.3.2）。具有生成项目基础代码、根据数据库生成Excel格式的设计文档、根据Excel格式生成创建数据库脚本功能，
@@ -16,7 +18,7 @@ BaseDAO和BaseService、BaseServiceImpl Jar：
 <dependency>
   <groupId>cn.kunter</groupId>
   <artifactId>kunter-base</artifactId>
-  <version>0.0.1</version>
+  <version>1.0.0</version>
 </dependency>
 
 ## 更新日志
