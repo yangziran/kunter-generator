@@ -3,27 +3,18 @@
  */
 package cn.kunter.common.generator.make.database;
 
-import java.io.FileOutputStream;
-import java.util.Date;
-import java.util.List;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.DataFormat;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.Hyperlink;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Column;
 import cn.kunter.common.generator.entity.Table;
 import cn.kunter.common.generator.make.GetTableConfig;
+import cn.kunter.common.generator.util.StringUtility;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileOutputStream;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 根据DB创建Excel格式的数据库设计文档
@@ -82,7 +73,13 @@ public class MakeDatabaseOfExcel {
     public static void makerTableSheet(Workbook workbook, Table table) throws Exception {
 
         // 生成表设计Sheet 备注不规范会出现错误 所以使用TableName为Sheet名称
-        Sheet sheet = workbook.createSheet(table.getTableName());
+        String tableName = table.getTableName();
+        // 处理因Excel的sheet名称不能超过31字符长度，自动截取sheetName出现重复问题
+        if (tableName.length() > 31) {
+            // 分割表名，获取首字母 TODO 如果首字母相同则还是会出现重复的问题
+            tableName = StringUtility.convertTableNameToAlias(tableName, "_");
+        }
+        Sheet sheet = workbook.createSheet(tableName);
         // 设置默认行高
         sheet.setDefaultRowHeight((short) 350);
         // 设置默认列宽

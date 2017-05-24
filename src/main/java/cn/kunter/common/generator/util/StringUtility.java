@@ -227,43 +227,43 @@ public class StringUtility {
         return buffer.toString();
     }
 
-//    /**
-//     * 将表名称转换为别称 TODO update delete无法使用别称
-//     * @param tableName 表名称
-//     * @param op 分隔符 如果为空则截取前三位
-//     * @return String 类名称
-//     * @author 阳自然
-//     */
-//    public static String convertTableNameToAlias(String tableName, String op) {
-//
-//        // 如果表名称为空 返回“tab”
-//        if (isEmpty(tableName)) {
-//            return "tab";
-//        }
-//
-//        // 创建StringBuffer对象
-//        StringBuffer buffer = new StringBuffer();
-//        // 如果分隔符为空
-//        if (isEmpty(op)) {
-//            // 表名称长度
-//            int len = tableName.length();
-//            // 判断如果表名称长度大于2 则截取表前三位，如果不大于2 直接返回表名称作为别称 并设置为小写
-//            buffer.append(len > 2 ? tableName.substring(0, 2).toLowerCase() : tableName.toLowerCase());
-//        }
-//        // 如果分隔符不为空
-//        else {
-//
-//            // 分割字符串
-//            String[] tableNameArray = tableName.split(op);
-//            // 循环分割好的字符串数组
-//            for (int i = 0; i < tableNameArray.length; i++) {
-//                // 取每部分的首字母 并设置为小写
-//                buffer.append(tableNameArray[i].substring(0, 1).toLowerCase());
-//            }
-//        }
-//
-//        return buffer.toString();
-//    }
+    /**
+     * 将表名称转换为别称 TODO update delete无法使用别称
+     * @param tableName 表名称
+     * @param op 分隔符 如果为空则截取前三位
+     * @return String 类名称
+     * @author 阳自然
+     */
+    public static String convertTableNameToAlias(String tableName, String op) {
+
+        // 如果表名称为空 返回“tab”
+        if (isEmpty(tableName)) {
+            return "tab";
+        }
+
+        // 创建StringBuffer对象
+        StringBuffer buffer = new StringBuffer();
+        // 如果分隔符为空
+        if (isEmpty(op)) {
+            // 表名称长度
+            int len = tableName.length();
+            // 判断如果表名称长度大于2 则截取表前三位，如果不大于2 直接返回表名称作为别称 并设置为小写
+            buffer.append(len > 2 ? tableName.substring(0, 2).toLowerCase() : tableName.toLowerCase());
+        }
+        // 如果分隔符不为空
+        else {
+
+            // 分割字符串
+            String[] tableNameArray = tableName.split(op);
+            // 循环分割好的字符串数组
+            for (int i = 0; i < tableNameArray.length; i++) {
+                // 取每部分的首字母 并设置为小写
+                buffer.append(tableNameArray[i].substring(0, 1).toLowerCase());
+            }
+        }
+
+        return buffer.toString();
+    }
 
     /**
      * 将表名称转换为参数称
