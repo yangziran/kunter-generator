@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.make.database;
 
@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * 根据DB创建Excel格式的数据库设计文档
+ *
  * @author 阳自然
  * @version 1.0 2015年6月11日
  */
@@ -31,6 +32,7 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 生成Sheet
+     *
      * @param tables
      * @throws Exception
      * @author 阳自然
@@ -65,6 +67,7 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 生成TableSheet
+     *
      * @param workbook
      * @param table
      * @throws Exception
@@ -79,7 +82,12 @@ public class MakeDatabaseOfExcel {
             // 分割表名，获取首字母 TODO 如果首字母相同则还是会出现重复的问题
             tableName = StringUtility.convertTableNameToAlias(tableName, "_");
         }
-        Sheet sheet = workbook.createSheet(tableName);
+        Sheet sheet = null;
+        try {
+            sheet = workbook.createSheet(tableName);
+        } catch (IllegalArgumentException ex) {
+            sheet = workbook.createSheet(tableName + "1");
+        }
         // 设置默认行高
         sheet.setDefaultRowHeight((short) 350);
         // 设置默认列宽
@@ -325,6 +333,7 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 生成表一览Sheet
+     *
      * @param workbook
      * @param tables
      * @throws Exception
@@ -454,6 +463,7 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 生成修改履历Sheet
+     *
      * @param workbook
      * @throws Exception
      * @author 阳自然
@@ -546,6 +556,7 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 普通单元格样式
+     *
      * @param workbook
      * @return
      * @author 阳自然
@@ -568,6 +579,7 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 蓝色背景样式
+     *
      * @param workbook
      * @return
      * @author 阳自然
@@ -596,6 +608,7 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 获取字体
+     *
      * @param workbook
      * @param fontSize
      * @return
