@@ -8,7 +8,21 @@ import cn.kunter.common.generator.entity.Column;
 import cn.kunter.common.generator.entity.Table;
 import cn.kunter.common.generator.make.GetTableConfig;
 import cn.kunter.common.generator.util.StringUtility;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.common.usermodel.HyperlinkType;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -187,7 +201,7 @@ public class MakeDatabaseOfExcel {
         cell.setCellValue(table.getRemarks());
         region = new CellRangeAddress(2, 2, 38, 43);
         sheet.addMergedRegion(region);
-        Hyperlink link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+        Hyperlink link = createHelper.createHyperlink(HyperlinkType.DOCUMENT);
         link.setAddress("#表一览!A1");
         cell = row.createCell(38, Cell.CELL_TYPE_STRING);
         cell.setCellStyle(getLinkStyle(workbook));
@@ -200,7 +214,7 @@ public class MakeDatabaseOfExcel {
         sheet.addMergedRegion(region);
 
         CellStyle sellStyleTitle = getCellStyleBlue(workbook);
-        sellStyleTitle.setAlignment(CellStyle.ALIGN_CENTER);
+        sellStyleTitle.setAlignment(HorizontalAlignment.CENTER);
 
         // 第五行处理 标题
         row = sheet.getRow(4);
@@ -256,7 +270,7 @@ public class MakeDatabaseOfExcel {
         cell.setCellValue("备注");
 
         CellStyle cellStyleCenter = getCellStyle(workbook);
-        cellStyleCenter.setAlignment(CellStyle.ALIGN_CENTER);
+        cellStyleCenter.setAlignment(HorizontalAlignment.CENTER);
         // 设置所有单元格默认格式
         for (int i = 0; i < table.getCols().size(); i++) {
             Column column = table.getCols().get(i);
@@ -349,7 +363,7 @@ public class MakeDatabaseOfExcel {
         DataFormat format = workbook.createDataFormat();
         cellStyleDate.setDataFormat(format.getFormat("yyyy-mm-dd"));
         // 水平居中对齐
-        cellStyleDate.setAlignment(CellStyle.ALIGN_CENTER);
+        cellStyleDate.setAlignment(HorizontalAlignment.CENTER);
 
         CreationHelper createHelper = workbook.getCreationHelper();
 
@@ -368,13 +382,13 @@ public class MakeDatabaseOfExcel {
             cell = row.createCell(1, Cell.CELL_TYPE_STRING);
             cell.setCellStyle(getLinkStyle(workbook));
             cell.setCellValue(table.getRemarks());
-            Hyperlink link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+            Hyperlink link = createHelper.createHyperlink(HyperlinkType.DOCUMENT);
             link.setAddress("#" + table.getTableName() + "!A1");
             cell.setHyperlink(link);
             cell = row.createCell(2, Cell.CELL_TYPE_STRING);
             cell.setCellStyle(getLinkStyle(workbook));
             cell.setCellValue(table.getTableName());
-            link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+            link = createHelper.createHyperlink(HyperlinkType.DOCUMENT);
             link.setAddress("#" + table.getTableName() + "!A1");
             cell.setHyperlink(link);
             cell = row.createCell(3, Cell.CELL_TYPE_STRING);
@@ -399,11 +413,11 @@ public class MakeDatabaseOfExcel {
 
         // 3.1 创建字体，设置其为粗体：
         Font font = getFont(workbook, 12);
-        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+        font.setBold(true);
         CellStyle cellStyle = getCellStyle(workbook);
         cellStyle.setFont(font);
         // 水平居中对齐
-        cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
 
         // 3.3应用格式
         // 在索引0的位置创建单元格（左上端）
@@ -413,7 +427,7 @@ public class MakeDatabaseOfExcel {
 
         CellStyle cellStyleBlue = getCellStyleBlue(workbook);
         // 水平居中对齐
-        cellStyleBlue.setAlignment(CellStyle.ALIGN_CENTER);
+        cellStyleBlue.setAlignment(HorizontalAlignment.CENTER);
 
         // 在索引1的位置创建行（第二行）
         row = sheet.createRow(1);
@@ -478,7 +492,7 @@ public class MakeDatabaseOfExcel {
         DataFormat format = workbook.createDataFormat();
         cellStyleDate.setDataFormat(format.getFormat("yyyy-mm-dd"));
         // 水平居中对齐
-        cellStyleDate.setAlignment(CellStyle.ALIGN_CENTER);
+        cellStyleDate.setAlignment(HorizontalAlignment.CENTER);
 
         for (int i = 0; i < 33; i++) {
             Row row = sheet.createRow(i);
@@ -500,11 +514,11 @@ public class MakeDatabaseOfExcel {
 
         // 设置字体为粗体
         Font font = getFont(workbook, 12);
-        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+        font.setBold(true);
         CellStyle cellStyleBold = getCellStyle(workbook);
         cellStyleBold.setFont(font);
         // 水平居中对齐
-        cellStyleBold.setAlignment(CellStyle.ALIGN_CENTER);
+        cellStyleBold.setAlignment(HorizontalAlignment.CENTER);
 
         // 3.3应用格式
         // 在索引0的位置创建单元格（左上端）
@@ -514,7 +528,7 @@ public class MakeDatabaseOfExcel {
 
         CellStyle cellStyleBlue = getCellStyleBlue(workbook);
         // 水平居中对齐
-        cellStyleBlue.setAlignment(CellStyle.ALIGN_CENTER);
+        cellStyleBlue.setAlignment(HorizontalAlignment.CENTER);
 
         // 在索引1的位置创建行（第二行）
         row = sheet.createRow(1);
@@ -567,12 +581,12 @@ public class MakeDatabaseOfExcel {
         CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setFont(getFont(workbook, null));
         // 单元格边框
-        cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
-        cellStyle.setBorderTop(CellStyle.BORDER_THIN);
-        cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
-        cellStyle.setBorderRight(CellStyle.BORDER_THIN);
+        cellStyle.setBorderBottom(BorderStyle.THIN);
+        cellStyle.setBorderTop(BorderStyle.THIN);
+        cellStyle.setBorderLeft(BorderStyle.THIN);
+        cellStyle.setBorderRight(BorderStyle.THIN);
         // 垂直居中对齐
-        cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
         return cellStyle;
     }
@@ -589,7 +603,7 @@ public class MakeDatabaseOfExcel {
         CellStyle cellStyle = getCellStyle(workbook);
 
         // 设置单元格颜色
-        cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setFillForegroundColor(IndexedColors.CORNFLOWER_BLUE.getIndex());
 
         return cellStyle;
