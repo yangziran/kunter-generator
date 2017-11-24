@@ -48,7 +48,7 @@ public class ConnectionFactory {
 
         try {
             Class<?> clazz = ObjectFactory.externalClassForName(driverClass);
-            driver = (Driver) clazz.newInstance();
+            driver = (Driver) clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new RuntimeException(MessageFormat.format("获取JDBC Driver错误", new Object[] {}), e);
         }
