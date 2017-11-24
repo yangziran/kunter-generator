@@ -1,7 +1,11 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.util;
+
+import cn.kunter.common.generator.config.PropertyHolder;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,15 +13,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import cn.kunter.common.generator.config.PropertyHolder;
-
 /**
  * ExcelUtil
+ *
  * @author 阳自然
  * @version 1.0 2015年8月31日
  */
@@ -25,6 +23,7 @@ public class ExcelUtil {
 
     /**
      * 获取到Excel操作对象Workbook
+     *
      * @return
      * @throws Exception
      * @author 阳自然
@@ -39,14 +38,10 @@ public class ExcelUtil {
             File file = new File(PropertyHolder.getJDBCProperty("path.dictionary"));
             // 判断文件是否存在
             if (file.exists()) {
-                // 获取文件的后缀
-                String ext = FilenameUtils.getExtension(file.getName());
-                // 判断是否为2007及以上版本
-                boolean xlsx = ext.equals("xlsx");
                 // 获取输入流对象
                 is = new FileInputStream(file);
                 // 得到工作簿对象 2007及以上版本需要获取 XSSFWorkbook对象，95~2003版本需要获取HSSFWorkbook对象
-                wb = xlsx ? new XSSFWorkbook(is) : new HSSFWorkbook(is);
+                wb = WorkbookFactory.create(is);
             }
         } catch (FileNotFoundException e) {
             throw new Exception(e);
