@@ -23,6 +23,7 @@ BaseDAO和BaseService、BaseServiceImpl Jar：
 
 ## 更新日志
 
+- 2017-11-24 ignore增加IDEA的忽略文件，对超长表名的处理及简化后Sheet名称重复问题，使用WorkbookFactory创建Workbook对象，去除采用文件名后缀判断Excel类型的操作
 - 2016-7-18 修复生成的Example文件中currentSize属性get方法名称的问题
 - 2016-7-14 修复因升级MySQL Connector Java版本升级造成的获取字段备注中文乱码问题
 - 2016-4-28 调整代码，共通dao和service引用jar包
