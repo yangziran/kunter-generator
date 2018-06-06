@@ -26,6 +26,7 @@ public class MakeXml {
 
             Thread thread = new Thread(new Runnable() {
 
+                @Override
                 public void run() {
                     try {
                         MakeXml.makerXml(table);
@@ -54,15 +55,13 @@ public class MakeXml {
         StringBuilder builder = new StringBuilder();
         builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         OutputUtilities.newLine(builder);
-        builder.append(
-                "<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
+        builder.append("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
         OutputUtilities.newLine(builder);
         builder.append("<mapper namespace=\"" + namespace + "\">");
 
         OutputUtilities.newLine(builder);
         builder.append("</mapper>");
 
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + xmlPackages.replaceAll("\\.", "/") + "/"
-                + table.getJavaName() + "Mapper.xml", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + xmlPackages.replaceAll("\\.", "/") + "/" + table.getJavaName() + "Mapper.xml", builder.toString());
     }
 }

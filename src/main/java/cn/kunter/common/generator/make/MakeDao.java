@@ -29,6 +29,7 @@ public class MakeDao {
 
             Thread thread = new Thread(new Runnable() {
 
+                @Override
                 public void run() {
                     try {
                         MakeDao.makerDao(table);
@@ -72,12 +73,11 @@ public class MakeDao {
         builder.append(" * @version 1.0 " + DateUtil.getSysDate());
         OutputUtilities.newLine(builder);
         builder.append(" */");
-        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, true,
-                false, "Base" + table.getJavaName() + "Dao", null, table.getJavaName() + "Dao", table.getRemarks()));
+        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, true, false, "Base" + table.getJavaName() + "Dao", null, table.getJavaName() + "Dao",
+                table.getRemarks()));
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + daoPackages.replaceAll("\\.", "/") + "/"
-                + table.getJavaName() + "Dao.java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + daoPackages.replaceAll("\\.", "/") + "/" + table.getJavaName() + "Dao.java", builder.toString());
     }
 }

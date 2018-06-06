@@ -3,17 +3,17 @@
  */
 package cn.kunter.common.generator.db;
 
-import cn.kunter.common.generator.config.ConfigurationHolder;
-import cn.kunter.common.generator.config.PropertyHolder;
-import cn.kunter.common.generator.type.DBType;
-import cn.kunter.common.generator.util.ObjectFactory;
-import cn.kunter.common.generator.util.StringUtility;
-
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.Properties;
+
+import cn.kunter.common.generator.config.ConfigurationHolder;
+import cn.kunter.common.generator.config.PropertyHolder;
+import cn.kunter.common.generator.type.DBType;
+import cn.kunter.common.generator.util.ObjectFactory;
+import cn.kunter.common.generator.util.StringUtility;
 
 /**
  * 数据库连接工厂，单列

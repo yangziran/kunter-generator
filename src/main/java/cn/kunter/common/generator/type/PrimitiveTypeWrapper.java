@@ -18,9 +18,9 @@ package cn.kunter.common.generator.type;
 
 /**
  * @author Jeff Butler
- * 
  */
 public class PrimitiveTypeWrapper extends FullyQualifiedJavaType {
+
     private static PrimitiveTypeWrapper booleanInstance;
     private static PrimitiveTypeWrapper byteInstance;
     private static PrimitiveTypeWrapper characterInstance;
@@ -35,14 +35,12 @@ public class PrimitiveTypeWrapper extends FullyQualifiedJavaType {
     /**
      * Use the static getXXXInstance methods to gain access to one of the type
      * wrappers.
-     * 
      * @param fullyQualifiedName
      *            fully qualified name of the wrapper type
      * @param toPrimitiveMethod
      *            the method that returns the wrapped primitive
      */
-    private PrimitiveTypeWrapper(String fullyQualifiedName,
-            String toPrimitiveMethod) {
+    private PrimitiveTypeWrapper(String fullyQualifiedName, String toPrimitiveMethod) {
         super(fullyQualifiedName);
         this.toPrimitiveMethod = toPrimitiveMethod;
     }

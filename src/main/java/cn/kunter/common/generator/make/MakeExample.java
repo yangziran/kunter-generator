@@ -35,6 +35,7 @@ public class MakeExample {
 
             Thread thread = new Thread(new Runnable() {
 
+                @Override
                 public void run() {
                     try {
                         MakeExample.makerExample(table);
@@ -99,13 +100,11 @@ public class MakeExample {
         OutputUtilities.newLine(builder);
         builder.append(" */");
         // 类开始
-        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, false,
-                true, null, null, table.getJavaName() + "Example", table.getRemarks(), true));
+        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, false, true, null, null, table.getJavaName() + "Example", table.getRemarks(), true));
 
         // 字段定义
         for (Column column : table.getExample()) {
-            builder.append(JavaBeansUtil.getJavaBeansField(JavaVisibility.PROTECTED.getValue(), false, false, false,
-                    false, column.getJavaName(), column.getJavaType(), column.getRemarks()));
+            builder.append(JavaBeansUtil.getJavaBeansField(JavaVisibility.PROTECTED.getValue(), false, false, false, false, column.getJavaName(), column.getJavaType(), column.getRemarks()));
         }
         OutputUtilities.newLine(builder);
 
@@ -137,17 +136,14 @@ public class MakeExample {
                 bodyLines.add("}");
                 bodyLines.add("}");
                 bodyLines.add("return currentSize;");
-                builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false,
-                        false, false, column.getJavaType(), JavaBeansUtil.getGetterMethodName(column.getJavaName()),
-                        null, null, bodyLines, "取得 分页 当前页起始条数"));
+                builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false, false, column.getJavaType(),
+                        JavaBeansUtil.getGetterMethodName(column.getJavaName()), null, null, bodyLines, "取得 分页 当前页起始条数"));
             }
             else {
-                builder.append(JavaBeansUtil.getJavaBeansGetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
-                        column.getJavaType(), column.getRemarks()));
+                builder.append(JavaBeansUtil.getJavaBeansGetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(), column.getJavaType(), column.getRemarks()));
             }
 
-            builder.append(JavaBeansUtil.getJavaBeansSetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
-                    column.getJavaType(), column.getRemarks()));
+            builder.append(JavaBeansUtil.getJavaBeansSetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(), column.getJavaType(), column.getRemarks()));
         }
 
         List<Column> parameters = new ArrayList<Column>();
@@ -157,15 +153,13 @@ public class MakeExample {
         parameters.add(column);
         List<String> bodyLines = new ArrayList<String>();
         bodyLines.add("oredCriteria.add(criteria);");
-        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false,
-                false, null, "or", parameters, null, bodyLines, null));
+        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false, false, null, "or", parameters, null, bodyLines, null));
 
         bodyLines = new ArrayList<String>();
         bodyLines.add("Criteria criteria = createCriteriaInternal();");
         bodyLines.add("oredCriteria.add(criteria);");
         bodyLines.add("return criteria;");
-        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false,
-                false, "Criteria", "or", null, null, bodyLines, null));
+        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false, false, "Criteria", "or", null, null, bodyLines, null));
 
         bodyLines = new ArrayList<String>();
         bodyLines.add("Criteria criteria = createCriteriaInternal();");
@@ -173,27 +167,23 @@ public class MakeExample {
         bodyLines.add("oredCriteria.add(criteria);");
         bodyLines.add("}");
         bodyLines.add("return criteria;");
-        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false,
-                false, "Criteria", "createCriteria", null, null, bodyLines, null));
+        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false, false, "Criteria", "createCriteria", null, null, bodyLines, null));
 
         bodyLines = new ArrayList<String>();
         bodyLines.add("Criteria criteria = new Criteria();");
         bodyLines.add("return criteria;");
-        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PROTECTED.getValue(), false, false, false, false,
-                false, false, "Criteria", "createCriteriaInternal", null, null, bodyLines, null));
+        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PROTECTED.getValue(), false, false, false, false, false, false, "Criteria", "createCriteriaInternal", null, null, bodyLines, null));
 
         bodyLines = new ArrayList<String>();
         bodyLines.add("oredCriteria.clear();");
         bodyLines.add("orderByClause = null;");
         bodyLines.add("distinct = false;");
-        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false,
-                false, null, "clear", null, null, bodyLines, null));
+        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false, false, null, "clear", null, null, bodyLines, null));
 
         /** ---------- GeneratedCriteria Start ---------- */
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PROTECTED.getValue(), true, true, false, false,
-                true, null, null, "GeneratedCriteria", null, false));
+        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PROTECTED.getValue(), true, true, false, false, true, null, null, "GeneratedCriteria", null, false));
 
         Field field = new Field();
         field.setVisibility(JavaVisibility.PROTECTED);
@@ -300,7 +290,7 @@ public class MakeExample {
             fqjt = new FullyQualifiedJavaType("Criteria");
             method.setReturnType(fqjt);
             method.setName("and" + cols.getJavaName() + "IsNull");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " is null\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " is null\");");
             method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " is null\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
@@ -311,7 +301,8 @@ public class MakeExample {
             fqjt = new FullyQualifiedJavaType("Criteria");
             method.setReturnType(fqjt);
             method.setName("and" + cols.getJavaName() + "IsNotNull");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " is not null\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " is not
+            // null\");");
             method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " is not null\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
@@ -325,10 +316,9 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "EqualTo");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " =\", value, \""
-//              + cols.getJavaName() + "\");");
-            method.addBodyLine(
-                    "addCriterion(\"" + cols.getColumnName() + " =\", value, \"" + cols.getJavaName() + "\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " =\", value, \""
+            // + cols.getJavaName() + "\");");
+            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " =\", value, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -341,10 +331,9 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "NotEqualTo");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " <>\", value, \""
-//                    + cols.getJavaName() + "\");");
-            method.addBodyLine(
-                    "addCriterion(\"" + cols.getColumnName() + " <>\", value, \"" + cols.getJavaName() + "\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " <>\", value, \""
+            // + cols.getJavaName() + "\");");
+            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " <>\", value, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -357,10 +346,9 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "GreaterThan");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " >\", value, \""
-//                    + cols.getJavaName() + "\");");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " >\", value, \""
-                    + cols.getJavaName() + "\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " >\", value, \""
+            // + cols.getJavaName() + "\");");
+            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " >\", value, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -373,10 +361,9 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "GreaterThanOrEqualTo");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " >=\", value, \""
-//                    + cols.getJavaName() + "\");");
-            method.addBodyLine(
-                    "addCriterion(\"" + cols.getColumnName() + " >=\", value, \"" + cols.getJavaName() + "\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " >=\", value, \""
+            // + cols.getJavaName() + "\");");
+            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " >=\", value, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -389,10 +376,9 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "LessThan");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " <\", value, \""
-//                    + cols.getJavaName() + "\");");
-            method.addBodyLine(
-                    "addCriterion(\"" + cols.getColumnName() + " <\", value, \"" + cols.getJavaName() + "\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " <\", value, \""
+            // + cols.getJavaName() + "\");");
+            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " <\", value, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -405,10 +391,9 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "LessThanOrEqualTo");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " <=\", value, \""
-//                    + cols.getJavaName() + "\");");
-            method.addBodyLine(
-                    "addCriterion(\"" + cols.getColumnName() + " <=\", value, \"" + cols.getJavaName() + "\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " <=\", value, \""
+            // + cols.getJavaName() + "\");");
+            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " <=\", value, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -421,10 +406,10 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "values");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "In");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " in\", values, \""
-//                    + cols.getJavaName() + "\");");
-            method.addBodyLine(
-                    "addCriterion(\"" + cols.getColumnName() + " in\", values, \"" + cols.getJavaName() + "\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName() + " in\", values,
+            // \""
+            // + cols.getJavaName() + "\");");
+            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " in\", values, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -437,10 +422,9 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "values");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "NotIn");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName()
-//                    + " not in\", values, \"" + cols.getJavaName() + "\");");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName()
-            + " not in\", values, \"" + cols.getJavaName() + "\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName()
+            // + " not in\", values, \"" + cols.getJavaName() + "\");");
+            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " not in\", values, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -453,10 +437,9 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "Like");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName()
-//                    + " like\", \"%\" + value + \"%\", \"" + cols.getJavaName() + "\");");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " like\", \"%\" + value + \"%\", \""
-                    + cols.getJavaName() + "\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName()
+            // + " like\", \"%\" + value + \"%\", \"" + cols.getJavaName() + "\");");
+            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " like\", \"%\" + value + \"%\", \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -469,10 +452,9 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "NotLike");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName()
-//                    + " not like\", \"%\" + value + \"%\", \"" + cols.getJavaName() + "\");");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName()
-            + " not like\", \"%\" + value + \"%\", \"" + cols.getJavaName() + "\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName()
+            // + " not like\", \"%\" + value + \"%\", \"" + cols.getJavaName() + "\");");
+            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " not like\", \"%\" + value + \"%\", \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -488,10 +470,9 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value2");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "Between");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName()
-//                    + " between\", value1, value2, \"" + cols.getJavaName() + "\");");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " between\", value1, value2, \""
-                    + cols.getJavaName() + "\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName()
+            // + " between\", value1, value2, \"" + cols.getJavaName() + "\");");
+            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " between\", value1, value2, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -507,10 +488,9 @@ public class MakeExample {
             parameter = new Parameter(fqjt, "value2");
             method.addParameter(parameter);
             method.setName("and" + cols.getJavaName() + "NotBetween");
-//            method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName()
-//                    + " not between\", value1, value2, \"" + cols.getJavaName() + "\");");
-            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " not between\", value1, value2, \""
-                    + cols.getJavaName() + "\");");
+            // method.addBodyLine("addCriterion(\"" + table.getAlias() + "." + cols.getColumnName()
+            // + " not between\", value1, value2, \"" + cols.getJavaName() + "\");");
+            method.addBodyLine("addCriterion(\"" + cols.getColumnName() + " not between\", value1, value2, \"" + cols.getJavaName() + "\");");
             method.addBodyLine("return (Criteria) this;");
             OutputUtilities.newLine(builder, 2);
             builder.append(method.getFormattedContent(2, false));
@@ -524,8 +504,7 @@ public class MakeExample {
         /** ---------- Criteria Start ---------- */
         OutputUtilities.newLine(builder, 2);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, true, false, false,
-                true, "GeneratedCriteria", null, "Criteria", null, false));
+        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, true, false, false, true, "GeneratedCriteria", null, "Criteria", null, false));
 
         method = new Method();
         method.setVisibility(JavaVisibility.PROTECTED);
@@ -543,8 +522,7 @@ public class MakeExample {
         /** ---------- Criterion Start ---------- */
         OutputUtilities.newLine(builder, 2);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, true, false, false,
-                true, null, null, "Criterion", null, false));
+        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, true, false, false, true, null, null, "Criterion", null, false));
 
         field = new Field();
         field.setVisibility(JavaVisibility.PRIVATE);
@@ -793,7 +771,6 @@ public class MakeExample {
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
         // 输出文件
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + entityPackages.replaceAll("\\.", "/") + "/"
-                + table.getJavaName() + "Example.java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + entityPackages.replaceAll("\\.", "/") + "/" + table.getJavaName() + "Example.java", builder.toString());
     }
 }

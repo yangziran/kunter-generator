@@ -25,6 +25,7 @@ import cn.kunter.common.generator.util.OutputUtilities;
  * @author Jeff Butler
  */
 public abstract class JavaElement {
+
     private List<String> javaDocLines;
 
     private JavaVisibility visibility = JavaVisibility.DEFAULT;
@@ -43,10 +44,9 @@ public abstract class JavaElement {
         javaDocLines = new ArrayList<String>();
         annotations = new ArrayList<String>();
     }
-    
+
     /**
      * Copy Constructor.
-     * 
      * @param original
      */
     public JavaElement(JavaElement original) {

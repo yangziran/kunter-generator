@@ -35,6 +35,7 @@ public class MakeBaseDao {
 
             Thread thread = new Thread(new Runnable() {
 
+                @Override
                 public void run() {
                     try {
                         MakeBaseDao.makerBaseDao(table);
@@ -82,8 +83,7 @@ public class MakeBaseDao {
         builder.append(" * @version 1.0 " + DateUtil.getSysDate());
         OutputUtilities.newLine(builder);
         builder.append(" */");
-        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), true, false, false, true,
-                false, null, null, "Base" + table.getJavaName() + "Dao", table.getRemarks()));
+        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), true, false, false, true, false, null, null, "Base" + table.getJavaName() + "Dao", table.getRemarks()));
 
         Method method = new Method();
         FullyQualifiedJavaType fqjt;
@@ -329,8 +329,7 @@ public class MakeBaseDao {
             method.addJavaDocLine("/**");
             method.addJavaDocLine(" * 根据条件修改数据 未删除【删除标识=0】");
             for (Parameter parame : method.getParameters()) {
-                method.addJavaDocLine(
-                        " * @param " + parame.getName() + " " + parame.getType().toString().split(" ")[1]);
+                method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType().toString().split(" ")[1]);
             }
             method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
             method.addJavaDocLine(" */");
@@ -374,8 +373,7 @@ public class MakeBaseDao {
             method.addJavaDocLine("/**");
             method.addJavaDocLine(" * 根据条件修改数据 字段为空不修改 未删除【删除标识=0】");
             for (Parameter parame : method.getParameters()) {
-                method.addJavaDocLine(
-                        " * @param " + parame.getName() + " " + parame.getType().toString().split(" ")[1]);
+                method.addJavaDocLine(" * @param " + parame.getName() + " " + parame.getType().toString().split(" ")[1]);
             }
             method.addJavaDocLine(" * @return " + method.getReturnType() + " 结果数量");
             method.addJavaDocLine(" */");
@@ -599,7 +597,6 @@ public class MakeBaseDao {
         }
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseDaoPackages.replaceAll("\\.", "/") + "/Base"
-                + table.getJavaName() + "Dao.java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseDaoPackages.replaceAll("\\.", "/") + "/Base" + table.getJavaName() + "Dao.java", builder.toString());
     }
 }

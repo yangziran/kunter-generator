@@ -3,11 +3,10 @@
  */
 package cn.kunter.common.generator.make.database;
 
-import cn.kunter.common.generator.config.PropertyHolder;
-import cn.kunter.common.generator.entity.Column;
-import cn.kunter.common.generator.entity.Table;
-import cn.kunter.common.generator.make.GetTableConfig;
-import cn.kunter.common.generator.util.StringUtility;
+import java.io.FileOutputStream;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -27,13 +26,14 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.FileOutputStream;
-import java.util.Date;
-import java.util.List;
+import cn.kunter.common.generator.config.PropertyHolder;
+import cn.kunter.common.generator.entity.Column;
+import cn.kunter.common.generator.entity.Table;
+import cn.kunter.common.generator.make.GetTableConfig;
+import cn.kunter.common.generator.util.StringUtility;
 
 /**
  * 根据DB创建Excel格式的数据库设计文档
- *
  * @author 阳自然
  * @version 1.0 2015年6月11日
  */
@@ -47,7 +47,6 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 生成Sheet
-     *
      * @param tables
      * @throws Exception
      * @author 阳自然
@@ -82,7 +81,6 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 生成TableSheet
-     *
      * @param workbook
      * @param table
      * @throws Exception
@@ -348,7 +346,6 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 生成表一览Sheet
-     *
      * @param workbook
      * @param tables
      * @throws Exception
@@ -478,7 +475,6 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 生成修改履历Sheet
-     *
      * @param workbook
      * @throws Exception
      * @author 阳自然
@@ -571,7 +567,6 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 普通单元格样式
-     *
      * @param workbook
      * @return
      * @author 阳自然
@@ -594,7 +589,6 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 蓝色背景样式
-     *
      * @param workbook
      * @return
      * @author 阳自然
@@ -623,7 +617,6 @@ public class MakeDatabaseOfExcel {
 
     /**
      * 获取字体
-     *
      * @param workbook
      * @param fontSize
      * @return

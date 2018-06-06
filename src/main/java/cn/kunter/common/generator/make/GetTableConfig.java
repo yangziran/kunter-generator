@@ -35,8 +35,7 @@ import cn.kunter.common.generator.util.StringUtility;
 public class GetTableConfig {
 
     // 数据源类型
-    private final static String SOURCE_TYPE = SourceType.valueOf(PropertyHolder.getJDBCProperty("SourceType"))
-            .getValue();
+    private final static String SOURCE_TYPE = SourceType.valueOf(PropertyHolder.getJDBCProperty("SourceType")).getValue();
     // 数据库类型
     private final static String DB_TYPE = DBType.valueOf(PropertyHolder.getJDBCProperty("DB")).getValue();
 
@@ -131,7 +130,7 @@ public class GetTableConfig {
             String REMARKS = tables.getString("REMARKS");
             table.setTableName(TABLE_NAME);
             table.setJavaName(StringUtility.convertTableNameToClass(TABLE_NAME.toLowerCase(), "_", false));
-//            table.setAlias(StringUtility.convertTableNameToAlias(TABLE_NAME.toLowerCase(), "_"));
+            // table.setAlias(StringUtility.convertTableNameToAlias(TABLE_NAME.toLowerCase(), "_"));
             table.setRemarks(REMARKS);
 
             // 获取到主键集合
@@ -239,7 +238,7 @@ public class GetTableConfig {
             Table table = new Table();
             table.setTableName(TABLE_NAME);
             table.setJavaName(StringUtility.convertTableNameToClass(TABLE_NAME.toLowerCase(), "_", false));
-//            table.setAlias(StringUtility.convertTableNameToAlias(TABLE_NAME.toLowerCase(), "_"));
+            // table.setAlias(StringUtility.convertTableNameToAlias(TABLE_NAME.toLowerCase(), "_"));
             table.setRemarks(REMARKS);
 
             // 获取到当前Sheet的最后一行下标加1为总行数 循环行

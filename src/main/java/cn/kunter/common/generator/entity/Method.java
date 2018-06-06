@@ -39,9 +39,9 @@ public class Method extends JavaElement {
     private List<Parameter> parameters;
 
     private List<FullyQualifiedJavaType> exceptions;
-    
+
     private boolean isSynchronized;
-    
+
     private boolean isNative;
 
     /**
@@ -51,7 +51,7 @@ public class Method extends JavaElement {
         // use a default name to avoid malformed code
         this("bar"); //$NON-NLS-1$
     }
-    
+
     public Method(String name) {
         super();
         bodyLines = new ArrayList<String>();
@@ -59,11 +59,10 @@ public class Method extends JavaElement {
         exceptions = new ArrayList<FullyQualifiedJavaType>();
         this.name = name;
     }
-    
+
     /**
-     * Copy constructor.  Not a truly deep copy, but close enough
+     * Copy constructor. Not a truly deep copy, but close enough
      * for most purposes.
-     * 
      * @param original
      */
     public Method(Method original) {
@@ -122,14 +121,15 @@ public class Method extends JavaElement {
             if (isFinal()) {
                 sb.append("final "); //$NON-NLS-1$
             }
-            
+
             if (isSynchronized()) {
                 sb.append("synchronized "); //$NON-NLS-1$
             }
-            
+
             if (isNative()) {
                 sb.append("native "); //$NON-NLS-1$
-            } else if (bodyLines.size() == 0) {
+            }
+            else if (bodyLines.size() == 0) {
                 sb.append("abstract "); //$NON-NLS-1$
             }
         }
@@ -137,7 +137,8 @@ public class Method extends JavaElement {
         if (!constructor) {
             if (getReturnType() == null) {
                 sb.append("void"); //$NON-NLS-1$
-            } else {
+            }
+            else {
                 sb.append(getReturnType().getShortName());
             }
             sb.append(' ');
@@ -150,7 +151,8 @@ public class Method extends JavaElement {
         for (Parameter parameter : getParameters()) {
             if (comma) {
                 sb.append(", "); //$NON-NLS-1$
-            } else {
+            }
+            else {
                 comma = true;
             }
 
@@ -165,7 +167,8 @@ public class Method extends JavaElement {
             for (FullyQualifiedJavaType fqjt : getExceptions()) {
                 if (comma) {
                     sb.append(", "); //$NON-NLS-1$
-                } else {
+                }
+                else {
                     comma = true;
                 }
 
@@ -176,7 +179,8 @@ public class Method extends JavaElement {
         // if no body lines, then this is an abstract method
         if (bodyLines.size() == 0 || isNative()) {
             sb.append(';');
-        } else {
+        }
+        else {
             sb.append(" {"); //$NON-NLS-1$
             indentLevel++;
 

@@ -331,6 +331,7 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
      * (non-Javadoc)
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
+    @Override
     public int compareTo(FullyQualifiedJavaType other) {
         return getFullyQualifiedName().compareTo(other.getFullyQualifiedName());
     }

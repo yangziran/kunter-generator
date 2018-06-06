@@ -17,8 +17,8 @@ public class Table {
     private String tableName;
     /** Class名称 */
     private String javaName;
-//    /** 表别称 */
-//    private String alias;
+    // /** 表别称 */
+    // private String alias;
     /** 表备注 */
     private String remarks;
     /** 主键集合 */
@@ -100,21 +100,21 @@ public class Table {
         this.javaName = javaName;
     }
 
-//    /**
-//     * 取得 alias
-//     * @return alias String
-//     */
-//    public String getAlias() {
-//        return alias;
-//    }
-//
-//    /**
-//     * 设定 alias
-//     * @param alias String
-//     */
-//    public void setAlias(String alias) {
-//        this.alias = alias;
-//    }
+    // /**
+    // * 取得 alias
+    // * @return alias String
+    // */
+    // public String getAlias() {
+    // return alias;
+    // }
+    //
+    // /**
+    // * 设定 alias
+    // * @param alias String
+    // */
+    // public void setAlias(String alias) {
+    // this.alias = alias;
+    // }
 
     /**
      * 取得 remarks

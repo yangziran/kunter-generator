@@ -29,6 +29,7 @@ public class GeneratorService {
         for (final Table table : tables) {
             Thread thread = new Thread(new Runnable() {
 
+                @Override
                 public void run() {
                     try {
                         MakeEntity.makerEntity(table);

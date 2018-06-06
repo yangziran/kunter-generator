@@ -24,6 +24,7 @@ import cn.kunter.common.generator.type.FullyQualifiedJavaType;
  * @author Jeff Butler
  */
 public class Parameter {
+
     private String name;
     private FullyQualifiedJavaType type;
     private boolean isVarargs;

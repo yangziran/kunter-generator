@@ -102,20 +102,17 @@ public class MakePageEntity {
         List<String> superInterface = new ArrayList<String>();
         superInterface.add("Serializable");
         // 类开始
-        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, false,
-                true, null, superInterface, table.getJavaName(), table.getRemarks()));
+        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, false, true, null, superInterface, table.getJavaName(), table.getRemarks()));
 
         // 字段定义
         for (Column column : table.getCols()) {
-            builder.append(JavaBeansUtil.getJavaBeansField(JavaVisibility.PRIVATE.getValue(), false, false, false,
-                    false, column.getJavaName(), column.getJavaType(), column.getRemarks()));
+            builder.append(JavaBeansUtil.getJavaBeansField(JavaVisibility.PRIVATE.getValue(), false, false, false, false, column.getJavaName(), column.getJavaType(), column.getRemarks()));
         }
 
         List<String> bodyLines = new ArrayList<String>();
         bodyLines.add("");
         OutputUtilities.newLine(builder);
-        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), true, false, false, false, false,
-                false, null, table.getJavaName(), null, null, bodyLines, null));
+        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), true, false, false, false, false, false, null, table.getJavaName(), null, null, bodyLines, null));
 
         List<Column> parameters = new ArrayList<Column>();
         Column paramColumn = new Column();
@@ -129,8 +126,7 @@ public class MakePageEntity {
         bodyLines = new ArrayList<String>();
         bodyLines.add("this.page = page;");
         bodyLines.add("this.size = size;");
-        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), true, false, false, false, false,
-                false, null, table.getJavaName(), parameters, null, bodyLines, null));
+        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), true, false, false, false, false, false, null, table.getJavaName(), parameters, null, bodyLines, null));
 
         // Get/Set
         for (Column column : table.getCols()) {
@@ -148,9 +144,8 @@ public class MakePageEntity {
                 currentPage.add("current = page * size;");
                 currentPage.add("}");
                 currentPage.add("return current;");
-                builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false,
-                        false, false, column.getJavaType(), column.getJavaName(), null, null, currentPage,
-                        "起始条数，当前页所显示数据在数据库中的起始位置"));
+                builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false, false, column.getJavaType(), column.getJavaName(), null, null,
+                        currentPage, "起始条数，当前页所显示数据在数据库中的起始位置"));
             }
             else if (column.getJavaName().equals("total")) {
                 List<String> currentPage = new ArrayList<String>();
@@ -161,17 +156,14 @@ public class MakePageEntity {
                 currentPage.add("total = records / size + 1;");
                 currentPage.add("}");
                 currentPage.add("return total;");
-                builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false,
-                        false, false, column.getJavaType(), column.getJavaName(), null, null, currentPage,
-                        "总页数，通过数据库总条数和页面所显示条数计算"));
+                builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false, false, column.getJavaType(), column.getJavaName(), null, null,
+                        currentPage, "总页数，通过数据库总条数和页面所显示条数计算"));
             }
             else {
-                builder.append(JavaBeansUtil.getJavaBeansGetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
-                        column.getJavaType(), column.getRemarks()));
+                builder.append(JavaBeansUtil.getJavaBeansGetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(), column.getJavaType(), column.getRemarks()));
             }
 
-            builder.append(JavaBeansUtil.getJavaBeansSetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
-                    column.getJavaType(), column.getRemarks()));
+            builder.append(JavaBeansUtil.getJavaBeansSetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(), column.getJavaType(), column.getRemarks()));
         }
 
         Column currentPage = new Column();
@@ -199,8 +191,8 @@ public class MakePageEntity {
         getStartRecord.add("startRecord = currentPage * perPage;");
         getStartRecord.add("}");
         getStartRecord.add("return startRecord;");
-        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, true,
-                false, "int", "getStartRecord", getStartRecordParameters, null, getStartRecord, "获取起始条数"));
+        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, true, false, "int", "getStartRecord", getStartRecordParameters, null, getStartRecord,
+                "获取起始条数"));
 
         List<Column> getTotalPageConutParameters = new ArrayList<>();
         getTotalPageConutParameters.add(totalRecord);
@@ -214,14 +206,13 @@ public class MakePageEntity {
         getTotalPageConut.add("totalPage = totalRecord / perPage + 1;");
         getTotalPageConut.add("}");
         getTotalPageConut.add("return totalPage;");
-        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, true,
-                false, "int", "getTotalPageConut", getTotalPageConutParameters, null, getTotalPageConut, "获取总页数"));
+        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, true, false, "int", "getTotalPageConut", getTotalPageConutParameters, null,
+                getTotalPageConut, "获取总页数"));
 
         // 类结束
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
         // 输出文件
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + pageEntityPackages.replaceAll("\\.", "/") + "/"
-                + table.getJavaName() + ".java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + pageEntityPackages.replaceAll("\\.", "/") + "/" + table.getJavaName() + ".java", builder.toString());
     }
 }
