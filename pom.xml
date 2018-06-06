@@ -4,7 +4,7 @@
 
     <groupId>org.kunter.generator</groupId>
     <artifactId>kunter-generator</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
     <packaging>jar</packaging>
 
     <name>Kunter Generator</name>
@@ -44,7 +44,7 @@
         <repository>
             <id>maven.kunter.cn</id>
             <name>Kunter Repository</name>
-            <url>http://maven.kunter.cn/content/groups/public/</url>
+            <url>https://maven.kunter.cn/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -59,18 +59,18 @@
         <repository>
             <id>maven.kunter.cn-releases</id>
             <name>Kunter Nexus Release Repository</name>
-            <url>http://maven.kunter.cn/content/repositories/releases/</url>
+            <url>https://maven.kunter.cn/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
             <id>maven.kunter.cn-snapshots</id>
             <name>Kunter Nexus Snapshot Repository</name>
-            <url>http://maven.kunter.cn/content/repositories/snapshots/</url>
+            <url>https://maven.kunter.cn/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.build.version>1.7</java.build.version>
+        <java.build.version>1.8</java.build.version>
 
         <poi_version>3.17</poi_version>
     </properties>
@@ -116,12 +116,12 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.44</version>
+            <version>5.1.46</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.1.4.jre7</version>
+            <version>42.2.2</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -147,7 +147,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20.1</version>
+                <version>2.21.0</version>
                 <configuration>
                     <skipTests>true</skipTests>
                 </configuration>
