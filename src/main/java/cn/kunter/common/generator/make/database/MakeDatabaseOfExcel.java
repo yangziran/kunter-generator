@@ -12,6 +12,7 @@ import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -112,7 +113,7 @@ public class MakeDatabaseOfExcel {
         for (int i = 0; i < table.getCols().size() + 5; i++) {
             Row row = sheet.createRow(i);
             for (int j = 0; j < 44; j++) {
-                Cell cell = row.createCell(j, Cell.CELL_TYPE_STRING);
+                Cell cell = row.createCell(j, CellType.STRING);
                 cell.setCellStyle(cellStyle);
             }
         }
@@ -122,32 +123,32 @@ public class MakeDatabaseOfExcel {
         CellRangeAddress region = new CellRangeAddress(0, 0, 0, 6);
         sheet.addMergedRegion(region);
         Row row = sheet.getRow(0);
-        Cell cell = row.createCell(0, Cell.CELL_TYPE_STRING);
+        Cell cell = row.createCell(0, CellType.STRING);
         cell.setCellStyle(getCellStyleBlue(workbook));
         cell.setCellValue("表名");
         region = new CellRangeAddress(0, 0, 7, 21);
         sheet.addMergedRegion(region);
-        cell = row.createCell(7, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(7, CellType.STRING);
         cell.setCellStyle(getCellStyle(workbook));
         cell.setCellValue(table.getRemarks());
         region = new CellRangeAddress(0, 0, 22, 26);
         sheet.addMergedRegion(region);
-        cell = row.createCell(22, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(22, CellType.STRING);
         cell.setCellStyle(getCellStyleBlue(workbook));
         cell.setCellValue("作成者");
         region = new CellRangeAddress(0, 0, 27, 32);
         sheet.addMergedRegion(region);
-        cell = row.createCell(27, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(27, CellType.STRING);
         cell.setCellStyle(getCellStyle(workbook));
         cell.setCellValue("自动生成");
         region = new CellRangeAddress(0, 0, 33, 37);
         sheet.addMergedRegion(region);
-        cell = row.createCell(33, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(33, CellType.STRING);
         cell.setCellStyle(getCellStyleBlue(workbook));
         cell.setCellValue("修正者");
         region = new CellRangeAddress(0, 0, 38, 43);
         sheet.addMergedRegion(region);
-        cell = row.createCell(38, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(38, CellType.STRING);
         cell.setCellStyle(getCellStyle(workbook));
 
         // 创建日期格式的样式
@@ -158,32 +159,32 @@ public class MakeDatabaseOfExcel {
         row = sheet.getRow(1);
         region = new CellRangeAddress(1, 1, 0, 6);
         sheet.addMergedRegion(region);
-        cell = row.createCell(0, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(0, CellType.STRING);
         cell.setCellStyle(getCellStyleBlue(workbook));
         cell.setCellValue("物理名");
         region = new CellRangeAddress(1, 1, 7, 21);
         sheet.addMergedRegion(region);
-        cell = row.createCell(7, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(7, CellType.STRING);
         cell.setCellStyle(getCellStyle(workbook));
         cell.setCellValue(table.getTableName());
         region = new CellRangeAddress(1, 1, 22, 26);
         sheet.addMergedRegion(region);
-        cell = row.createCell(22, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(22, CellType.STRING);
         cell.setCellStyle(getCellStyleBlue(workbook));
         cell.setCellValue("作成日期");
         region = new CellRangeAddress(1, 1, 27, 32);
         sheet.addMergedRegion(region);
-        cell = row.createCell(27, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(27, CellType.STRING);
         cell.setCellStyle(cellStyleDate);
         cell.setCellValue(new Date());
         region = new CellRangeAddress(1, 1, 33, 37);
         sheet.addMergedRegion(region);
-        cell = row.createCell(33, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(33, CellType.STRING);
         cell.setCellStyle(getCellStyleBlue(workbook));
         cell.setCellValue("修正日期");
         region = new CellRangeAddress(1, 1, 38, 43);
         sheet.addMergedRegion(region);
-        cell = row.createCell(38, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(38, CellType.STRING);
         cell.setCellStyle(cellStyleDate);
 
         CreationHelper createHelper = workbook.getCreationHelper();
@@ -191,19 +192,19 @@ public class MakeDatabaseOfExcel {
         row = sheet.getRow(2);
         region = new CellRangeAddress(2, 2, 0, 6);
         sheet.addMergedRegion(region);
-        cell = row.createCell(0, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(0, CellType.STRING);
         cell.setCellStyle(getCellStyleBlue(workbook));
         cell.setCellValue("概要");
         region = new CellRangeAddress(2, 2, 7, 37);
         sheet.addMergedRegion(region);
-        cell = row.createCell(7, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(7, CellType.STRING);
         cell.setCellStyle(getCellStyle(workbook));
         cell.setCellValue(table.getRemarks());
         region = new CellRangeAddress(2, 2, 38, 43);
         sheet.addMergedRegion(region);
         Hyperlink link = createHelper.createHyperlink(HyperlinkType.DOCUMENT);
         link.setAddress("#表一览!A1");
-        cell = row.createCell(38, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(38, CellType.STRING);
         cell.setCellStyle(getLinkStyle(workbook));
         cell.setHyperlink(link);
         cell.setCellValue("返回列表");
@@ -220,52 +221,52 @@ public class MakeDatabaseOfExcel {
         row = sheet.getRow(4);
         region = new CellRangeAddress(4, 4, 0, 1);
         sheet.addMergedRegion(region);
-        cell = row.createCell(0, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(0, CellType.STRING);
         cell.setCellStyle(sellStyleTitle);
         cell.setCellValue("编号");
         region = new CellRangeAddress(4, 4, 2, 7);
         sheet.addMergedRegion(region);
-        cell = row.createCell(2, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(2, CellType.STRING);
         cell.setCellStyle(sellStyleTitle);
         cell.setCellValue("列名");
         region = new CellRangeAddress(4, 4, 8, 12);
         sheet.addMergedRegion(region);
-        cell = row.createCell(8, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(8, CellType.STRING);
         cell.setCellStyle(sellStyleTitle);
         cell.setCellValue("物理名");
         region = new CellRangeAddress(4, 4, 13, 17);
         sheet.addMergedRegion(region);
-        cell = row.createCell(13, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(13, CellType.STRING);
         cell.setCellStyle(sellStyleTitle);
         cell.setCellValue("类型");
         region = new CellRangeAddress(4, 4, 18, 20);
         sheet.addMergedRegion(region);
-        cell = row.createCell(18, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(18, CellType.STRING);
         cell.setCellStyle(sellStyleTitle);
         cell.setCellValue("长度");
         region = new CellRangeAddress(4, 4, 21, 22);
         sheet.addMergedRegion(region);
-        cell = row.createCell(21, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(21, CellType.STRING);
         cell.setCellStyle(sellStyleTitle);
         cell.setCellValue("不为空");
         region = new CellRangeAddress(4, 4, 23, 24);
         sheet.addMergedRegion(region);
-        cell = row.createCell(23, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(23, CellType.STRING);
         cell.setCellStyle(sellStyleTitle);
         cell.setCellValue("主键");
         region = new CellRangeAddress(4, 4, 25, 27);
         sheet.addMergedRegion(region);
-        cell = row.createCell(25, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(25, CellType.STRING);
         cell.setCellStyle(sellStyleTitle);
         cell.setCellValue("主键顺序");
         region = new CellRangeAddress(4, 4, 28, 29);
         sheet.addMergedRegion(region);
-        cell = row.createCell(28, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(28, CellType.STRING);
         cell.setCellStyle(sellStyleTitle);
         cell.setCellValue("外键");
         region = new CellRangeAddress(4, 4, 30, 43);
         sheet.addMergedRegion(region);
-        cell = row.createCell(30, Cell.CELL_TYPE_STRING);
+        cell = row.createCell(30, CellType.STRING);
         cell.setCellStyle(sellStyleTitle);
         cell.setCellValue("备注");
 
@@ -279,37 +280,37 @@ public class MakeDatabaseOfExcel {
             row = sheet.getRow(rowNum);
             region = new CellRangeAddress(rowNum, rowNum, 0, 1);
             sheet.addMergedRegion(region);
-            cell = row.createCell(0, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(0, CellType.STRING);
             cell.setCellStyle(cellStyleCenter);
             cell.setCellValue(column.getSerial());
             region = new CellRangeAddress(rowNum, rowNum, 2, 7);
             sheet.addMergedRegion(region);
-            cell = row.createCell(2, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(2, CellType.STRING);
             cell.setCellStyle(cellStyle);
             cell.setCellValue(column.getRemarks());
             region = new CellRangeAddress(rowNum, rowNum, 8, 12);
             sheet.addMergedRegion(region);
-            cell = row.createCell(8, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(8, CellType.STRING);
             cell.setCellStyle(cellStyle);
             cell.setCellValue(column.getColumnName());
             region = new CellRangeAddress(rowNum, rowNum, 13, 17);
             sheet.addMergedRegion(region);
-            cell = row.createCell(13, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(13, CellType.STRING);
             cell.setCellStyle(cellStyleCenter);
             cell.setCellValue(column.getSqlType().toLowerCase());
             region = new CellRangeAddress(rowNum, rowNum, 18, 20);
             sheet.addMergedRegion(region);
-            cell = row.createCell(18, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(18, CellType.STRING);
             cell.setCellStyle(cellStyle);
             cell.setCellValue(column.getLength());
             region = new CellRangeAddress(rowNum, rowNum, 21, 22);
             sheet.addMergedRegion(region);
-            cell = row.createCell(21, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(21, CellType.STRING);
             cell.setCellStyle(cellStyleCenter);
             cell.setCellValue("NO".equals(column.getIsNotNull()) ? "○" : null);
             region = new CellRangeAddress(rowNum, rowNum, 23, 24);
             sheet.addMergedRegion(region);
-            cell = row.createCell(23, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(23, CellType.STRING);
             cell.setCellStyle(cellStyleCenter);
             for (Column columnKey : table.getPrimaryKey()) {
                 if (columnKey.getColumnName().equals(column.getColumnName())) {
@@ -319,7 +320,7 @@ public class MakeDatabaseOfExcel {
             }
             region = new CellRangeAddress(rowNum, rowNum, 25, 27);
             sheet.addMergedRegion(region);
-            cell = row.createCell(25, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(25, CellType.STRING);
             cell.setCellStyle(cellStyleCenter);
             for (Column columnKey : table.getPrimaryKey()) {
                 if (columnKey.getColumnName().equals(column.getColumnName())) {
@@ -329,7 +330,7 @@ public class MakeDatabaseOfExcel {
             }
             region = new CellRangeAddress(rowNum, rowNum, 28, 29);
             sheet.addMergedRegion(region);
-            cell = row.createCell(28, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(28, CellType.STRING);
             cell.setCellStyle(cellStyleCenter);
             for (Column columnExp : table.getExportedKey()) {
                 if (columnExp.getColumnName().equals(column.getColumnName())) {
@@ -339,7 +340,7 @@ public class MakeDatabaseOfExcel {
             }
             region = new CellRangeAddress(rowNum, rowNum, 30, 43);
             sheet.addMergedRegion(region);
-            cell = row.createCell(30, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(30, CellType.STRING);
             cell.setCellStyle(cellStyle);
             cell.setCellValue(column.getRemarks());
         }
@@ -376,33 +377,33 @@ public class MakeDatabaseOfExcel {
             // 设置行高
             row.setHeightInPoints(15);
 
-            Cell cell = row.createCell(0, Cell.CELL_TYPE_STRING);
+            Cell cell = row.createCell(0, CellType.STRING);
             cell.setCellValue(i + 1);
             cell.setCellStyle(getCellStyle(workbook));
-            cell = row.createCell(1, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(1, CellType.STRING);
             cell.setCellStyle(getLinkStyle(workbook));
             cell.setCellValue(table.getRemarks());
             Hyperlink link = createHelper.createHyperlink(HyperlinkType.DOCUMENT);
             link.setAddress("#" + table.getTableName() + "!A1");
             cell.setHyperlink(link);
-            cell = row.createCell(2, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(2, CellType.STRING);
             cell.setCellStyle(getLinkStyle(workbook));
             cell.setCellValue(table.getTableName());
             link = createHelper.createHyperlink(HyperlinkType.DOCUMENT);
             link.setAddress("#" + table.getTableName() + "!A1");
             cell.setHyperlink(link);
-            cell = row.createCell(3, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(3, CellType.STRING);
             cell.setCellStyle(getCellStyle(workbook));
             cell.setCellValue(table.getRemarks());
-            cell = row.createCell(4, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(4, CellType.STRING);
             cell.setCellStyle(getCellStyle(workbook));
             cell.setCellValue("自动生成");
-            cell = row.createCell(5, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(5, CellType.STRING);
             cell.setCellStyle(cellStyleDate);
             cell.setCellValue(new Date());
-            cell = row.createCell(6, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(6, CellType.STRING);
             cell.setCellStyle(getCellStyle(workbook));
-            cell = row.createCell(7, Cell.CELL_TYPE_STRING);
+            cell = row.createCell(7, CellType.STRING);
             cell.setCellStyle(cellStyleDate);
         }
 
@@ -421,7 +422,7 @@ public class MakeDatabaseOfExcel {
 
         // 3.3应用格式
         // 在索引0的位置创建单元格（左上端）
-        Cell cell = row.createCell(0, Cell.CELL_TYPE_STRING);
+        Cell cell = row.createCell(0, CellType.STRING);
         cell.setCellStyle(cellStyle);
         cell.setCellValue("表一览");
 
@@ -434,7 +435,7 @@ public class MakeDatabaseOfExcel {
         // 设置行高
         row.setHeightInPoints(30);
         cell = row.createCell(0);
-        cell.setCellType(Cell.CELL_TYPE_STRING);
+        cell.setCellType(CellType.STRING);
         cell.setCellStyle(cellStyleBlue);
         cell.setCellValue("No.");
         cell = row.createCell(1);
@@ -499,7 +500,7 @@ public class MakeDatabaseOfExcel {
             // 设置行高
             row.setHeightInPoints(15);
             for (int j = 0; j < 6; j++) {
-                Cell cell = row.createCell(j, Cell.CELL_TYPE_STRING);
+                Cell cell = row.createCell(j, CellType.STRING);
                 cell.setCellStyle(getCellStyle(workbook));
                 if (j == 0) {
                     cell.setCellStyle(cellStyleDate);
@@ -522,7 +523,7 @@ public class MakeDatabaseOfExcel {
 
         // 3.3应用格式
         // 在索引0的位置创建单元格（左上端）
-        Cell cell = row.createCell(0, Cell.CELL_TYPE_STRING);
+        Cell cell = row.createCell(0, CellType.STRING);
         cell.setCellStyle(cellStyleBold);
         cell.setCellValue("修正履历一览");
 
@@ -535,7 +536,7 @@ public class MakeDatabaseOfExcel {
         // 设置行高
         row.setHeightInPoints(30);
         cell = row.createCell(0);
-        cell.setCellType(Cell.CELL_TYPE_STRING);
+        cell.setCellType(CellType.STRING);
         cell.setCellStyle(cellStyleBlue);
         cell.setCellValue("修正日期");
         cell = row.createCell(1);
