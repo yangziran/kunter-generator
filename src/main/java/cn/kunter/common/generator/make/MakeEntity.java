@@ -84,25 +84,30 @@ public class MakeEntity {
         List<String> superInterface = new ArrayList<String>();
         superInterface.add("Serializable");
         // 类开始
-        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, false, true, null, superInterface, table.getJavaName(), table.getRemarks()));
+        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, false,
+                true, null, superInterface, table.getJavaName(), table.getRemarks()));
 
         // 字段定义
         for (Column column : table.getCols()) {
-            builder.append(JavaBeansUtil.getJavaBeansField(JavaVisibility.PRIVATE.getValue(), false, false, false, false, column.getJavaName(), column.getJavaType(), column.getRemarks()));
+            builder.append(JavaBeansUtil.getJavaBeansField(JavaVisibility.PRIVATE.getValue(), false, false, false,
+                    false, column.getJavaName(), column.getJavaType(), column.getRemarks()));
         }
 
         OutputUtilities.newLine(builder);
         // Get/Set
         for (Column column : table.getCols()) {
 
-            builder.append(JavaBeansUtil.getJavaBeansGetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(), column.getJavaType(), column.getRemarks()));
+            builder.append(JavaBeansUtil.getJavaBeansGetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
+                    column.getJavaType(), column.getRemarks()));
 
-            builder.append(JavaBeansUtil.getJavaBeansSetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(), column.getJavaType(), column.getRemarks()));
+            builder.append(JavaBeansUtil.getJavaBeansSetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
+                    column.getJavaType(), column.getRemarks()));
         }
         // 类结束
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
         // 输出文件
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + entityPackages.replaceAll("\\.", "/") + "/" + table.getJavaName() + ".java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + entityPackages.replaceAll("\\.", "/") + "/"
+                + table.getJavaName() + ".java", builder.toString());
     }
 }

@@ -76,11 +76,13 @@ public class MakeDao {
         builder.append(" * @version 1.0 " + DateUtil.getSysDate());
         OutputUtilities.newLine(builder);
         builder.append(" */");// BaseDao<AdminUser, AdminUserExample>
-        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, true, false, "BaseDao<" + table.getJavaName() + ", " + table.getJavaName() + "Example>",
-                null, table.getJavaName() + "Dao", table.getRemarks()));
+        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, true,
+                false, "BaseDao<" + table.getJavaName() + ", " + table.getJavaName() + "Example>", null,
+                table.getJavaName() + "Dao", table.getRemarks()));
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + daoPackages.replaceAll("\\.", "/") + "/" + table.getJavaName() + "Dao.java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + daoPackages.replaceAll("\\.", "/") + "/"
+                + table.getJavaName() + "Dao.java", builder.toString());
     }
 }

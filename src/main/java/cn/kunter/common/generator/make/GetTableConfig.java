@@ -35,7 +35,8 @@ import cn.kunter.common.generator.util.StringUtility;
 public class GetTableConfig {
 
     // 数据源类型
-    private final static String SOURCE_TYPE = SourceType.valueOf(PropertyHolder.getJDBCProperty("SourceType")).getValue();
+    private final static String SOURCE_TYPE = SourceType.valueOf(PropertyHolder.getJDBCProperty("SourceType"))
+            .getValue();
     // 数据库类型
     private final static String DB_TYPE = DBType.valueOf(PropertyHolder.getJDBCProperty("DB")).getValue();
 

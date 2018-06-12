@@ -281,7 +281,8 @@ public class JavaBeansUtil {
         String name,
         String remarks) {
 
-        return getJavaBeansStart(visibility, isAbstract, isStatic, isFinal, isInterface, isClass, superClass, superInterface, name, remarks, true);
+        return getJavaBeansStart(visibility, isAbstract, isStatic, isFinal, isInterface, isClass, superClass,
+                superInterface, name, remarks, true);
     }
 
     /**
@@ -323,7 +324,15 @@ public class JavaBeansUtil {
      * @return Java类字段
      * @author yangziran
      */
-    public static String getJavaBeansField(String visibility, boolean isStatic, boolean isFinal, boolean isTransient, boolean isVolatile, String name, String type, String remarks) {
+    public static String getJavaBeansField(
+        String visibility,
+        boolean isStatic,
+        boolean isFinal,
+        boolean isTransient,
+        boolean isVolatile,
+        String name,
+        String type,
+        String remarks) {
 
         StringBuilder buffer = new StringBuilder();
         if (StringUtility.isNotEmpty(remarks)) {
@@ -419,7 +428,8 @@ public class JavaBeansUtil {
         }
         OutputUtilities.newLine(buffer);
         OutputUtilities.javaIndent(buffer, 1);
-        buffer.append(visibility).append("void ").append(JavaBeansUtil.getSetterMethodName(name)).append("(").append(type).append(" ").append(name).append(") {");
+        buffer.append(visibility).append("void ").append(JavaBeansUtil.getSetterMethodName(name)).append("(")
+                .append(type).append(" ").append(name).append(") {");
         OutputUtilities.newLine(buffer);
         OutputUtilities.javaIndent(buffer, 2);
         buffer.append("this.").append(name).append(" = ").append(name).append(";");

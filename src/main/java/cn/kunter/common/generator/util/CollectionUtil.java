@@ -82,7 +82,11 @@ public class CollectionUtil {
      * @param propertyName 属性名称
      * @param order 排序方式
      */
-    public static void sortByProperty(List<?> objects, final String propertyName, final String propertyType, final int order) {
+    public static void sortByProperty(
+        List<?> objects,
+        final String propertyName,
+        final String propertyType,
+        final int order) {
 
         // 实现Comparator接口实现排序
         Collections.sort(objects, new Comparator<Object>() {
@@ -96,14 +100,18 @@ public class CollectionUtil {
                 try {
                     Method method = null;
                     // 获取 get方法
-                    method = clazz.getMethod("get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1), new Class[] {});
+                    method = clazz.getMethod(
+                            "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1),
+                            new Class[] {});
                     // 如果是String 类型 则将方法执行的结果转换成String类型并用compareTo方法是行排序
                     if (String.class.getSimpleName().equals(propertyType)) {
                         if (DESC == order) {
-                            result = (StringUtility.parseString(method.invoke(r2))).compareTo(StringUtility.parseString(method.invoke(r1)));
+                            result = (StringUtility.parseString(method.invoke(r2)))
+                                    .compareTo(StringUtility.parseString(method.invoke(r1)));
                         }
                         else {
-                            result = (StringUtility.parseString(method.invoke(r1))).compareTo(StringUtility.parseString(method.invoke(r2)));
+                            result = (StringUtility.parseString(method.invoke(r1)))
+                                    .compareTo(StringUtility.parseString(method.invoke(r2)));
                         }
                     }
                     // 如果是Integer类型 则将方法执行的结果转换成Integer类型并排序

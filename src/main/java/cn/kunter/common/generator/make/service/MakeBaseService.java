@@ -57,7 +57,8 @@ public class MakeBaseService {
         builder.append(" * @version 1.0 " + DateUtil.getSysDate());
         OutputUtilities.newLine(builder);
         builder.append(" */");
-        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), true, false, false, true, false, null, null, "BaseService<T, Example>", null));
+        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), true, false, false, true,
+                false, null, null, "BaseService<T, Example>", null));
 
         Method method = new Method();
         FullyQualifiedJavaType fqjt;
@@ -605,6 +606,7 @@ public class MakeBaseService {
         builder.append(method.getFormattedContent(1, true));
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseServicePackages.replaceAll("\\.", "/") + "/BaseService.java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseServicePackages.replaceAll("\\.", "/")
+                + "/BaseService.java", builder.toString());
     }
 }

@@ -37,7 +37,8 @@ public class MakeMyBatisConfig {
         StringBuilder builder1 = new StringBuilder();
         builder1.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         OutputUtilities.newLine(builder1);
-        builder1.append("<!DOCTYPE configuration PUBLIC \"-//mybatis.org//DTD Config 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-config.dtd\">");
+        builder1.append(
+                "<!DOCTYPE configuration PUBLIC \"-//mybatis.org//DTD Config 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-config.dtd\">");
         OutputUtilities.newLine(builder1);
         builder1.append("<configuration>");
         OutputUtilities.newLine(builder1);
@@ -97,7 +98,8 @@ public class MakeMyBatisConfig {
                 StringBuilder configName = new StringBuilder();
                 configName.append("mybatis-config-").append(model).append(".xml");
 
-                FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + configName.toString(), mybatis.toString());
+                FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + configName.toString(),
+                        mybatis.toString());
             }
         }
         else {
@@ -125,14 +127,18 @@ public class MakeMyBatisConfig {
 
         OutputUtilities.newLine(typeAlias);
         OutputUtilities.javaIndent(typeAlias, 2);
-        typeAlias.append("<typeAlias alias=\"" + table.getJavaName() + "\" type=\"" + PackageHolder.getEntityPackage(table.getTableName()) + "." + table.getJavaName() + "\" />");
+        typeAlias.append("<typeAlias alias=\"" + table.getJavaName() + "\" type=\""
+                + PackageHolder.getEntityPackage(table.getTableName()) + "." + table.getJavaName() + "\" />");
 
         OutputUtilities.newLine(mapper);
         OutputUtilities.javaIndent(mapper, 2);
-        mapper.append("<mapper resource=\"" + PackageHolder.getBaseXmlPackage(table.getTableName()).replaceAll("\\.", "/") + "/Base" + table.getJavaName() + "Mapper.xml\" />");
+        mapper.append(
+                "<mapper resource=\"" + PackageHolder.getBaseXmlPackage(table.getTableName()).replaceAll("\\.", "/")
+                        + "/Base" + table.getJavaName() + "Mapper.xml\" />");
 
         OutputUtilities.newLine(mapper);
         OutputUtilities.javaIndent(mapper, 2);
-        mapper.append("<mapper resource=\"" + PackageHolder.getXmlPackage(table.getTableName()).replaceAll("\\.", "/") + "/" + table.getJavaName() + "Mapper.xml\" />");
+        mapper.append("<mapper resource=\"" + PackageHolder.getXmlPackage(table.getTableName()).replaceAll("\\.", "/")
+                + "/" + table.getJavaName() + "Mapper.xml\" />");
     }
 }

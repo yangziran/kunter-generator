@@ -68,10 +68,11 @@ public class MakeBaseServiceImpl {
         builder.append(" * @version 1.0 " + DateUtil.getSysDate());
         OutputUtilities.newLine(builder);
         builder.append(" */");
-        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), true, false, false, false, true, null, superInterface,
-                "BaseServiceImpl<Dao extends BaseDao<T, Example>, T, Example>", null));
+        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), true, false, false, false,
+                true, null, superInterface, "BaseServiceImpl<Dao extends BaseDao<T, Example>, T, Example>", null));
 
-        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false, false, "Dao", "getDao", null, null, new ArrayList<String>(), null));
+        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false,
+                false, "Dao", "getDao", null, null, new ArrayList<String>(), null));
 
         Method method = new Method();
         FullyQualifiedJavaType fqjt;
@@ -175,7 +176,8 @@ public class MakeBaseServiceImpl {
             method.addBodyLine("try {");
             method.addBodyLine("currentPage = example.getClass().getDeclaredField(\"currentPage\").getInt(example);");
             method.addBodyLine("pageSize = example.getClass().getDeclaredField(\"pageSize\").getInt(example);");
-            method.addBodyLine("} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {");
+            method.addBodyLine(
+                    "} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {");
             method.addBodyLine("e.printStackTrace();");
             method.addBodyLine("}");
             method.addBodyLine("Page page = new Page(currentPage, pageSize);");
@@ -209,7 +211,8 @@ public class MakeBaseServiceImpl {
         method.addBodyLine("try {");
         method.addBodyLine("currentPage = example.getClass().getDeclaredField(\"currentPage\").getInt(example);");
         method.addBodyLine("pageSize = example.getClass().getDeclaredField(\"pageSize\").getInt(example);");
-        method.addBodyLine("} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {");
+        method.addBodyLine(
+                "} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {");
         method.addBodyLine("e.printStackTrace();");
         method.addBodyLine("}");
         method.addBodyLine("Page page = new Page(currentPage, pageSize);");
@@ -701,6 +704,7 @@ public class MakeBaseServiceImpl {
         builder.append(method.getFormattedContent(1, false));
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseServiceImplPackages.replaceAll("\\.", "/") + "/BaseServiceImpl.java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseServiceImplPackages.replaceAll("\\.", "/")
+                + "/BaseServiceImpl.java", builder.toString());
     }
 }

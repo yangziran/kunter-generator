@@ -63,7 +63,8 @@ public class MakeCreateTableSQL {
                 StringBuilder createSQLName = new StringBuilder();
                 createSQLName.append("CreateTableSQL-").append(model).append(".sql");
 
-                FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + createSQLName.toString(), sqlMap.get(model).toString());
+                FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + createSQLName.toString(),
+                        sqlMap.get(model).toString());
             }
         }
         else {
@@ -73,7 +74,8 @@ public class MakeCreateTableSQL {
                 setSQL(builder, table);
             }
 
-            FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + "CreateTableSQL.sql".toString(), builder.toString());
+            FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + "CreateTableSQL.sql".toString(),
+                    builder.toString());
         }
     }
 
@@ -113,10 +115,12 @@ public class MakeCreateTableSQL {
             }
             builder.append(");");
             OutputUtilities.newLine(builder);
-            builder.append("COMMENT ON TABLE \"").append(table.getTableName()).append("\" IS '").append(table.getRemarks()).append("';");
+            builder.append("COMMENT ON TABLE \"").append(table.getTableName()).append("\" IS '")
+                    .append(table.getRemarks()).append("';");
             OutputUtilities.newLine(builder);
             for (Column column : table.getCols()) {
-                builder.append("COMMENT ON COLUMN \"").append(table.getTableName()).append("\".\"").append(column.getColumnName()).append("\" IS '").append(column.getRemarks()).append("';");
+                builder.append("COMMENT ON COLUMN \"").append(table.getTableName()).append("\".\"")
+                        .append(column.getColumnName()).append("\" IS '").append(column.getRemarks()).append("';");
                 OutputUtilities.newLine(builder);
             }
             // 判断当前表有主键时
@@ -135,7 +139,8 @@ public class MakeCreateTableSQL {
                 OutputUtilities.newLine(builder);
                 // 添加索引
                 builder.append("CREATE INDEX idx_");
-                builder.append(table.getTableName()).append(" using btree ON ").append(table.getTableName()).append("(");
+                builder.append(table.getTableName()).append(" using btree ON ").append(table.getTableName())
+                        .append("(");
                 for (int m = 0; m < table.getPrimaryKey().size(); m++) {
                     Column column = table.getPrimaryKey().get(m);
                     builder.append(column.getColumnName());
@@ -192,7 +197,8 @@ public class MakeCreateTableSQL {
                 OutputUtilities.newLine(builder);
                 // 添加索引
                 builder.append("CREATE INDEX idx_");
-                builder.append(table.getTableName()).append(" using btree ON ").append(table.getTableName()).append("(");
+                builder.append(table.getTableName()).append(" using btree ON ").append(table.getTableName())
+                        .append("(");
                 for (int m = 0; m < table.getPrimaryKey().size(); m++) {
                     Column column = table.getPrimaryKey().get(m);
                     builder.append(column.getColumnName());
@@ -231,10 +237,12 @@ public class MakeCreateTableSQL {
             }
             builder.append(");");
             OutputUtilities.newLine(builder);
-            builder.append("COMMENT ON TABLE ").append(table.getTableName()).append(" IS '").append(table.getRemarks()).append("';");
+            builder.append("COMMENT ON TABLE ").append(table.getTableName()).append(" IS '").append(table.getRemarks())
+                    .append("';");
             OutputUtilities.newLine(builder);
             for (Column column : table.getCols()) {
-                builder.append("COMMENT ON COLUMN ").append(table.getTableName()).append(".").append(column.getColumnName()).append(" IS '").append(column.getRemarks()).append("';");
+                builder.append("COMMENT ON COLUMN ").append(table.getTableName()).append(".")
+                        .append(column.getColumnName()).append(" IS '").append(column.getRemarks()).append("';");
                 OutputUtilities.newLine(builder);
             }
             // 判断当前表有主键时
@@ -253,7 +261,8 @@ public class MakeCreateTableSQL {
                 OutputUtilities.newLine(builder);
                 // 添加索引
                 builder.append("CREATE INDEX idx_");
-                builder.append(table.getTableName()).append(" using btree ON ").append(table.getTableName()).append("(");
+                builder.append(table.getTableName()).append(" using btree ON ").append(table.getTableName())
+                        .append("(");
                 for (int m = 0; m < table.getPrimaryKey().size(); m++) {
                     Column column = table.getPrimaryKey().get(m);
                     builder.append(column.getColumnName());

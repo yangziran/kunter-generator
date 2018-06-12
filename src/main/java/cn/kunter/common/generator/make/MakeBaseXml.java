@@ -63,7 +63,8 @@ public class MakeBaseXml {
         StringBuilder builder = new StringBuilder();
         builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         OutputUtilities.newLine(builder);
-        builder.append("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
+        builder.append(
+                "<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
         OutputUtilities.newLine(builder);
         builder.append("<mapper namespace=\"" + namespace + "\">");
 
@@ -76,7 +77,8 @@ public class MakeBaseXml {
                 if (column.getJavaName().equals(key.getJavaName())) {
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 2);
-                    builder.append("<id column=\"" + column.getColumnName() + "\" jdbcType=\"" + column.getSqlType() + "\" property=\"" + column.getJavaName() + "\" />");
+                    builder.append("<id column=\"" + column.getColumnName() + "\" jdbcType=\"" + column.getSqlType()
+                            + "\" property=\"" + column.getJavaName() + "\" />");
                 }
             }
         }
@@ -90,7 +92,8 @@ public class MakeBaseXml {
             if (tmp == null) {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
-                builder.append("<result column=\"" + column.getColumnName() + "\" jdbcType=\"" + column.getSqlType() + "\" property=\"" + column.getJavaName() + "\" />");
+                builder.append("<result column=\"" + column.getColumnName() + "\" jdbcType=\"" + column.getSqlType()
+                        + "\" property=\"" + column.getJavaName() + "\" />");
             }
         }
         OutputUtilities.newLine(builder);
@@ -152,7 +155,8 @@ public class MakeBaseXml {
         builder.append("and ${criterion.condition}");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 8);
-        builder.append("<foreach close=\")\" collection=\"criterion.value\" item=\"listItem\" open=\"(\" separator=\",\">");
+        builder.append(
+                "<foreach close=\")\" collection=\"criterion.value\" item=\"listItem\" open=\"(\" separator=\",\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 9);
         builder.append("#{listItem}");
@@ -236,7 +240,8 @@ public class MakeBaseXml {
         builder.append("and ${criterion.condition}");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 8);
-        builder.append("<foreach close=\")\" collection=\"criterion.value\" item=\"listItem\" open=\"(\" separator=\",\">");
+        builder.append(
+                "<foreach close=\")\" collection=\"criterion.value\" item=\"listItem\" open=\"(\" separator=\",\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 9);
         builder.append("#{listItem}");
@@ -293,7 +298,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据条件统计表中数据数量 未删除【删除标识=0】 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<select id=\"").append(DaoMethodNameUtil.getCountByExample(LOGICAL)).append("\" parameterType=\"").append(typeExample).append("\" resultType=\"java.lang.Integer\">");
+            builder.append("<select id=\"").append(DaoMethodNameUtil.getCountByExample(LOGICAL))
+                    .append("\" parameterType=\"").append(typeExample).append("\" resultType=\"java.lang.Integer\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("select");
@@ -339,7 +345,8 @@ public class MakeBaseXml {
         builder.append("<!-- 根据条件统计表中数据数量 所有数据 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<select id=\"").append(DaoMethodNameUtil.getCountByExample(!LOGICAL)).append("\" parameterType=\"").append(typeExample).append("\" resultType=\"java.lang.Integer\">");
+        builder.append("<select id=\"").append(DaoMethodNameUtil.getCountByExample(!LOGICAL))
+                .append("\" parameterType=\"").append(typeExample).append("\" resultType=\"java.lang.Integer\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("select");
@@ -384,7 +391,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据条件查询表中数据 未删除【删除标识=0】 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByExample(LOGICAL)).append("\" parameterType=\"").append(typeExample).append("\" resultMap=\"BaseResultMap\">");
+            builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByExample(LOGICAL))
+                    .append("\" parameterType=\"").append(typeExample).append("\" resultMap=\"BaseResultMap\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("select");
@@ -468,7 +476,8 @@ public class MakeBaseXml {
         builder.append("<!-- 根据条件查询表中数据 所有数据 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByExample(!LOGICAL)).append("\" parameterType=\"").append(typeExample).append("\" resultMap=\"BaseResultMap\">");
+        builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByExample(!LOGICAL))
+                .append("\" parameterType=\"").append(typeExample).append("\" resultMap=\"BaseResultMap\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("select");
@@ -551,7 +560,8 @@ public class MakeBaseXml {
             builder.append("<!-- 往表中插入一条数据 系统字段由系统处理 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsert(LOGICAL)).append("\" parameterType=\"").append(type).append("\">");
+            builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsert(LOGICAL)).append("\" parameterType=\"")
+                    .append(type).append("\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("insert into");
@@ -606,7 +616,8 @@ public class MakeBaseXml {
         builder.append("<!-- 往表中插入一条数据 系统字段需要输入 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsert(!LOGICAL)).append("\" parameterType=\"").append(type).append("\">");
+        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsert(!LOGICAL)).append("\" parameterType=\"")
+                .append(type).append("\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("insert into");
@@ -645,7 +656,8 @@ public class MakeBaseXml {
             builder.append("<!-- 往表中批量插入数据 系统字段由系统处理 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertList(LOGICAL)).append("\" parameterType=\"java.util.List\">");
+            builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertList(LOGICAL))
+                    .append("\" parameterType=\"java.util.List\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("insert into");
@@ -665,7 +677,8 @@ public class MakeBaseXml {
             builder.append("</trim>");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
-            builder.append("<foreach collection=\"list\" item=\"item\" open=\"values (\" close=\")\" separator=\" ), ( \">");
+            builder.append(
+                    "<foreach collection=\"list\" item=\"item\" open=\"values (\" close=\")\" separator=\" ), ( \">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
             builder.append("<trim suffixOverrides=\",\">");
@@ -706,7 +719,8 @@ public class MakeBaseXml {
         builder.append("<!-- 往表中批量插入数据 系统字段需要输入 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertList(!LOGICAL)).append("\" parameterType=\"java.util.List\">");
+        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertList(!LOGICAL))
+                .append("\" parameterType=\"java.util.List\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("insert into");
@@ -726,7 +740,8 @@ public class MakeBaseXml {
         builder.append("</trim>");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
-        builder.append("<foreach collection=\"list\" item=\"item\" open=\"values (\" close=\")\" separator=\" ), ( \">");
+        builder.append(
+                "<foreach collection=\"list\" item=\"item\" open=\"values (\" close=\")\" separator=\" ), ( \">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 3);
         builder.append("<trim suffixOverrides=\",\">");
@@ -751,7 +766,8 @@ public class MakeBaseXml {
             builder.append("<!-- 往表中插入一条数据 字段为空不插入 系统字段由系统处理 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertSelective(LOGICAL)).append("\" parameterType=\"").append(type).append("\">");
+            builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertSelective(LOGICAL))
+                    .append("\" parameterType=\"").append(type).append("\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("insert into");
@@ -764,7 +780,8 @@ public class MakeBaseXml {
             for (Column column : table.getCols()) {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 3);
-                if (column.getJavaName().equals("deleteFlag") || column.getJavaName().equals("createDate") || column.getJavaName().equals("updateDate")) {
+                if (column.getJavaName().equals("deleteFlag") || column.getJavaName().equals("createDate")
+                        || column.getJavaName().equals("updateDate")) {
                     builder.append(column.getColumnName() + ",");
                 }
                 else {
@@ -823,7 +840,8 @@ public class MakeBaseXml {
         builder.append("<!-- 往表中插入一条数据 字段为空不插入 系统字段需要输入 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertSelective(!LOGICAL)).append("\" parameterType=\"").append(type).append("\">");
+        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertSelective(!LOGICAL))
+                .append("\" parameterType=\"").append(type).append("\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("insert into");
@@ -874,7 +892,8 @@ public class MakeBaseXml {
             builder.append("<!-- 往表中批量插入数据 字段为空不插入 系统字段由系统处理 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertListSelective(LOGICAL)).append("\" parameterType=\"java.util.List\">");
+            builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertListSelective(LOGICAL))
+                    .append("\" parameterType=\"java.util.List\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("insert into");
@@ -887,7 +906,8 @@ public class MakeBaseXml {
             for (Column column : table.getCols()) {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 3);
-                if (column.getJavaName().equals("deleteFlag") || column.getJavaName().equals("createDate") || column.getJavaName().equals("updateDate")) {
+                if (column.getJavaName().equals("deleteFlag") || column.getJavaName().equals("createDate")
+                        || column.getJavaName().equals("updateDate")) {
                     builder.append(column.getColumnName() + ",");
                 }
                 else {
@@ -905,7 +925,8 @@ public class MakeBaseXml {
             builder.append("</trim>");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
-            builder.append("<foreach collection=\"list\" item=\"item\" open=\"values (\" close=\")\" separator=\" ), ( \">");
+            builder.append(
+                    "<foreach collection=\"list\" item=\"item\" open=\"values (\" close=\")\" separator=\" ), ( \">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 3);
             builder.append("<trim suffixOverrides=\",\">");
@@ -952,7 +973,8 @@ public class MakeBaseXml {
         builder.append("<!-- 往表中批量插入数据 字段为空不插入 系统字段需要输入 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertListSelective(!LOGICAL)).append("\" parameterType=\"java.util.List\">");
+        builder.append("<insert id=\"").append(DaoMethodNameUtil.getInsertListSelective(!LOGICAL))
+                .append("\" parameterType=\"java.util.List\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("insert into");
@@ -978,7 +1000,8 @@ public class MakeBaseXml {
         builder.append("</trim>");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
-        builder.append("<foreach collection=\"list\" item=\"item\" open=\"values (\" close=\")\" separator=\" ), ( \">");
+        builder.append(
+                "<foreach collection=\"list\" item=\"item\" open=\"values (\" close=\")\" separator=\" ), ( \">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 3);
         builder.append("<trim suffixOverrides=\",\">");
@@ -1009,7 +1032,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据条件修改数据 未删除【删除标识=0】 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByExample(LOGICAL)).append("\" parameterType=\"java.util.Map\">");
+            builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByExample(LOGICAL))
+                    .append("\" parameterType=\"java.util.Map\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("update");
@@ -1038,7 +1062,8 @@ public class MakeBaseXml {
                         }
                     }
                     else {
-                        builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                        builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
+                                + column.getSqlType() + "},");
                     }
                 }
             }
@@ -1077,7 +1102,8 @@ public class MakeBaseXml {
         builder.append("<!-- 根据条件修改数据 所有数据 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByExample(!LOGICAL)).append("\" parameterType=\"java.util.Map\">");
+        builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByExample(!LOGICAL))
+                .append("\" parameterType=\"java.util.Map\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("update");
@@ -1106,7 +1132,8 @@ public class MakeBaseXml {
                     }
                 }
                 else {
-                    builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                    builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
+                            + column.getSqlType() + "},");
                 }
             }
         }
@@ -1144,7 +1171,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据条件修改数据 字段为空不修改 未删除【删除标识=0】 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByExampleSelective(LOGICAL)).append("\" parameterType=\"java.util.Map\">");
+            builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByExampleSelective(LOGICAL))
+                    .append("\" parameterType=\"java.util.Map\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("update");
@@ -1174,14 +1202,16 @@ public class MakeBaseXml {
                     }
                     else if (column.getColumnName().equals("update_user_id")) {
                         // builder.append(table.getAlias()).append(".");
-                        builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                        builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
+                                + column.getSqlType() + "},");
                     }
                     else {
                         builder.append("<if test=\"record." + column.getJavaName() + " != null\">");
                         OutputUtilities.newLine(builder);
                         OutputUtilities.javaIndent(builder, 4);
                         // builder.append(table.getAlias()).append(".");
-                        builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                        builder.append(column.getColumnName() + " = #{record." + column.getJavaName() + ",jdbcType="
+                                + column.getSqlType() + "},");
                         OutputUtilities.newLine(builder);
                         OutputUtilities.javaIndent(builder, 3);
                         builder.append("</if>");
@@ -1223,7 +1253,8 @@ public class MakeBaseXml {
         builder.append("<!-- 根据条件修改数据 字段为空不修改 所有数据 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByExampleSelective(!LOGICAL)).append("\" parameterType=\"java.util.Map\">");
+        builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByExampleSelective(!LOGICAL))
+                .append("\" parameterType=\"java.util.Map\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("update");
@@ -1253,14 +1284,16 @@ public class MakeBaseXml {
                 }
                 else if (column.getColumnName().equals("update_user_id")) {
                     // builder.append(table.getAlias()).append(".");
-                    builder.append(column.getColumnName()).append(" = #{record." + column.getJavaName()).append(",jdbcType=").append(column.getSqlType() + "},");
+                    builder.append(column.getColumnName()).append(" = #{record." + column.getJavaName())
+                            .append(",jdbcType=").append(column.getSqlType() + "},");
                 }
                 else {
                     builder.append("<if test=\"record.").append(column.getJavaName()).append(" != null\">");
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 4);
                     // builder.append(table.getAlias()).append(".");
-                    builder.append(column.getColumnName()).append(" = #{record." + column.getJavaName()).append(",jdbcType=").append(column.getSqlType() + "},");
+                    builder.append(column.getColumnName()).append(" = #{record." + column.getJavaName())
+                            .append(",jdbcType=").append(column.getSqlType() + "},");
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 3);
                     builder.append("</if>");
@@ -1301,7 +1334,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据条件删除数据 逻辑删除 将【删除标识=1】 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<delete id=\"").append(DaoMethodNameUtil.getDeleteByExample(LOGICAL)).append("\" parameterType=\"").append(typeExample).append("\">");
+            builder.append("<delete id=\"").append(DaoMethodNameUtil.getDeleteByExample(LOGICAL))
+                    .append("\" parameterType=\"").append(typeExample).append("\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("update");
@@ -1348,7 +1382,8 @@ public class MakeBaseXml {
         builder.append("<!-- 根据条件删除数据 物理删除 -->");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("<delete id=\"").append(DaoMethodNameUtil.getDeleteByExample(!LOGICAL)).append("\" parameterType=\"").append(typeExample).append("\">");
+        builder.append("<delete id=\"").append(DaoMethodNameUtil.getDeleteByExample(!LOGICAL))
+                .append("\" parameterType=\"").append(typeExample).append("\">");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 2);
         builder.append("delete from");
@@ -1390,7 +1425,8 @@ public class MakeBaseXml {
                 builder.append("<!-- 根据主键查询数据 未删除【删除标识=0】 -->");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
-                builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByPrimaryKey(LOGICAL)).append("\" parameterType=\"java.util.Map\" resultMap=\"BaseResultMap\">");
+                builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByPrimaryKey(LOGICAL))
+                        .append("\" parameterType=\"java.util.Map\" resultMap=\"BaseResultMap\">");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("select");
@@ -1429,7 +1465,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据主键查询数据 所有数据 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByPrimaryKey(!LOGICAL)).append("\" parameterType=\"java.util.Map\" resultMap=\"BaseResultMap\">");
+            builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByPrimaryKey(!LOGICAL))
+                    .append("\" parameterType=\"java.util.Map\" resultMap=\"BaseResultMap\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("select");
@@ -1467,7 +1504,8 @@ public class MakeBaseXml {
                 builder.append("<!-- 根据主键修改数据 未删除【删除标识=0】 -->");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
-                builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByPrimaryKey(LOGICAL)).append("\" parameterType=\"").append(type).append("\">");
+                builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByPrimaryKey(LOGICAL))
+                        .append("\" parameterType=\"").append(type).append("\">");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("update");
@@ -1479,7 +1517,8 @@ public class MakeBaseXml {
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("<set>");
                 for (Column column : table.getCols()) {
-                    if (!column.getColumnName().equals("create_date") && !column.getColumnName().equals("create_user_id")) {
+                    if (!column.getColumnName().equals("create_date")
+                            && !column.getColumnName().equals("create_user_id")) {
                         OutputUtilities.newLine(builder);
                         OutputUtilities.javaIndent(builder, 3);
                         // builder.append(table.getAlias()).append(".");
@@ -1496,7 +1535,8 @@ public class MakeBaseXml {
                             }
                         }
                         else {
-                            builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                            builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
+                                    + column.getSqlType() + "},");
                         }
                     }
                 }
@@ -1516,7 +1556,8 @@ public class MakeBaseXml {
                     builder.append("and ");
                     Column column = table.getPrimaryKey().get(i);
                     // builder.append(table.getAlias()).append(".");
-                    builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append(",jdbcType=").append(column.getSqlType()).append("}");
+                    builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName())
+                            .append(",jdbcType=").append(column.getSqlType()).append("}");
                 }
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
@@ -1528,7 +1569,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据主键修改数据 所有数据 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByPrimaryKey(!LOGICAL)).append("\" parameterType=\"").append(type).append("\">");
+            builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByPrimaryKey(!LOGICAL))
+                    .append("\" parameterType=\"").append(type).append("\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("update");
@@ -1544,7 +1586,8 @@ public class MakeBaseXml {
                     OutputUtilities.newLine(builder);
                     OutputUtilities.javaIndent(builder, 3);
                     // builder.append(table.getAlias()).append(".");
-                    builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                    builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
+                            + column.getSqlType() + "},");
                 }
             }
             OutputUtilities.newLine(builder);
@@ -1562,7 +1605,8 @@ public class MakeBaseXml {
                 builder.append("and ");
                 Column column = table.getPrimaryKey().get(i);
                 // builder.append(table.getAlias()).append(".");
-                builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append(",jdbcType=").append(column.getSqlType()).append("}");
+                builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append(",jdbcType=")
+                        .append(column.getSqlType()).append("}");
             }
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
@@ -1574,7 +1618,8 @@ public class MakeBaseXml {
                 builder.append("<!-- 根据主键修改数据 字段为空不修改 未删除【删除标识=0】 -->");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
-                builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByPrimaryKeySelective(LOGICAL)).append("\" parameterType=\"").append(type).append("\">");
+                builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByPrimaryKeySelective(LOGICAL))
+                        .append("\" parameterType=\"").append(type).append("\">");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("update");
@@ -1586,7 +1631,8 @@ public class MakeBaseXml {
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("<set>");
                 for (Column column : table.getCols()) {
-                    if (!column.getColumnName().equals("create_date") && !column.getColumnName().equals("create_user_id")) {
+                    if (!column.getColumnName().equals("create_date")
+                            && !column.getColumnName().equals("create_user_id")) {
                         OutputUtilities.newLine(builder);
                         OutputUtilities.javaIndent(builder, 3);
                         if (column.getColumnName().equals("update_date")) {
@@ -1604,14 +1650,16 @@ public class MakeBaseXml {
                         }
                         else if (column.getColumnName().equals("update_user_id")) {
                             // builder.append(table.getAlias()).append(".");
-                            builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                            builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
+                                    + column.getSqlType() + "},");
                         }
                         else {
                             builder.append("<if test=\"" + column.getJavaName() + " != null\">");
                             OutputUtilities.newLine(builder);
                             OutputUtilities.javaIndent(builder, 4);
                             // builder.append(table.getAlias()).append(".");
-                            builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                            builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
+                                    + column.getSqlType() + "},");
                             OutputUtilities.newLine(builder);
                             OutputUtilities.javaIndent(builder, 3);
                             builder.append("</if>");
@@ -1634,7 +1682,8 @@ public class MakeBaseXml {
                     builder.append("and ");
                     Column column = table.getPrimaryKey().get(i);
                     // builder.append(table.getAlias()).append(".");
-                    builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append(",jdbcType=").append(column.getSqlType()).append("}");
+                    builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName())
+                            .append(",jdbcType=").append(column.getSqlType()).append("}");
                 }
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
@@ -1646,7 +1695,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据主键修改数据 字段为空不修改 所有数据 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByPrimaryKeySelective(!LOGICAL)).append("\" parameterType=\"").append(type).append("\">");
+            builder.append("<update id=\"").append(DaoMethodNameUtil.getUpdateByPrimaryKeySelective(!LOGICAL))
+                    .append("\" parameterType=\"").append(type).append("\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("update");
@@ -1676,14 +1726,16 @@ public class MakeBaseXml {
                     }
                     else if (column.getColumnName().equals("update_user_id")) {
                         // builder.append(table.getAlias()).append(".");
-                        builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                        builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
+                                + column.getSqlType() + "},");
                     }
                     else {
                         builder.append("<if test=\"" + column.getJavaName() + " != null\">");
                         OutputUtilities.newLine(builder);
                         OutputUtilities.javaIndent(builder, 4);
                         // builder.append(table.getAlias()).append(".");
-                        builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType=" + column.getSqlType() + "},");
+                        builder.append(column.getColumnName() + " = #{" + column.getJavaName() + ",jdbcType="
+                                + column.getSqlType() + "},");
                         OutputUtilities.newLine(builder);
                         OutputUtilities.javaIndent(builder, 3);
                         builder.append("</if>");
@@ -1705,7 +1757,8 @@ public class MakeBaseXml {
                 builder.append("and ");
                 Column column = table.getPrimaryKey().get(i);
                 // builder.append(table.getAlias()).append(".");
-                builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append(",jdbcType=").append(column.getSqlType()).append("}");
+                builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append(",jdbcType=")
+                        .append(column.getSqlType()).append("}");
             }
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
@@ -1717,7 +1770,8 @@ public class MakeBaseXml {
                 builder.append("<!-- 根据主键删除数据 逻辑删除 将【删除标识=1】 -->");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
-                builder.append("<update id=\"").append(DaoMethodNameUtil.getDeleteByPrimaryKey(LOGICAL)).append("\" parameterType=\"java.util.Map\">");
+                builder.append("<update id=\"").append(DaoMethodNameUtil.getDeleteByPrimaryKey(LOGICAL))
+                        .append("\" parameterType=\"java.util.Map\">");
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 2);
                 builder.append("update");
@@ -1753,7 +1807,8 @@ public class MakeBaseXml {
             builder.append("<!-- 根据主键删除数据 物理删除 -->");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
-            builder.append("<delete id=\"").append(DaoMethodNameUtil.getDeleteByPrimaryKey(!LOGICAL)).append("\" parameterType=\"java.util.Map\">");
+            builder.append("<delete id=\"").append(DaoMethodNameUtil.getDeleteByPrimaryKey(!LOGICAL))
+                    .append("\" parameterType=\"java.util.Map\">");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 2);
             builder.append("delete from");
@@ -1782,6 +1837,7 @@ public class MakeBaseXml {
         builder.append("</mapper>");
 
         String baseXmlPackages = PackageHolder.getBaseXmlPackage(table.getTableName());
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseXmlPackages.replaceAll("\\.", "/") + "/Base" + table.getJavaName() + "Mapper.xml", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseXmlPackages.replaceAll("\\.", "/") + "/Base"
+                + table.getJavaName() + "Mapper.xml", builder.toString());
     }
 }

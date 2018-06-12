@@ -80,7 +80,8 @@ public class StringUtility {
         if (str == null || (strLen = str.length()) == 0) {
             return str;
         }
-        return new StringBuffer(strLen).append(Character.toTitleCase(str.charAt(0))).append(str.substring(1)).toString();
+        return new StringBuffer(strLen).append(Character.toTitleCase(str.charAt(0))).append(str.substring(1))
+                .toString();
     }
 
     /**
@@ -94,7 +95,8 @@ public class StringUtility {
         if (str == null || (strLen = str.length()) == 0) {
             return str;
         }
-        return new StringBuffer(strLen).append(Character.toLowerCase(str.charAt(0))).append(str.substring(1)).toString();
+        return new StringBuffer(strLen).append(Character.toLowerCase(str.charAt(0))).append(str.substring(1))
+                .toString();
     }
 
     /**

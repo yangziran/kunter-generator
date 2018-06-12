@@ -77,11 +77,13 @@ public class MakeService {
         builder.append(" * @version 1.0 " + DateUtil.getSysDate());
         OutputUtilities.newLine(builder);
         builder.append(" */");
-        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, true, false,
-                "BaseService<" + table.getJavaName() + ", " + table.getJavaName() + "Example>", null, table.getJavaName() + "Service", table.getRemarks()));
+        builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, true,
+                false, "BaseService<" + table.getJavaName() + ", " + table.getJavaName() + "Example>", null,
+                table.getJavaName() + "Service", table.getRemarks()));
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());
 
-        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + servicePackages.replaceAll("\\.", "/") + "/" + table.getJavaName() + "Service.java", builder.toString());
+        FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + servicePackages.replaceAll("\\.", "/") + "/"
+                + table.getJavaName() + "Service.java", builder.toString());
     }
 }
