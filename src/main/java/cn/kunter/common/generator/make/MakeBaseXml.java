@@ -1458,6 +1458,48 @@ public class MakeBaseXml {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
                 builder.append("</select>");
+
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("<!-- 根据主键查询数据 未删除【删除标识=0】（锁定数据） -->");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByPrimaryKeyForUpdate(LOGICAL))
+                        .append("\" parameterType=\"java.util.Map\" resultMap=\"BaseResultMap\">");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("select");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append("<include refid=\"Base_Column_List\" />");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("from");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                builder.append(table.getTableName());
+                // builder.append(" ").append(table.getAlias());
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("where");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 3);
+                // builder.append(table.getAlias()).append(".");
+                builder.append("delete_flag = '0'");
+                for (int i = 0; i < table.getPrimaryKey().size(); i++) {
+                    OutputUtilities.newLine(builder);
+                    OutputUtilities.javaIndent(builder, 2);
+                    builder.append("and ");
+                    Column column = table.getPrimaryKey().get(i);
+                    // builder.append(table.getAlias()).append(".");
+                    builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append("}");
+                }
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("for update");
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("</select>");
             }
 
             OutputUtilities.newLine(builder);
@@ -1494,6 +1536,47 @@ public class MakeBaseXml {
                 // builder.append(table.getAlias()).append(".");
                 builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append("}");
             }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("</select>");
+
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<!-- 根据主键查询数据 所有数据（锁定数据） -->");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 1);
+            builder.append("<select id=\"").append(DaoMethodNameUtil.getSelectByPrimaryKeyForUpdate(!LOGICAL))
+                    .append("\" parameterType=\"java.util.Map\" resultMap=\"BaseResultMap\">");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("select");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("<include refid=\"Base_Column_List\" />");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("from");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append(table.getTableName());
+            // builder.append(" ").append(table.getAlias());
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("where");
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 3);
+            builder.append("1 = 1");
+            for (int i = 0; i < table.getPrimaryKey().size(); i++) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 2);
+                builder.append("and ");
+                Column column = table.getPrimaryKey().get(i);
+                // builder.append(table.getAlias()).append(".");
+                builder.append(column.getColumnName()).append(" = #{").append(column.getJavaName()).append("}");
+            }
+            OutputUtilities.newLine(builder);
+            OutputUtilities.javaIndent(builder, 2);
+            builder.append("for update");
             OutputUtilities.newLine(builder);
             OutputUtilities.javaIndent(builder, 1);
             builder.append("</select>");

@@ -21,6 +21,7 @@ BaseDAO和BaseService、BaseServiceImpl Jar：
 
 ## 更新日志
 
+- 2019-5-7 添加生成getSelectByPrimaryKeyForUpdate方法
 - 2018-6-6 升级部分依赖包，修正已过时方法的调用，优化代码
 - 2017-11-24 ignore增加IDEA的忽略文件，对超长表名的处理及简化后Sheet名称重复问题，使用WorkbookFactory创建Workbook对象，去除采用文件名后缀判断Excel类型的操作
 - 2016-7-18 修复生成的Example文件中currentSize属性get方法名称的问题
@@ -138,7 +139,9 @@ BaseDAO和BaseService、BaseServiceImpl Jar：
 * int deleteByExample(<?>Example example);
 * int deleteByExample_physical(<?>Example example);
 * <?> selectByPrimaryKey(Map<String, Object> map);
+* <?> selectByPrimaryKeyForUpdate(Map<String, Object> map);
 * <?> selectByPrimaryKey_physical(Map<String, Object> map);
+* <?> selectByPrimaryKeyForUpdate_physical(Map<String, Object> map);
 * int updateByPrimaryKey(<?> record);
 * int updateByPrimaryKey_physical(<?> record);
 * int updateByPrimaryKeySelective(<?> record);

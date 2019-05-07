@@ -34,6 +34,8 @@ public class DaoMethodNameUtil {
     private static final String DELETEBYEXAMPLE = "deleteByExample";
     /** 根据主键查询数据 */
     private static final String SELECTBYPRIMARYKEY = "selectByPrimaryKey";
+    /** 根据主键查询数据（锁定数据） */
+    private static final String SELECTBYPRIMARYKEYFORUPDATE = "selectByPrimaryKeyForUpdate";
     /** 根据主键修改数据 */
     private static final String UPDATEBYPRIMARYKEY = "updateByPrimaryKey";
     /** 根据主键修改数据（为null的不修改） */
@@ -149,6 +151,16 @@ public class DaoMethodNameUtil {
      */
     public static String getSelectByPrimaryKey(boolean physical) {
         return physical ? SELECTBYPRIMARYKEY : SELECTBYPRIMARYKEY + PHYSICAL;
+    }
+
+    /**
+     * 获取根据主键查询方法名称（锁定数据）
+     * @param physical 是否逻辑操作 物理操作logical参数取非传入
+     * @return String 方法名称
+     * @author 阳自然
+     */
+    public static String getSelectByPrimaryKeyForUpdate(boolean physical) {
+        return physical ? SELECTBYPRIMARYKEYFORUPDATE : SELECTBYPRIMARYKEYFORUPDATE + PHYSICAL;
     }
 
     /**
