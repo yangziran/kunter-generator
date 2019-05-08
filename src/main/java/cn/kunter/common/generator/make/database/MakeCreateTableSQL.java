@@ -46,6 +46,13 @@ public class MakeCreateTableSQL {
 
             Map<String, StringBuilder> sqlMap = new HashMap<>();
             for (Table table : tables) {
+
+                // 过滤表结构模板
+                String tableName = table.getTableName();
+                if ("table_template".equals(tableName)) {
+                    continue;
+                }
+
                 String tModel = table.getTableName().split("_")[0];
                 if (!sqlMap.containsKey(tModel)) {
                     StringBuilder builder = new StringBuilder();

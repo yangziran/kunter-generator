@@ -235,6 +235,11 @@ public class GetTableConfig {
             // 获取到表物理名称
             String REMARKS = sheet.getRow(0).getCell(7).getStringCellValue();
 
+            // 过滤表结构模板
+            if ("table_template".equals(TABLE_NAME)) {
+                continue;
+            }
+
             // 获取表信息
             Table table = new Table();
             table.setTableName(TABLE_NAME);
