@@ -185,7 +185,7 @@ public class MakeCreateTableSQL {
                 }
                 OutputUtilities.newLine(builder);
             }
-            builder.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='");
+            builder.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='");
             builder.append(table.getRemarks()).append("';");
             OutputUtilities.newLine(builder);
             // 判断当前表有主键时
