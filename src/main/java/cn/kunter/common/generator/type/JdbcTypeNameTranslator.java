@@ -52,6 +52,7 @@ public class JdbcTypeNameTranslator {
         typeToName.put(Types.STRUCT, "STRUCT");
         typeToName.put(Types.TIME, "TIME");
         typeToName.put(Types.TIMESTAMP, "TIMESTAMP");
+        typeToName.put(99, "DATETIME");
         typeToName.put(Types.TINYINT, "TINYINT");
         typeToName.put(Types.VARBINARY, "VARBINARY");
         typeToName.put(Types.VARCHAR, "VARCHAR");
@@ -88,6 +89,7 @@ public class JdbcTypeNameTranslator {
         nameToType.put("STRUCT", Types.STRUCT);
         nameToType.put("TIME", Types.TIME);
         nameToType.put("TIMESTAMP", Types.TIMESTAMP);
+        nameToType.put("DATETIME", 99);
         nameToType.put("TINYINT", Types.TINYINT);
         nameToType.put("VARBINARY", Types.VARBINARY);
         nameToType.put("VARCHAR", Types.VARCHAR);
@@ -124,6 +126,7 @@ public class JdbcTypeNameTranslator {
         typeToJava.put(Types.STRUCT, "STRUCT");
         typeToJava.put(Types.TIME, "Time");
         typeToJava.put(Types.TIMESTAMP, "java.util.Date");
+        typeToJava.put(99, "java.util.Date");
         typeToJava.put(Types.TINYINT, "Byte");
         typeToJava.put(Types.VARBINARY, "byte[]");
         typeToJava.put(Types.VARCHAR, "String");
@@ -160,6 +163,7 @@ public class JdbcTypeNameTranslator {
         nameToJava.put("STRUCT", "STRUCT");
         nameToJava.put("TIME", "Time");
         nameToJava.put("TIMESTAMP", "java.util.Date");
+        nameToJava.put("DATETIME", "java.util.Date");
         nameToJava.put("TINYINT", "Byte");
         nameToJava.put("VARBINARY", "byte[]");
         nameToJava.put("VARCHAR", "String");

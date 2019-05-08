@@ -3,6 +3,7 @@
  */
 package cn.kunter.common.generator.make;
 
+import java.sql.Types;
 import java.util.List;
 
 import cn.kunter.common.generator.config.PackageHolder;
@@ -10,6 +11,7 @@ import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Column;
 import cn.kunter.common.generator.entity.Table;
 import cn.kunter.common.generator.type.DBType;
+import cn.kunter.common.generator.type.JdbcTypeNameTranslator;
 import cn.kunter.common.generator.util.DaoMethodNameUtil;
 import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
@@ -83,6 +85,11 @@ public class MakeBaseXml {
             }
         }
         for (Column column : table.getCols()) {
+            // 针对于类型：DATETIME，在MyBatis中需要映射为：TIMESTAMP
+            if ("DATETIME".equals(column.getSqlType())) {
+                column.setSqlType(JdbcTypeNameTranslator.getJdbcTypeName(Types.TIMESTAMP));
+            }
+
             String tmp = null;
             for (Column key : table.getPrimaryKey()) {
                 if (column.getJavaName().equals(key.getJavaName())) {
