@@ -122,7 +122,8 @@ public class JdbcTypeNameTranslator {
         typeToJava.put(Types.OTHER, "Object");
         typeToJava.put(Types.REAL, "Double");
         typeToJava.put(Types.REF, "REF");
-        typeToJava.put(Types.SMALLINT, "Short");
+        // typeToJava.put(Types.SMALLINT, "Short");
+        typeToJava.put(Types.SMALLINT, "Integer");
         typeToJava.put(Types.STRUCT, "STRUCT");
         typeToJava.put(Types.TIME, "Time");
         typeToJava.put(Types.TIMESTAMP, "java.util.Date");
@@ -159,7 +160,8 @@ public class JdbcTypeNameTranslator {
         nameToJava.put("OTHER", "Object");
         nameToJava.put("REAL", "Double");
         nameToJava.put("REF", "REF");
-        nameToJava.put("SMALLINT", "Short");
+        // nameToJava.put("SMALLINT", "Short");
+        nameToJava.put("SMALLINT", "Integer");
         nameToJava.put("STRUCT", "STRUCT");
         nameToJava.put("TIME", "Time");
         nameToJava.put("TIMESTAMP", "java.util.Date");
