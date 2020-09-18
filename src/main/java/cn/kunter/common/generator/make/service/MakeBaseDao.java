@@ -48,9 +48,9 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
-        builder.append(" * 类名称：公共单表操作接口类 BaseDAO");
+        builder.append(" * 公共单表操作接口");
         OutputUtilities.newLine(builder);
-        builder.append(" * 内容摘要：公共针对于单表的基础操作：增删改查以及统计方法，包含物理逻辑操作");
+        builder.append(" * 增删改查以及统计方法，包含物理、逻辑操作");
         OutputUtilities.newLine(builder);
         builder.append(" * @author 工具生成");
         OutputUtilities.newLine(builder);
@@ -79,9 +79,9 @@ public class MakeBaseDao {
             method.addJavaDocLine(" */");
             OutputUtilities.newLine(builder);
             builder.append(method.getFormattedContent(1, true));
+            OutputUtilities.newLine(builder);
         }
 
-        OutputUtilities.newLine(builder);
         method = new Method();
         method.setName(DaoMethodNameUtil.getCountByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
@@ -98,6 +98,7 @@ public class MakeBaseDao {
         method.addJavaDocLine(" */");
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(1, true));
+        OutputUtilities.newLine(builder);
 
         if (LOGICAL) {
             OutputUtilities.newLine(builder);
@@ -568,7 +569,9 @@ public class MakeBaseDao {
         method.addJavaDocLine(" */");
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(1, true));
+        OutputUtilities.newLine(builder);
         builder.append(JavaBeansUtil.getJavaBeansEnd());
+        OutputUtilities.newLine(builder);
 
         FileUtil.writeFile(
                 PropertyHolder.getConfigProperty("target") + baseDaoPackages.replaceAll("\\.", "/") + "/BaseDao.java",
