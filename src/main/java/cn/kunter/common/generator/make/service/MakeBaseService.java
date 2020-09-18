@@ -48,9 +48,9 @@ public class MakeBaseService {
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
-        builder.append(" * 类名称：公共业务处理类 BaseService");
+        builder.append(" * 公共业务处理类");
         OutputUtilities.newLine(builder);
-        builder.append(" * 内容摘要：针对于单表的基础操作：增删改查以及统计方法，包含物理逻辑操作");
+        builder.append(" * 单表的增删改查以及统计方法，包含物理逻辑操作");
         OutputUtilities.newLine(builder);
         builder.append(" * @author 工具生成");
         OutputUtilities.newLine(builder);
@@ -604,7 +604,9 @@ public class MakeBaseService {
         method.addJavaDocLine(" */");
         OutputUtilities.newLine(builder);
         builder.append(method.getFormattedContent(1, true));
+        OutputUtilities.newLine(builder);
         builder.append(JavaBeansUtil.getJavaBeansEnd());
+        OutputUtilities.newLine(builder);
 
         FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseServicePackages.replaceAll("\\.", "/")
                 + "/BaseService.java", builder.toString());

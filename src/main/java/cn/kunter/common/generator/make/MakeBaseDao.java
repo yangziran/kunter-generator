@@ -19,7 +19,7 @@ import cn.kunter.common.generator.util.JavaBeansUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
 
 /**
- * 自动生成DAO生成
+ * BaseDao 生成
  * @author yangziran
  * @version 1.0 2014年11月16日
  */
@@ -49,7 +49,7 @@ public class MakeBaseDao {
     }
 
     /**
-     * 自动生成DAO生成
+     * BaseDao 生成
      * @param table
      * @throws Exception
      * @author yangziran
@@ -57,26 +57,20 @@ public class MakeBaseDao {
     public static void makerBaseDao(Table table) throws Exception {
 
         String baseDaoPackages = PackageHolder.getBaseDaoPackage(table.getTableName());
-        String entityPackages = PackageHolder.getEntityPackage(table.getTableName());
 
         StringBuilder builder = new StringBuilder();
         builder.append(JavaBeansUtil.getPackages(baseDaoPackages));
 
         builder.append(JavaBeansUtil.getImports("java.util.List", false, true));
         builder.append(JavaBeansUtil.getImports("java.util.Map", false, false));
-        builder.append(JavaBeansUtil.getImports("org.apache.ibatis.annotations.Param", false, true));
-        builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName(), false, true));
-        builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName() + "Example", false, false));
+        builder.append(JavaBeansUtil.getImports("org.apache.ibatis.annotations.Param", false, false));
 
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
-        builder.append(" * 类名称：");
-        builder.append(table.getTableName());
-        builder.append("表的BaseDAO接口类");
-        builder.append("Base" + table.getJavaName() + "Dao");
+        builder.append(" * 公共单表操作接口类");
         OutputUtilities.newLine(builder);
-        builder.append(" * 内容摘要：针对于单表的基础操作：增删改查以及统计方法，包含物理逻辑操作");
+        builder.append(" * 单表的增删改查以及统计方法，包含物理、逻辑操作");
         OutputUtilities.newLine(builder);
         builder.append(" * @author 工具生成");
         OutputUtilities.newLine(builder);
@@ -598,7 +592,9 @@ public class MakeBaseDao {
             OutputUtilities.newLine(builder);
             builder.append(method.getFormattedContent(1, true));
         }
+        OutputUtilities.newLine(builder);
         builder.append(JavaBeansUtil.getJavaBeansEnd());
+        OutputUtilities.newLine(builder);
 
         FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + baseDaoPackages.replaceAll("\\.", "/") + "/Base"
                 + table.getJavaName() + "Dao.java", builder.toString());

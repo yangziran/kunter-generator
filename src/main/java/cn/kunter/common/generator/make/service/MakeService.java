@@ -65,12 +65,11 @@ public class MakeService {
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
-        builder.append(" * 类名称：");
+        builder.append(" * ");
         builder.append(table.getTableName());
-        builder.append("表的业务处理类");
-        builder.append(table.getJavaName() + "Service");
+        builder.append(" 表的业务处理类");
         OutputUtilities.newLine(builder);
-        builder.append(" * 内容摘要：自行追加的业务方法");
+        builder.append(" * 自行追加的业务方法");
         OutputUtilities.newLine(builder);
         builder.append(" * @author TODO 请在此处填写你的名字");
         OutputUtilities.newLine(builder);
@@ -82,6 +81,7 @@ public class MakeService {
                 table.getJavaName() + "Service", table.getRemarks()));
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());
+        OutputUtilities.newLine(builder);
 
         FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + servicePackages.replaceAll("\\.", "/") + "/"
                 + table.getJavaName() + "Service.java", builder.toString());

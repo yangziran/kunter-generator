@@ -50,7 +50,7 @@ public class MakeBaseDao {
         OutputUtilities.newLine(builder);
         builder.append(" * 公共单表操作接口");
         OutputUtilities.newLine(builder);
-        builder.append(" * 增删改查以及统计方法，包含物理、逻辑操作");
+        builder.append(" * 单表的增删改查以及统计方法，包含物理、逻辑操作");
         OutputUtilities.newLine(builder);
         builder.append(" * @author 工具生成");
         OutputUtilities.newLine(builder);

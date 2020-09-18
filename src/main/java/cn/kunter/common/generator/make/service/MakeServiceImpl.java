@@ -79,12 +79,11 @@ public class MakeServiceImpl {
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
-        builder.append(" * 类名称：");
+        builder.append(" * ");
         builder.append(table.getTableName());
-        builder.append("表的业务处理类");
-        builder.append(table.getJavaName() + "ServiceImpl");
+        builder.append(" 表的业务处理类");
         OutputUtilities.newLine(builder);
-        builder.append(" * 内容摘要：自行追加的业务方法");
+        builder.append(" * 自行追加的业务方法");
         OutputUtilities.newLine(builder);
         builder.append(" * @author TODO 请在此处填写你的名字");
         OutputUtilities.newLine(builder);
@@ -118,6 +117,7 @@ public class MakeServiceImpl {
                 false, table.getJavaName() + "Dao", "getDao", null, null, bodyLines, null));
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());
+        OutputUtilities.newLine(builder);
 
         FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + serviceImplPackages.replaceAll("\\.", "/") + "/"
                 + table.getJavaName() + "ServiceImpl.java", builder.toString());

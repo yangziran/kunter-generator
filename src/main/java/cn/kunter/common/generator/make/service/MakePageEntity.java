@@ -86,9 +86,7 @@ public class MakePageEntity {
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
-        builder.append(" * 类名称：分页信息对象");
-        OutputUtilities.newLine(builder);
-        builder.append(" * 内容摘要：分页字段的封装");
+        builder.append(" * 分页信息对象");
         OutputUtilities.newLine(builder);
         builder.append(" * @author 工具生成");
         OutputUtilities.newLine(builder);
@@ -219,6 +217,7 @@ public class MakePageEntity {
 
         // 类结束
         builder.append(JavaBeansUtil.getJavaBeansEnd());
+        OutputUtilities.newLine(builder);
 
         // 输出文件
         FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + pageEntityPackages.replaceAll("\\.", "/") + "/"

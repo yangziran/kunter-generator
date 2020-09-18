@@ -85,14 +85,9 @@ public class MakeExample {
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
-        builder.append(" * 类名称：");
+        builder.append(" * ");
         builder.append(table.getTableName());
-        builder.append("表的查询条件类");
-        builder.append(table.getJavaName() + "Example");
-        OutputUtilities.newLine(builder);
-        builder.append(" * 内容摘要：");
-        builder.append(table.getTableName());
-        builder.append("表的各个元素的查询条件");
+        builder.append(" 表的查询条件类");
         OutputUtilities.newLine(builder);
         builder.append(" * @author 工具生成");
         OutputUtilities.newLine(builder);
@@ -793,7 +788,9 @@ public class MakeExample {
         builder.append(JavaBeansUtil.getJavaBeansEnd(false));
         /** ---------- Criterion End ---------- */
 
+        OutputUtilities.newLine(builder);
         builder.append(JavaBeansUtil.getJavaBeansEnd());
+        OutputUtilities.newLine(builder);
 
         // 输出文件
         FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + entityPackages.replaceAll("\\.", "/") + "/"

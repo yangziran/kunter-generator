@@ -61,12 +61,11 @@ public class MakeDao {
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
-        builder.append(" * 类名称：");
+        builder.append(" * ");
         builder.append(table.getTableName());
-        builder.append("表的DAO接口类");
-        builder.append(table.getJavaName() + "Dao");
+        builder.append(" 表的DAO接口类");
         OutputUtilities.newLine(builder);
-        builder.append(" * 内容摘要：自行追加的数据库操作方法");
+        builder.append(" * 自行追加的数据库操作方法");
         OutputUtilities.newLine(builder);
         builder.append(" * @author TODO 请在此处填写你的名字");
         OutputUtilities.newLine(builder);
@@ -77,6 +76,7 @@ public class MakeDao {
                 false, "Base" + table.getJavaName() + "Dao", null, table.getJavaName() + "Dao", table.getRemarks()));
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());
+        OutputUtilities.newLine(builder);
 
         FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + daoPackages.replaceAll("\\.", "/") + "/"
                 + table.getJavaName() + "Dao.java", builder.toString());

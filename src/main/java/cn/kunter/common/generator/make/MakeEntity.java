@@ -63,14 +63,9 @@ public class MakeEntity {
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
-        builder.append(" * 类名称：");
+        builder.append(" * ");
         builder.append(table.getTableName());
-        builder.append("表的实体类");
-        builder.append(table.getJavaName());
-        OutputUtilities.newLine(builder);
-        builder.append(" * 内容摘要：");
-        builder.append(table.getTableName());
-        builder.append("表的各个元素的取得、设定方法");
+        builder.append(" 表的实体类");
         OutputUtilities.newLine(builder);
         builder.append(" * @author 工具生成");
         OutputUtilities.newLine(builder);
@@ -105,6 +100,7 @@ public class MakeEntity {
         }
         // 类结束
         builder.append(JavaBeansUtil.getJavaBeansEnd());
+        OutputUtilities.newLine(builder);
 
         // 输出文件
         FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + entityPackages.replaceAll("\\.", "/") + "/"
