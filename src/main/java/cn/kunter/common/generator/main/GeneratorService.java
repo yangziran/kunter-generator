@@ -12,6 +12,9 @@ import cn.kunter.common.generator.make.MakeEntity;
 import cn.kunter.common.generator.make.MakeExample;
 import cn.kunter.common.generator.make.MakeMyBatisConfig;
 import cn.kunter.common.generator.make.MakeXml;
+import cn.kunter.common.generator.make.service.MakeBaseDao;
+import cn.kunter.common.generator.make.service.MakeBaseService;
+import cn.kunter.common.generator.make.service.MakeBaseServiceImpl;
 import cn.kunter.common.generator.make.service.MakeDao;
 import cn.kunter.common.generator.make.service.MakeService;
 import cn.kunter.common.generator.make.service.MakeServiceImpl;
@@ -38,7 +41,11 @@ public class GeneratorService {
                         MakeBaseXml.makerBaseXml(table);
                         MakeXml.makerXml(table);
 
+                        MakeBaseDao.makerBaseDao();
                         MakeDao.makerDao(table);
+
+                        MakeBaseService.makeBaseService();
+                        MakeBaseServiceImpl.makeBaseService();
 
                         MakeService.makeService(table);
                         MakeServiceImpl.makeService(table);
