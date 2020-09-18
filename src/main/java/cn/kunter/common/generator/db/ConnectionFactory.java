@@ -69,8 +69,8 @@ public class ConnectionFactory {
         Properties props = new Properties();
         // 不推荐建立无服务器的身份验证SSL连接
         // 据MySQL的5.5.45+，5.6.26+和5.7.6+要求SSL连接必须在默认情况下建立的，
-        // 如果没有设置明确的选项。为了符合现有的应用程序不使用SSL的verifyServerCertificate属性设置为“假”。
-        // 您需要既可以明确地设置useSSL= false来禁用SSL，或者设置useSSL= TRUE，并提供信任存储服务器证书验证。
+        // 如果没有设置明确的选项。为了符合现有的应用程序不使用SSL的verifyServerCertificate属性设置为“false”。
+        // 您需要既可以明确地设置useSSL= false来禁用SSL，或者设置useSSL= true，并提供信任存储服务器证书验证。
         props.setProperty("useSSL", "false");
         // 设置可以获取remarks信息
         props.setProperty("remarks", "true");
@@ -86,13 +86,11 @@ public class ConnectionFactory {
         if (StringUtility.isNotEmpty(config.getUserId())) {
             props.setProperty("user", config.getUserId());
         }
-
         if (StringUtility.isNotEmpty(config.getPassword())) {
             props.setProperty("password", config.getPassword());
         }
 
         Connection conn = driver.connect(config.getConnectionURL(), props);
-
         if (conn == null) {
             throw new SQLException(MessageFormat.format("无法连接到数据库（可能是驱动/URL错误）", new Object[] {}));
         }
@@ -116,8 +114,6 @@ public class ConnectionFactory {
         config.setUserId(PropertyHolder.getJDBCProperty(db + ".username"));
         config.setPassword(PropertyHolder.getJDBCProperty(db + ".password"));
 
-        Connection connection = ConnectionFactory.getInstance().getConnection(config);
-
-        return connection;
+        return ConnectionFactory.getInstance().getConnection(config);
     }
 }
