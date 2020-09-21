@@ -59,7 +59,6 @@ public class MakeService {
         builder.append(JavaBeansUtil.getPackages(servicePackages));
 
         builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName(), false, true));
-        builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName() + "Example", false, false));
         builder.append(JavaBeansUtil.getImports(baseServicePackages + ".BaseService", false, false));
 
         OutputUtilities.newLine(builder);
@@ -77,8 +76,8 @@ public class MakeService {
         OutputUtilities.newLine(builder);
         builder.append(" */");
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, true,
-                false, "BaseService<" + table.getJavaName() + ", " + table.getJavaName() + "Example>", null,
-                table.getJavaName() + "Service", table.getRemarks()));
+                false, "BaseService<" + table.getJavaName() + ">", null, table.getJavaName() + "Service",
+                table.getRemarks()));
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());
         OutputUtilities.newLine(builder);

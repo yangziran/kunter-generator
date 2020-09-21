@@ -50,11 +50,12 @@ public class MakeBaseServiceImpl {
         builder.append(JavaBeansUtil.getImports("java.util.Map", false, false));
 
         builder.append(JavaBeansUtil.getImports(baseDaoPackages + ".BaseDao", false, true));
+        builder.append(JavaBeansUtil.getImports(PackageHolder.getBaseExamplePackage() + ".BaseExample", false, false));
         builder.append(JavaBeansUtil.getImports(PackageHolder.getPageEntityPackage() + ".Page", false, false));
         builder.append(JavaBeansUtil.getImports(baseServicePackages + ".BaseService", false, false));
 
         List<String> superInterface = new ArrayList<>();
-        superInterface.add("BaseService<T, Example>");
+        superInterface.add("BaseService<T>");
 
         OutputUtilities.newLine(builder);
         builder.append("/**");
@@ -69,7 +70,7 @@ public class MakeBaseServiceImpl {
         OutputUtilities.newLine(builder);
         builder.append(" */");
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), true, false, false, false,
-                true, null, superInterface, "BaseServiceImpl<Dao extends BaseDao<T, Example>, T, Example>", null));
+                true, null, superInterface, "BaseServiceImpl<Dao extends BaseDao<T>, T>", null));
 
         builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false,
                 false, "Dao", "getDao", null, null, new ArrayList<String>(), null));
@@ -82,7 +83,7 @@ public class MakeBaseServiceImpl {
             method.setName(DaoMethodNameUtil.getCountByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("Example");
+            fqjt = new FullyQualifiedJavaType("BaseExample");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addBodyLine("return getDao()." + method.getName() + "(example);");
@@ -103,7 +104,7 @@ public class MakeBaseServiceImpl {
         method.setName(DaoMethodNameUtil.getCountByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("Example");
+        fqjt = new FullyQualifiedJavaType("BaseExample");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addBodyLine("return getDao()." + method.getName() + "(example);");
@@ -124,7 +125,7 @@ public class MakeBaseServiceImpl {
             method.setName(DaoMethodNameUtil.getSelectByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("List<T>");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("Example");
+            fqjt = new FullyQualifiedJavaType("BaseExample");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addBodyLine("return getDao()." + method.getName() + "(example);");
@@ -145,7 +146,7 @@ public class MakeBaseServiceImpl {
         method.setName(DaoMethodNameUtil.getSelectByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("List<T>");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("Example");
+        fqjt = new FullyQualifiedJavaType("BaseExample");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addBodyLine("return getDao()." + method.getName() + "(example);");
@@ -166,7 +167,7 @@ public class MakeBaseServiceImpl {
             method.setName(DaoMethodNameUtil.getSelectPageByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("Page");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("Example");
+            fqjt = new FullyQualifiedJavaType("BaseExample");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addBodyLine("int total = getDao().countByExample(example);");
@@ -201,7 +202,7 @@ public class MakeBaseServiceImpl {
         method.setName(DaoMethodNameUtil.getSelectPageByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("Page");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("Example");
+        fqjt = new FullyQualifiedJavaType("BaseExample");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addBodyLine("int total = getDao().countByExample(example);");
@@ -407,7 +408,7 @@ public class MakeBaseServiceImpl {
             fqjt = new FullyQualifiedJavaType("T");
             parameter = new Parameter(fqjt, "record");
             method.addParameter(parameter);
-            fqjt = new FullyQualifiedJavaType("Example");
+            fqjt = new FullyQualifiedJavaType("BaseExample");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addBodyLine("return getDao()." + method.getName() + "(record, example);");
@@ -431,7 +432,7 @@ public class MakeBaseServiceImpl {
         fqjt = new FullyQualifiedJavaType("T");
         parameter = new Parameter(fqjt, "record");
         method.addParameter(parameter);
-        fqjt = new FullyQualifiedJavaType("Example");
+        fqjt = new FullyQualifiedJavaType("BaseExample");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addBodyLine("return getDao()." + method.getName() + "(record, example);");
@@ -455,7 +456,7 @@ public class MakeBaseServiceImpl {
             fqjt = new FullyQualifiedJavaType("T");
             parameter = new Parameter(fqjt, "record");
             method.addParameter(parameter);
-            fqjt = new FullyQualifiedJavaType("Example");
+            fqjt = new FullyQualifiedJavaType("BaseExample");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addBodyLine("return getDao()." + method.getName() + "(record, example);");
@@ -479,7 +480,7 @@ public class MakeBaseServiceImpl {
         fqjt = new FullyQualifiedJavaType("T");
         parameter = new Parameter(fqjt, "record");
         method.addParameter(parameter);
-        fqjt = new FullyQualifiedJavaType("Example");
+        fqjt = new FullyQualifiedJavaType("BaseExample");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addBodyLine("return getDao()." + method.getName() + "(record, example);");
@@ -500,7 +501,7 @@ public class MakeBaseServiceImpl {
             method.setName(DaoMethodNameUtil.getDeleteByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("Example");
+            fqjt = new FullyQualifiedJavaType("BaseExample");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addBodyLine("return getDao()." + method.getName() + "(example);");
@@ -521,7 +522,7 @@ public class MakeBaseServiceImpl {
         method.setName(DaoMethodNameUtil.getDeleteByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("Example");
+        fqjt = new FullyQualifiedJavaType("BaseExample");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addBodyLine("return getDao()." + method.getName() + "(example);");

@@ -69,7 +69,6 @@ public class MakeServiceImpl {
 
         builder.append(JavaBeansUtil.getImports(daoPackages + "." + table.getJavaName() + "Dao", false, true));
         builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName(), false, false));
-        builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName() + "Example", false, false));
         builder.append(JavaBeansUtil.getImports(servicePackages + "." + table.getJavaName() + "Service", false, false));
         builder.append(JavaBeansUtil.getImports(baseServiceImplPackages + ".BaseServiceImpl", false, false));
 
@@ -95,9 +94,8 @@ public class MakeServiceImpl {
         OutputUtilities.newLine(builder);
         builder.append("@Transactional");
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, false,
-                true, "BaseServiceImpl<" + table.getJavaName() + "Dao, " + table.getJavaName() + ", "
-                        + table.getJavaName() + "Example>",
-                superInterface, table.getJavaName() + "ServiceImpl", table.getRemarks()));
+                true, "BaseServiceImpl<" + table.getJavaName() + "Dao, " + table.getJavaName() + ">", superInterface,
+                table.getJavaName() + "ServiceImpl", table.getRemarks()));
 
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);

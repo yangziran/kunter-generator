@@ -4,20 +4,20 @@
 package cn.kunter.common.generator.main;
 
 import java.util.List;
-
 import cn.kunter.common.generator.entity.Table;
-import cn.kunter.common.generator.make.GetTableConfig;
-import cn.kunter.common.generator.make.MakeBaseXml;
-import cn.kunter.common.generator.make.MakeEntity;
-import cn.kunter.common.generator.make.MakeExample;
-import cn.kunter.common.generator.make.MakeMyBatisConfig;
-import cn.kunter.common.generator.make.MakeXml;
+import cn.kunter.common.generator.make.service.GetTableConfig;
 import cn.kunter.common.generator.make.service.MakeBaseDao;
+import cn.kunter.common.generator.make.service.MakeBaseExample;
 import cn.kunter.common.generator.make.service.MakeBaseService;
 import cn.kunter.common.generator.make.service.MakeBaseServiceImpl;
+import cn.kunter.common.generator.make.service.MakeBaseXml;
 import cn.kunter.common.generator.make.service.MakeDao;
+import cn.kunter.common.generator.make.service.MakeEntity;
+import cn.kunter.common.generator.make.service.MakeMyBatisConfig;
+import cn.kunter.common.generator.make.service.MakePageEntity;
 import cn.kunter.common.generator.make.service.MakeService;
 import cn.kunter.common.generator.make.service.MakeServiceImpl;
+import cn.kunter.common.generator.make.service.MakeXml;
 
 /**
  * @author yangziran
@@ -26,6 +26,13 @@ import cn.kunter.common.generator.make.service.MakeServiceImpl;
 public class GeneratorService {
 
     public static void main(String[] args) throws Exception {
+
+        // 生成基础操作类，一般一个项目仅需要生成一次
+        MakePageEntity.makePageEntity();
+        MakeBaseExample.makerExample();
+        MakeBaseDao.makerBaseDao();
+        MakeBaseService.makeBaseService();
+        MakeBaseServiceImpl.makeBaseService();
 
         List<Table> tables = GetTableConfig.getTableConfig();
 
@@ -36,16 +43,11 @@ public class GeneratorService {
                 public void run() {
                     try {
                         MakeEntity.makerEntity(table);
-                        MakeExample.makerExample(table);
 
                         MakeBaseXml.makerBaseXml(table);
                         MakeXml.makerXml(table);
 
-                        MakeBaseDao.makerBaseDao();
                         MakeDao.makerDao(table);
-
-                        MakeBaseService.makeBaseService();
-                        MakeBaseServiceImpl.makeBaseService();
 
                         MakeService.makeService(table);
                         MakeServiceImpl.makeService(table);

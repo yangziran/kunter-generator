@@ -96,6 +96,21 @@ public class PackageHolder {
      * @return
      * @author yangziran
      */
+    public static String getBaseExamplePackage() {
+
+        // 默认使用kunter-base包中的Page对象
+        if (StringUtility.isNotEmpty(BASE_PACKAGES)) {
+            return new StringBuilder(BASE_PACKAGES).append(".eo").toString();
+        }
+
+        return getPackage("common").append("eo").toString();
+    }
+    
+    /**
+     * 获取到分页对象类包名
+     * @return
+     * @author yangziran
+     */
     public static String getPageEntityPackage() {
 
         // 默认使用kunter-base包中的Page对象

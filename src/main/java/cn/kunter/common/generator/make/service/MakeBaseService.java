@@ -43,7 +43,8 @@ public class MakeBaseService {
 
         builder.append(JavaBeansUtil.getImports("java.util.List", false, true));
         builder.append(JavaBeansUtil.getImports("java.util.Map", false, false));
-        builder.append(JavaBeansUtil.getImports(PackageHolder.getPageEntityPackage() + ".Page", false, true));
+        builder.append(JavaBeansUtil.getImports(PackageHolder.getBaseExamplePackage() + ".BaseExample", false, true));
+        builder.append(JavaBeansUtil.getImports(PackageHolder.getPageEntityPackage() + ".Page", false, false));
 
         OutputUtilities.newLine(builder);
         builder.append("/**");
@@ -58,7 +59,7 @@ public class MakeBaseService {
         OutputUtilities.newLine(builder);
         builder.append(" */");
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), true, false, false, true,
-                false, null, null, "BaseService<T, Example>", null));
+                false, null, null, "BaseService<T>", null));
 
         Method method = new Method();
         FullyQualifiedJavaType fqjt;
@@ -67,7 +68,7 @@ public class MakeBaseService {
             method.setName(DaoMethodNameUtil.getCountByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("Example");
+            fqjt = new FullyQualifiedJavaType("BaseExample");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -86,7 +87,7 @@ public class MakeBaseService {
         method.setName(DaoMethodNameUtil.getCountByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("Example");
+        fqjt = new FullyQualifiedJavaType("BaseExample");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
@@ -105,7 +106,7 @@ public class MakeBaseService {
             method.setName(DaoMethodNameUtil.getSelectByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("List<T>");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("Example");
+            fqjt = new FullyQualifiedJavaType("BaseExample");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -124,7 +125,7 @@ public class MakeBaseService {
         method.setName(DaoMethodNameUtil.getSelectByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("List<T>");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("Example");
+        fqjt = new FullyQualifiedJavaType("BaseExample");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
@@ -143,7 +144,7 @@ public class MakeBaseService {
             method.setName(DaoMethodNameUtil.getSelectPageByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("Page");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("Example");
+            fqjt = new FullyQualifiedJavaType("BaseExample");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -162,7 +163,7 @@ public class MakeBaseService {
         method.setName(DaoMethodNameUtil.getSelectPageByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("Page");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("Example");
+        fqjt = new FullyQualifiedJavaType("BaseExample");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
@@ -336,7 +337,7 @@ public class MakeBaseService {
             fqjt = new FullyQualifiedJavaType("T");
             parameter = new Parameter(fqjt, "record");
             method.addParameter(parameter);
-            fqjt = new FullyQualifiedJavaType("Example");
+            fqjt = new FullyQualifiedJavaType("BaseExample");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -358,7 +359,7 @@ public class MakeBaseService {
         fqjt = new FullyQualifiedJavaType("T");
         parameter = new Parameter(fqjt, "record");
         method.addParameter(parameter);
-        fqjt = new FullyQualifiedJavaType("Example");
+        fqjt = new FullyQualifiedJavaType("BaseExample");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
@@ -380,7 +381,7 @@ public class MakeBaseService {
             fqjt = new FullyQualifiedJavaType("T");
             parameter = new Parameter(fqjt, "record");
             method.addParameter(parameter);
-            fqjt = new FullyQualifiedJavaType("Example");
+            fqjt = new FullyQualifiedJavaType("BaseExample");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -402,7 +403,7 @@ public class MakeBaseService {
         fqjt = new FullyQualifiedJavaType("T");
         parameter = new Parameter(fqjt, "record");
         method.addParameter(parameter);
-        fqjt = new FullyQualifiedJavaType("Example");
+        fqjt = new FullyQualifiedJavaType("BaseExample");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");
@@ -421,7 +422,7 @@ public class MakeBaseService {
             method.setName(DaoMethodNameUtil.getDeleteByExample(LOGICAL));
             fqjt = new FullyQualifiedJavaType("int");
             method.setReturnType(fqjt);
-            fqjt = new FullyQualifiedJavaType("Example");
+            fqjt = new FullyQualifiedJavaType("BaseExample");
             parameter = new Parameter(fqjt, "example");
             method.addParameter(parameter);
             method.addJavaDocLine("/**");
@@ -440,7 +441,7 @@ public class MakeBaseService {
         method.setName(DaoMethodNameUtil.getDeleteByExample(!LOGICAL));
         fqjt = new FullyQualifiedJavaType("int");
         method.setReturnType(fqjt);
-        fqjt = new FullyQualifiedJavaType("Example");
+        fqjt = new FullyQualifiedJavaType("BaseExample");
         parameter = new Parameter(fqjt, "example");
         method.addParameter(parameter);
         method.addJavaDocLine("/**");

@@ -58,7 +58,6 @@ public class MakeDao {
         builder.append(JavaBeansUtil.getPackages(daoPackages));
 
         builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName(), false, true));
-        builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName() + "Example", false, false));
         builder.append(JavaBeansUtil.getImports(PackageHolder.getCommonBaseDaoPackage() + ".BaseDao", false, false));
 
         OutputUtilities.newLine(builder);
@@ -76,7 +75,7 @@ public class MakeDao {
         OutputUtilities.newLine(builder);
         builder.append(" */");
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, true,
-                false, "BaseDao<" + table.getJavaName() + ", " + table.getJavaName() + "Example>", null,
+                false, "BaseDao<" + table.getJavaName()+ ">", null,
                 table.getJavaName() + "Dao", table.getRemarks()));
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());
