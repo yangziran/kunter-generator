@@ -1,15 +1,13 @@
 /**
  * 
  */
-package cn.kunter.common.generator.make.service;
+package cn.kunter.common.generator.make;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import cn.kunter.common.generator.config.PackageHolder;
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Table;
-import cn.kunter.common.generator.make.GetTableConfig;
 import cn.kunter.common.generator.type.JavaVisibility;
 import cn.kunter.common.generator.util.DateUtil;
 import cn.kunter.common.generator.util.FileUtil;
@@ -53,33 +51,30 @@ public class MakeServiceImpl {
      */
     public static void makeService(Table table) throws Exception {
 
-        String serviceImplPackages = PackageHolder.getServiceImplPackage(table.getTableName());
-        String daoPackages = PackageHolder.getDaoPackage(table.getTableName());
-        String entityPackages = PackageHolder.getEntityPackage(table.getTableName());
-        String servicePackages = PackageHolder.getServicePackage(table.getTableName());
-        String baseServiceImplPackages = PackageHolder.getBaseServiceImplPackage();
+        String tableName = table.getTableName();
+        String javaName = table.getJavaName();
+
+        String serviceImplPackages = PackageHolder.getServiceImplPackage(tableName);
+        String daoPackages = PackageHolder.getDaoPackage(tableName);
+        String servicePackages = PackageHolder.getServicePackage(tableName);
 
         StringBuilder builder = new StringBuilder();
         builder.append(JavaBeansUtil.getPackages(serviceImplPackages));
 
-        builder.append(JavaBeansUtil.getImports("org.springframework.beans.factory.annotation.Autowired", false, true));
+        builder.append(JavaBeansUtil.getImports(daoPackages + "." + javaName + "Dao", false, true));
+        builder.append(JavaBeansUtil.getImports(servicePackages + "." + javaName + "Service", false, false));
         builder.append(JavaBeansUtil.getImports("org.springframework.stereotype.Service", false, false));
-        builder.append(
-                JavaBeansUtil.getImports("org.springframework.transaction.annotation.Transactional", false, false));
 
-        builder.append(JavaBeansUtil.getImports(daoPackages + "." + table.getJavaName() + "Dao", false, true));
-        builder.append(JavaBeansUtil.getImports(entityPackages + "." + table.getJavaName(), false, false));
-        builder.append(JavaBeansUtil.getImports(servicePackages + "." + table.getJavaName() + "Service", false, false));
-        builder.append(JavaBeansUtil.getImports(baseServiceImplPackages + ".BaseServiceImpl", false, false));
+        builder.append(JavaBeansUtil.getImports("javax.annotation.Resource", false, true));
 
         List<String> superInterface = new ArrayList<>();
-        superInterface.add(table.getJavaName() + "Service");
+        superInterface.add(javaName + "Service");
 
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
         builder.append(" * ");
-        builder.append(table.getTableName());
+        builder.append(tableName);
         builder.append(" 表的业务处理类");
         OutputUtilities.newLine(builder);
         builder.append(" * 自行追加的业务方法");
@@ -92,32 +87,22 @@ public class MakeServiceImpl {
         OutputUtilities.newLine(builder);
         builder.append("@Service");
         OutputUtilities.newLine(builder);
-        builder.append("@Transactional");
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, false,
-                true, "BaseServiceImpl<" + table.getJavaName() + "Dao, " + table.getJavaName() + ">", superInterface,
-                table.getJavaName() + "ServiceImpl", table.getRemarks()));
+                true, null, superInterface, javaName + "ServiceImpl", table.getRemarks()));
 
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append("@Autowired");
+        builder.append("@Resource");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append(JavaVisibility.PRIVATE.getValue() + " " + table.getJavaName() + "Dao "
-                + StringUtility.uncapitalize(table.getJavaName()) + "Dao;");
-
-        List<String> bodyLines = new ArrayList<>();
-        bodyLines.add("return " + StringUtility.uncapitalize(table.getJavaName()) + "Dao;");
+        builder.append(JavaVisibility.PRIVATE.getValue() + " " + javaName + "Dao "
+                + StringUtility.uncapitalize(javaName) + "Dao;");
         OutputUtilities.newLine(builder);
-        OutputUtilities.newLine(builder);
-        OutputUtilities.javaIndent(builder, 1);
-        builder.append("@Override");
-        builder.append(JavaBeansUtil.getMethods(1, JavaVisibility.PUBLIC.getValue(), false, false, false, false, false,
-                false, table.getJavaName() + "Dao", "getDao", null, null, bodyLines, null));
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());
         OutputUtilities.newLine(builder);
 
         FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + serviceImplPackages.replaceAll("\\.", "/") + "/"
-                + table.getJavaName() + "ServiceImpl.java", builder.toString());
+                + javaName + "ServiceImpl.java", builder.toString());
     }
 }

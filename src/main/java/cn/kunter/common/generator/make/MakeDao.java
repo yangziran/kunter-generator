@@ -50,19 +50,24 @@ public class MakeDao {
      */
     public static void makerDao(Table table) throws Exception {
 
-        String daoPackages = PackageHolder.getDaoPackage(table.getTableName());
-        String baseDaoPackages = PackageHolder.getBaseDaoPackage(table.getTableName());
+        String tableName = table.getTableName();
+        String javaName = table.getJavaName();
+
+        String baseDaoPackages = PackageHolder.getBaseDaoPackage();
+        String daoPackages = PackageHolder.getDaoPackage(tableName);
+        String entityPackages = PackageHolder.getEntityPackage(tableName);
 
         StringBuilder builder = new StringBuilder();
         builder.append(JavaBeansUtil.getPackages(daoPackages));
 
-        builder.append(JavaBeansUtil.getImports(baseDaoPackages + ".Base" + table.getJavaName() + "Dao", false, true));
+        builder.append(JavaBeansUtil.getImports(entityPackages + "." + javaName, false, true));
+        builder.append(JavaBeansUtil.getImports(baseDaoPackages, false, false));
 
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
         builder.append(" * ");
-        builder.append(table.getTableName());
+        builder.append(tableName);
         builder.append(" 表的DAO接口类");
         OutputUtilities.newLine(builder);
         builder.append(" * 自行追加的数据库操作方法");
@@ -73,12 +78,12 @@ public class MakeDao {
         OutputUtilities.newLine(builder);
         builder.append(" */");
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, true,
-                false, "Base" + table.getJavaName() + "Dao", null, table.getJavaName() + "Dao", table.getRemarks()));
+                false, "BaseMapper<" + javaName + ">", null, javaName + "Dao", table.getRemarks()));
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());
         OutputUtilities.newLine(builder);
 
         FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + daoPackages.replaceAll("\\.", "/") + "/"
-                + table.getJavaName() + "Dao.java", builder.toString());
+                + javaName + "Dao.java", builder.toString());
     }
 }

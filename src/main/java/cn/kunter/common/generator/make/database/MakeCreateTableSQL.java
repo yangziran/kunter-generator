@@ -26,7 +26,7 @@ import cn.kunter.common.generator.util.StringUtility;
 public class MakeCreateTableSQL {
 
     // 数据库类型
-    private final static String DB_TYPE = DBType.valueOf(PropertyHolder.getJDBCProperty("DB")).getValue();
+    private static final String DB_TYPE = DBType.valueOf(PropertyHolder.getJDBCProperty("DB")).getValue();
 
     public static void main(String[] args) throws Exception {
 

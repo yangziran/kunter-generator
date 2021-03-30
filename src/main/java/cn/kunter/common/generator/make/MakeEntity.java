@@ -3,9 +3,8 @@
  */
 package cn.kunter.common.generator.make;
 
-import java.util.ArrayList;
 import java.util.List;
-
+import org.apache.commons.lang3.StringUtils;
 import cn.kunter.common.generator.config.PackageHolder;
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Column;
@@ -15,6 +14,7 @@ import cn.kunter.common.generator.util.DateUtil;
 import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.JavaBeansUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
+import cn.kunter.common.generator.util.StringUtility;
 
 /**
  * 实体类生成
@@ -22,6 +22,8 @@ import cn.kunter.common.generator.util.OutputUtilities;
  * @version 1.0 2014年11月16日
  */
 public class MakeEntity {
+
+    private static final String COMMON_FIELDS = PropertyHolder.getConfigProperty("commonFields");
 
     public static void main(String[] args) throws Exception {
 
@@ -52,19 +54,27 @@ public class MakeEntity {
      */
     public static void makerEntity(Table table) throws Exception {
 
-        String entityPackages = PackageHolder.getEntityPackage(table.getTableName());
+        String tableName = table.getTableName();
+        String javaName = table.getJavaName();
+
+        String entityPackages = PackageHolder.getEntityPackage(tableName);
+        String baseEntityPackages = PackageHolder.getBaseEntityPackage();
 
         StringBuilder builder = new StringBuilder();
         // 包结构
         builder.append(JavaBeansUtil.getPackages(entityPackages));
+
         // 导包
-        builder.append(JavaBeansUtil.getImports("java.io.Serializable", false, true));
+        builder.append(JavaBeansUtil.getImports(baseEntityPackages + ".BaseEo", false, true));
+        builder.append(JavaBeansUtil.getImports("com.baomidou.mybatisplus.annotation.TableId", false, false));
+        builder.append(JavaBeansUtil.getImports("com.baomidou.mybatisplus.annotation.TableName", false, false));
+        builder.append(JavaBeansUtil.getImports("lombok.Data", false, false));
 
         OutputUtilities.newLine(builder);
         builder.append("/**");
         OutputUtilities.newLine(builder);
         builder.append(" * ");
-        builder.append(table.getTableName());
+        builder.append(tableName);
         builder.append(" 表的实体类");
         OutputUtilities.newLine(builder);
         builder.append(" * @author 工具生成");
@@ -73,37 +83,40 @@ public class MakeEntity {
         OutputUtilities.newLine(builder);
         builder.append(" */");
         OutputUtilities.newLine(builder);
-        builder.append("@SuppressWarnings(\"serial\")");
+        builder.append("@Data");
+        OutputUtilities.newLine(builder);
+        builder.append("@TableName(\"").append(tableName).append("\")");
 
-        // 实体实现序列化
-        List<String> superInterface = new ArrayList<String>();
-        superInterface.add("Serializable");
         // 类开始
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, false,
-                true, null, superInterface, table.getJavaName(), table.getRemarks()));
+                true, "BaseEo", null, javaName, table.getRemarks()));
 
+        List<Column> pkList = table.getPrimaryKey();
         // 字段定义
         for (Column column : table.getCols()) {
+
+            if (StringUtility.isNotBlank(COMMON_FIELDS)
+                    && StringUtils.containsAnyIgnoreCase(column.getColumnName(), COMMON_FIELDS.split(","))) {
+                continue;
+            }
+
+            if (pkList.contains(column)) {
+                OutputUtilities.newLine(builder);
+                OutputUtilities.javaIndent(builder, 1);
+                builder.append("@TableId");
+            }
+
             builder.append(JavaBeansUtil.getJavaBeansField(JavaVisibility.PRIVATE.getValue(), false, false, false,
                     false, column.getJavaName(), column.getJavaType(), column.getRemarks()));
         }
-
         OutputUtilities.newLine(builder);
-        // Get/Set
-        for (Column column : table.getCols()) {
 
-            builder.append(JavaBeansUtil.getJavaBeansGetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
-                    column.getJavaType(), column.getRemarks()));
-
-            builder.append(JavaBeansUtil.getJavaBeansSetter(JavaVisibility.PUBLIC.getValue(), column.getJavaName(),
-                    column.getJavaType(), column.getRemarks()));
-        }
         // 类结束
         builder.append(JavaBeansUtil.getJavaBeansEnd());
         OutputUtilities.newLine(builder);
 
         // 输出文件
         FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + entityPackages.replaceAll("\\.", "/") + "/"
-                + table.getJavaName() + ".java", builder.toString());
+                + javaName + ".java", builder.toString());
     }
 }

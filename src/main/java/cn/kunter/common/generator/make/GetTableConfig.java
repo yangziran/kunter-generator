@@ -9,12 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.db.ConnectionFactory;
 import cn.kunter.common.generator.entity.Column;
@@ -35,10 +34,10 @@ import cn.kunter.common.generator.util.StringUtility;
 public class GetTableConfig {
 
     // 数据源类型
-    private final static String SOURCE_TYPE = SourceType.valueOf(PropertyHolder.getJDBCProperty("SourceType"))
+    private static final String SOURCE_TYPE = SourceType.valueOf(PropertyHolder.getJDBCProperty("SourceType"))
             .getValue();
     // 数据库类型
-    private final static String DB_TYPE = DBType.valueOf(PropertyHolder.getJDBCProperty("DB")).getValue();
+    private static final String DB_TYPE = DBType.valueOf(PropertyHolder.getJDBCProperty("DB")).getValue();
 
     /**
      * 获取库表结构
@@ -244,7 +243,6 @@ public class GetTableConfig {
             Table table = new Table();
             table.setTableName(TABLE_NAME);
             table.setJavaName(StringUtility.convertTableNameToClass(TABLE_NAME.toLowerCase(), "_", false));
-            // table.setAlias(StringUtility.convertTableNameToAlias(TABLE_NAME.toLowerCase(), "_"));
             table.setRemarks(REMARKS);
 
             // 获取到当前Sheet的最后一行下标加1为总行数 循环行
@@ -252,26 +250,27 @@ public class GetTableConfig {
                 // 获取到当前行对象
                 Row row = sheet.getRow(j);
                 // 编号
-                String serial = row.getCell(0).getStringCellValue();
+                Cell serialCell = row.getCell(0);
+                serialCell.setCellType(CellType.STRING);
+                String serial = serialCell.getStringCellValue();
                 // 列名
-                String columnName = row.getCell(8).getStringCellValue();
+                String columnName = row.getCell(9).getStringCellValue();
                 // 物理名
                 String physical = row.getCell(2).getStringCellValue();
                 // 类型
-                String type = row.getCell(13).getStringCellValue().toUpperCase();
+                String type = row.getCell(16).getStringCellValue().toUpperCase();
                 // 是否为空
-                String isNotNull = row.getCell(21).getStringCellValue();
+                String isNotNull = row.getCell(24).getStringCellValue();
                 // 主键
-                String primaryKey = row.getCell(23).getStringCellValue();
+                String primaryKey = row.getCell(26).getStringCellValue();
                 // 主键顺序
-                String primaryKeyOrder = row.getCell(25).getStringCellValue();
-                // 外键
-                String foreignKey = row.getCell(28).getStringCellValue();
-                // 备注
-                // String remarks = row.getCell(30).getStringCellValue();
+                Cell pkoCell = row.getCell(28);
+                pkoCell.setCellType(CellType.STRING);
+                String primaryKeyOrder = pkoCell.getStringCellValue();
                 // 长度
                 Integer length = null;
-                Cell cell = row.getCell(18);
+                Cell cell = row.getCell(21);
+                cell.setCellType(CellType.NUMERIC);
                 Double cellVal = cell.getNumericCellValue();
                 if (null != cellVal) {
                     length = (int) cell.getNumericCellValue();
@@ -286,7 +285,6 @@ public class GetTableConfig {
                 column.setRemarks(physical);
                 column.setIsNotNull(isNotNull);
                 column.setPrimaryKeyOrder(primaryKeyOrder);
-                column.setForeignKey(foreignKey);
                 column.setLength(length);
 
                 // 主键列不为空
