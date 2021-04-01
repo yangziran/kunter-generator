@@ -36,6 +36,7 @@ public class JdbcTypeNameTranslator {
         typeToName.put(Types.DOUBLE, "DOUBLE");
         typeToName.put(Types.FLOAT, "FLOAT");
         typeToName.put(Types.INTEGER, "INTEGER");
+        typeToName.put(Types.INTEGER, "INT");
         typeToName.put(Types.JAVA_OBJECT, "JAVA_OBJECT");
         typeToName.put(Types.LONGVARBINARY, "LONGVARBINARY");
         typeToName.put(Types.LONGVARCHAR, "LONGVARCHAR");
@@ -73,6 +74,7 @@ public class JdbcTypeNameTranslator {
         nameToType.put("DOUBLE", Types.DOUBLE);
         nameToType.put("FLOAT", Types.FLOAT);
         nameToType.put("INTEGER", Types.INTEGER);
+        nameToType.put("INT", Types.INTEGER);
         nameToType.put("JAVA_OBJECT", Types.JAVA_OBJECT);
         nameToType.put("LONGVARBINARY", Types.LONGVARBINARY);
         nameToType.put("LONGVARCHAR", Types.LONGVARCHAR);
@@ -148,6 +150,7 @@ public class JdbcTypeNameTranslator {
         nameToJava.put("DOUBLE", "Double");
         nameToJava.put("FLOAT", "Float");
         nameToJava.put("INTEGER", "Integer");
+        nameToJava.put("INT", "Integer");
         nameToJava.put("JAVA_OBJECT", "Object");
         nameToJava.put("LONGVARBINARY", "byte[]");
         nameToJava.put("LONGVARCHAR", "String");
