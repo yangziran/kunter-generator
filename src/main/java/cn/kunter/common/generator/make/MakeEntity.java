@@ -68,7 +68,10 @@ public class MakeEntity {
         builder.append(JavaBeansUtil.getImports(baseEntityPackages + ".BaseEo", false, true));
         builder.append(JavaBeansUtil.getImports("com.baomidou.mybatisplus.annotation.TableId", false, false));
         builder.append(JavaBeansUtil.getImports("com.baomidou.mybatisplus.annotation.TableName", false, false));
+        builder.append(JavaBeansUtil.getImports("lombok.AllArgsConstructor", false, false));
+        builder.append(JavaBeansUtil.getImports("lombok.Builder", false, false));
         builder.append(JavaBeansUtil.getImports("lombok.Data", false, false));
+        builder.append(JavaBeansUtil.getImports("lombok.NoArgsConstructor", false, false));
 
         OutputUtilities.newLine(builder);
         builder.append("/**");
@@ -84,6 +87,12 @@ public class MakeEntity {
         builder.append(" */");
         OutputUtilities.newLine(builder);
         builder.append("@Data");
+        OutputUtilities.newLine(builder);
+        builder.append("@Builder");
+        OutputUtilities.newLine(builder);
+        builder.append("@NoArgsConstructor");
+        OutputUtilities.newLine(builder);
+        builder.append("@AllArgsConstructor");
         OutputUtilities.newLine(builder);
         builder.append("@TableName(\"").append(tableName).append("\")");
 
