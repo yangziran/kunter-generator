@@ -100,7 +100,7 @@ public class MakeEntity {
                 continue;
             }
 
-            if (pkList.contains(column)) {
+            if (pkList.size() == 1 && pkList.contains(column)) {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
                 builder.append("@TableId");
