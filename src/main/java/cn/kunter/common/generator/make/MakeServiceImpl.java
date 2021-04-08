@@ -86,7 +86,6 @@ public class MakeServiceImpl {
         builder.append(" */");
         OutputUtilities.newLine(builder);
         builder.append("@Service");
-        OutputUtilities.newLine(builder);
         builder.append(JavaBeansUtil.getJavaBeansStart(JavaVisibility.PUBLIC.getValue(), false, false, false, false,
                 true, null, superInterface, javaName + "ServiceImpl", table.getRemarks()));
 
