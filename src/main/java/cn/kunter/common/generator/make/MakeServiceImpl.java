@@ -94,8 +94,8 @@ public class MakeServiceImpl {
         builder.append("@Resource");
         OutputUtilities.newLine(builder);
         OutputUtilities.javaIndent(builder, 1);
-        builder.append(JavaVisibility.PRIVATE.getValue() + " " + javaName + "Dao "
-                + StringUtility.uncapitalize(javaName) + "Dao;");
+        builder.append(
+                JavaVisibility.PRIVATE.getValue() + javaName + "Dao " + StringUtility.uncapitalize(javaName) + "Dao;");
         OutputUtilities.newLine(builder);
 
         builder.append(JavaBeansUtil.getJavaBeansEnd());
