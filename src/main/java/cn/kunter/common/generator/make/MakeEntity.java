@@ -109,7 +109,7 @@ public class MakeEntity {
                 continue;
             }
 
-            if (pkList.size() == 1 && pkList.contains(column)) {
+            if (pkList.size() == 1 && StringUtils.equals(pkList.get(0).getColumnName(), column.getColumnName())) {
                 OutputUtilities.newLine(builder);
                 OutputUtilities.javaIndent(builder, 1);
                 builder.append("@TableId");
