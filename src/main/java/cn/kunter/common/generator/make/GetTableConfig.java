@@ -1,19 +1,8 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.make;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.db.ConnectionFactory;
 import cn.kunter.common.generator.entity.Column;
@@ -25,6 +14,18 @@ import cn.kunter.common.generator.util.CollectionUtil;
 import cn.kunter.common.generator.util.ExcelUtil;
 import cn.kunter.common.generator.util.LogUtil;
 import cn.kunter.common.generator.util.StringUtility;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 获取数据库表结构
@@ -35,7 +36,7 @@ public class GetTableConfig {
 
     // 数据源类型
     private static final String SOURCE_TYPE = SourceType.valueOf(PropertyHolder.getJDBCProperty("SourceType"))
-            .getValue();
+                                                        .getValue();
     // 数据库类型
     private static final String DB_TYPE = DBType.valueOf(PropertyHolder.getJDBCProperty("DB")).getValue();
 
@@ -53,8 +54,7 @@ public class GetTableConfig {
         // 根据数据类型获取表结构信息
         if (SourceType.DB.getValue().equals(SOURCE_TYPE)) {
             tableList.addAll(getDBTableConfig());
-        }
-        else {
+        } else {
             tableList.addAll(getExcelTableConfig());
         }
 
@@ -120,7 +120,7 @@ public class GetTableConfig {
         if (set.next()) {
             schema = set.getString(2);
         }
-        ResultSet tables = metaData.getTables(connection.getCatalog(), schema, tableName, new String[] { "TABLE" });
+        ResultSet tables = metaData.getTables(connection.getCatalog(), schema, tableName, new String[]{"TABLE"});
 
         List<Table> tableList = new ArrayList<Table>();
         while (tables.next()) {

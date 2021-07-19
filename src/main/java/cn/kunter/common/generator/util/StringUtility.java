@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.util;
 
@@ -81,7 +81,7 @@ public class StringUtility {
             return str;
         }
         return new StringBuffer(strLen).append(Character.toTitleCase(str.charAt(0))).append(str.substring(1))
-                .toString();
+                                       .toString();
     }
 
     /**
@@ -96,7 +96,7 @@ public class StringUtility {
             return str;
         }
         return new StringBuffer(strLen).append(Character.toLowerCase(str.charAt(0))).append(str.substring(1))
-                .toString();
+                                       .toString();
     }
 
     /**
@@ -112,8 +112,7 @@ public class StringUtility {
             String token = st.nextToken();
             if ("\"".equals(token)) {
                 sb.append("\\\"");
-            }
-            else {
+            } else {
                 sb.append(token);
             }
         }
@@ -134,8 +133,7 @@ public class StringUtility {
             String token = st.nextToken();
             if ("\"".equals(token)) {
                 sb.append("&quot;");
-            }
-            else {
+            } else {
                 sb.append(token);
             }
         }
@@ -194,8 +192,7 @@ public class StringUtility {
             if (flag) {
                 // 将字符串所有字母大写
                 buffer.append(tableName.toUpperCase());
-            }
-            else {
+            } else {
                 // 将字符串首字母大写
                 buffer.append(capitalize(tableName));
             }
@@ -211,13 +208,11 @@ public class StringUtility {
                     if (i == 0) {
                         // 将字符串所有字母大写
                         buffer.append(tableNameArray[i].toUpperCase());
-                    }
-                    else {
+                    } else {
                         // 将字符串首字母大写
                         buffer.append(capitalize(tableNameArray[i]));
                     }
-                }
-                else {
+                } else {
                     // 将字符串首字母大写
                     buffer.append(capitalize(tableNameArray[i]));
                 }
@@ -292,8 +287,7 @@ public class StringUtility {
             if (flag) {
                 // 将字符串所有字母小写
                 buffer.append(tableName.toLowerCase());
-            }
-            else {
+            } else {
                 // 将字符串首字母大写
                 buffer.append(capitalize(tableName));
             }
@@ -309,13 +303,11 @@ public class StringUtility {
                     if (i == 0) {
                         // 将字符串所有字母小写
                         buffer.append(tableNameArray[i].toLowerCase());
-                    }
-                    else {
+                    } else {
                         // 将字符串首字母大写
                         buffer.append(capitalize(tableNameArray[i]));
                     }
-                }
-                else {
+                } else {
                     // 将字符串首字母小写
                     buffer.append(uncapitalize(tableNameArray[i]));
                 }
@@ -350,8 +342,7 @@ public class StringUtility {
                 if (i == 0) {
                     // 将字符串所有字母大写
                     buffer.append(tableNameArray[i]);
-                }
-                else {
+                } else {
                     // 将字符串首字母大写
                     buffer.append(capitalize(tableNameArray[i]));
                 }

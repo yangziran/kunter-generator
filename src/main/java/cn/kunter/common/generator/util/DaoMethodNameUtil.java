@@ -1,11 +1,11 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.util;
 
 /**
  * DAO方法名称工具类
- * @author 阳自然
+ * @author yangziran
  * @version 1.0 2015年9月2日
  */
 public class DaoMethodNameUtil {

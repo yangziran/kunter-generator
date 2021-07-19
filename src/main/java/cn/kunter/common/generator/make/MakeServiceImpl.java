@@ -1,10 +1,8 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.make;
 
-import java.util.ArrayList;
-import java.util.List;
 import cn.kunter.common.generator.config.PackageHolder;
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Table;
@@ -14,6 +12,9 @@ import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.JavaBeansUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
 import cn.kunter.common.generator.util.StringUtility;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 扩展ServiceImpl生成

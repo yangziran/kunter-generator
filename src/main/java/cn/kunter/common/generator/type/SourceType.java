@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.type;
 
@@ -12,9 +12,9 @@ public enum SourceType {
 
     DB("DB"), EXCEL("Excel");
 
-    private String value;
+    private final String value;
 
-    private SourceType(String value) {
+    SourceType(String value) {
         this.value = value;
     }
 

@@ -11,9 +11,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 类名称：CollectionUtil 集合类的工具类
- * 内容摘要：集合类的常用处理
- * @author yangzr
+ * 集合类的工具类
+ * @author yangziran
  * @version 1.0 2012-6-16
  */
 public class CollectionUtil {
@@ -24,7 +23,7 @@ public class CollectionUtil {
     public static int DESC = 2;
 
     /**
-     * 工具类私有构造
+     * 工具类，私有构造
      */
     private CollectionUtil() {
     }
@@ -83,10 +82,10 @@ public class CollectionUtil {
      * @param order 排序方式
      */
     public static void sortByProperty(
-        List<?> objects,
-        final String propertyName,
-        final String propertyType,
-        final int order) {
+            List<?> objects,
+            final String propertyName,
+            final String propertyType,
+            final int order) {
 
         // 实现Comparator接口实现排序
         Collections.sort(objects, new Comparator<Object>() {
@@ -102,14 +101,13 @@ public class CollectionUtil {
                     // 获取 get方法
                     method = clazz.getMethod(
                             "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1),
-                            new Class[] {});
+                            new Class[]{});
                     // 如果是String 类型 则将方法执行的结果转换成String类型并用compareTo方法是行排序
                     if (String.class.getSimpleName().equals(propertyType)) {
                         if (DESC == order) {
                             result = (StringUtility.parseString(method.invoke(r2)))
                                     .compareTo(StringUtility.parseString(method.invoke(r1)));
-                        }
-                        else {
+                        } else {
                             result = (StringUtility.parseString(method.invoke(r1)))
                                     .compareTo(StringUtility.parseString(method.invoke(r2)));
                         }
@@ -118,8 +116,7 @@ public class CollectionUtil {
                     else if (Integer.class.getSimpleName().equals(propertyType)) {
                         if (DESC == order) {
                             result = ((Integer) method.invoke(r2)) - ((Integer) method.invoke(r1));
-                        }
-                        else {
+                        } else {
                             result = ((Integer) method.invoke(r1)) - ((Integer) method.invoke(r2));
                         }
                     }
@@ -127,8 +124,7 @@ public class CollectionUtil {
                     else if (Float.class.getSimpleName().equals(propertyType)) {
                         if (DESC == order) {
                             result = ((Float) method.invoke(r2)) - ((Float) method.invoke(r1));
-                        }
-                        else {
+                        } else {
                             result = ((Float) method.invoke(r1)) - ((Float) method.invoke(r2));
                         }
                     }
@@ -136,8 +132,7 @@ public class CollectionUtil {
                     else if (Double.class.getSimpleName().equals(propertyType)) {
                         if (DESC == order) {
                             result = ((Double) method.invoke(r2)) - ((Double) method.invoke(r1));
-                        }
-                        else {
+                        } else {
                             result = ((Double) method.invoke(r1)) - ((Double) method.invoke(r2));
                         }
                     }
@@ -145,8 +140,7 @@ public class CollectionUtil {
                     else if (Long.class.getSimpleName().equals(propertyType)) {
                         if (DESC == order) {
                             result = ((Long) method.invoke(r2)) - ((Long) method.invoke(r1));
-                        }
-                        else {
+                        } else {
                             result = ((Long) method.invoke(r1)) - ((Long) method.invoke(r2));
                         }
                     }
@@ -165,8 +159,7 @@ public class CollectionUtil {
                 // 确定返回值
                 if (result > 0) {
                     return 1;
-                }
-                else if (result < 0) {
+                } else if (result < 0) {
                     return -1;
                 }
                 return 0;

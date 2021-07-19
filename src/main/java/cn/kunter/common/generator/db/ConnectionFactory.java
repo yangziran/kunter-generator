@@ -3,17 +3,18 @@
  */
 package cn.kunter.common.generator.db;
 
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.Properties;
-
 import cn.kunter.common.generator.config.ConfigurationHolder;
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.type.DBType;
 import cn.kunter.common.generator.util.ObjectFactory;
 import cn.kunter.common.generator.util.StringUtility;
+
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.SQLException;
+import java.text.MessageFormat;
+import java.util.Objects;
+import java.util.Properties;
 
 /**
  * 数据库连接工厂，单列
@@ -22,17 +23,34 @@ import cn.kunter.common.generator.util.StringUtility;
  */
 public class ConnectionFactory {
 
-    private static ConnectionFactory instance = new ConnectionFactory();
-
-    public static ConnectionFactory getInstance() {
-        return instance;
-    }
-
     /**
      * 构造方法
      */
     private ConnectionFactory() {
         super();
+    }
+
+    public static final ConnectionFactory getInstance() {
+        return InstanceHolder.instance;
+    }
+
+    /**
+     * 获取数据库连接
+     * @return
+     * @throws SQLException
+     * @author yangziran
+     */
+    public static Connection getConnection() throws SQLException {
+
+        ConfigurationHolder config = new ConfigurationHolder();
+        // 获取到数据库类型
+        String db = DBType.valueOf(PropertyHolder.getJDBCProperty("DB")).getValue();
+        config.setDriverClass(PropertyHolder.getJDBCProperty(db + ".driverClass"));
+        config.setConnectionURL(PropertyHolder.getJDBCProperty(db + ".url"));
+        config.setUserId(PropertyHolder.getJDBCProperty(db + ".username"));
+        config.setPassword(PropertyHolder.getJDBCProperty(db + ".password"));
+
+        return ConnectionFactory.getInstance().getConnection(config);
     }
 
     /**
@@ -50,7 +68,7 @@ public class ConnectionFactory {
             Class<?> clazz = ObjectFactory.externalClassForName(driverClass);
             driver = (Driver) clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new RuntimeException(MessageFormat.format("获取JDBC Driver错误", new Object[] {}), e);
+            throw new RuntimeException(MessageFormat.format("获取JDBC Driver错误", new Object[]{}), e);
         }
 
         return driver;
@@ -91,29 +109,14 @@ public class ConnectionFactory {
         }
 
         Connection conn = driver.connect(config.getConnectionURL(), props);
-        if (conn == null) {
-            throw new SQLException(MessageFormat.format("无法连接到数据库（可能是驱动/URL错误）", new Object[] {}));
+        if (Objects.isNull(conn)) {
+            throw new SQLException(MessageFormat.format("无法连接到数据库（可能是驱动/URL错误）", new Object[]{}));
         }
 
         return conn;
     }
 
-    /**
-     * 获取数据库连接
-     * @return
-     * @throws SQLException
-     * @author yangziran
-     */
-    public static Connection getConnection() throws SQLException {
-
-        ConfigurationHolder config = new ConfigurationHolder();
-        // 获取到数据库类型
-        String db = DBType.valueOf(PropertyHolder.getJDBCProperty("DB")).getValue();
-        config.setDriverClass(PropertyHolder.getJDBCProperty(db + ".driverClass"));
-        config.setConnectionURL(PropertyHolder.getJDBCProperty(db + ".url"));
-        config.setUserId(PropertyHolder.getJDBCProperty(db + ".username"));
-        config.setPassword(PropertyHolder.getJDBCProperty(db + ".password"));
-
-        return ConnectionFactory.getInstance().getConnection(config);
+    private static class InstanceHolder {
+        private static final ConnectionFactory instance = new ConnectionFactory();
     }
 }

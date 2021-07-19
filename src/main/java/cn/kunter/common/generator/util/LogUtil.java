@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.util;
 

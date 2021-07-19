@@ -15,21 +15,21 @@
  */
 package cn.kunter.common.generator.entity;
 
+import cn.kunter.common.generator.type.FullyQualifiedJavaType;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.kunter.common.generator.type.FullyQualifiedJavaType;
 
 /**
  * @author Jeff Butler
  */
 public class Parameter {
 
-    private String name;
-    private FullyQualifiedJavaType type;
-    private boolean isVarargs;
+    private final String name;
+    private final FullyQualifiedJavaType type;
+    private final boolean isVarargs;
 
-    private List<String> annotations;
+    private final List<String> annotations;
 
     public Parameter(FullyQualifiedJavaType type, String name, boolean isVarargs) {
         super();

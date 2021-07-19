@@ -1,13 +1,13 @@
 /*
- * 
+ *
  */
 package cn.kunter.common.generator.util;
+
+import cn.kunter.common.generator.entity.Column;
 
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
-
-import cn.kunter.common.generator.entity.Column;
 
 /**
  * Java类工具类
@@ -97,8 +97,7 @@ public class JavaBeansUtil {
                     if (nextUpperCase) {
                         sb.append(Character.toUpperCase(c));
                         nextUpperCase = false;
-                    }
-                    else {
+                    } else {
                         sb.append(Character.toLowerCase(c));
                     }
                     break;
@@ -129,15 +128,12 @@ public class JavaBeansUtil {
         String answer;
         if (inputString == null) {
             answer = null;
-        }
-        else if (inputString.length() < 2) {
+        } else if (inputString.length() < 2) {
             answer = inputString.toLowerCase(Locale.US);
-        }
-        else {
+        } else {
             if (Character.isUpperCase(inputString.charAt(0)) && !Character.isUpperCase(inputString.charAt(1))) {
                 answer = inputString.substring(0, 1).toLowerCase(Locale.US) + inputString.substring(1);
-            }
-            else {
+            } else {
                 answer = inputString;
             }
         }
@@ -149,7 +145,6 @@ public class JavaBeansUtil {
      * 获取到JavaBean package
      * @param packages
      * @return
-     * @author yangziran
      */
     public static String getPackages(String packages) {
 
@@ -164,7 +159,6 @@ public class JavaBeansUtil {
      * @param imports
      * @param isStatic
      * @return
-     * @author yangziran
      */
     public static String getImports(String imports, boolean isStatic, boolean isNewLine) {
 
@@ -195,20 +189,19 @@ public class JavaBeansUtil {
      * @param remarks 备注
      * @param newLine 是否新起一行
      * @return
-     * @author yangziran
      */
     public static String getJavaBeansStart(
-        String visibility,
-        boolean isAbstract,
-        boolean isStatic,
-        boolean isFinal,
-        boolean isInterface,
-        boolean isClass,
-        String superClass,
-        List<String> superInterface,
-        String name,
-        String remarks,
-        boolean newLine) {
+            String visibility,
+            boolean isAbstract,
+            boolean isStatic,
+            boolean isFinal,
+            boolean isInterface,
+            boolean isClass,
+            String superClass,
+            List<String> superInterface,
+            String name,
+            String remarks,
+            boolean newLine) {
 
         StringBuilder buffer = new StringBuilder();
         if (newLine) {
@@ -241,8 +234,7 @@ public class JavaBeansUtil {
                 for (String fqjt : superInterface) {
                     if (comma) {
                         buffer.append(", ");
-                    }
-                    else {
+                    } else {
                         comma = true;
                     }
                     buffer.append(fqjt);
@@ -267,19 +259,18 @@ public class JavaBeansUtil {
      * @param name 名称
      * @param remarks 备注
      * @return
-     * @author yangziran
      */
     public static String getJavaBeansStart(
-        String visibility,
-        boolean isAbstract,
-        boolean isStatic,
-        boolean isFinal,
-        boolean isInterface,
-        boolean isClass,
-        String superClass,
-        List<String> superInterface,
-        String name,
-        String remarks) {
+            String visibility,
+            boolean isAbstract,
+            boolean isStatic,
+            boolean isFinal,
+            boolean isInterface,
+            boolean isClass,
+            String superClass,
+            List<String> superInterface,
+            String name,
+            String remarks) {
 
         return getJavaBeansStart(visibility, isAbstract, isStatic, isFinal, isInterface, isClass, superClass,
                 superInterface, name, remarks, true);
@@ -289,7 +280,6 @@ public class JavaBeansUtil {
      * 类结束
      * @param newLine 是否新起一行
      * @return
-     * @author yangziran
      */
     public static String getJavaBeansEnd(boolean newLine) {
 
@@ -304,7 +294,6 @@ public class JavaBeansUtil {
     /**
      * 类结束
      * @return
-     * @author yangziran
      */
     public static String getJavaBeansEnd() {
 
@@ -322,17 +311,16 @@ public class JavaBeansUtil {
      * @param type 类型
      * @param remarks 备注
      * @return Java类字段
-     * @author yangziran
      */
     public static String getJavaBeansField(
-        String visibility,
-        boolean isStatic,
-        boolean isFinal,
-        boolean isTransient,
-        boolean isVolatile,
-        String name,
-        String type,
-        String remarks) {
+            String visibility,
+            boolean isStatic,
+            boolean isFinal,
+            boolean isTransient,
+            boolean isVolatile,
+            String name,
+            String type,
+            String remarks) {
 
         StringBuilder buffer = new StringBuilder();
         if (StringUtility.isNotEmpty(remarks)) {
@@ -367,7 +355,6 @@ public class JavaBeansUtil {
      * @param type
      * @param remarks
      * @return
-     * @author yangziran
      */
     public static String getJavaBeansGetter(String visibility, String name, String type, String remarks) {
 
@@ -407,7 +394,6 @@ public class JavaBeansUtil {
      * @param type
      * @param remarks
      * @return
-     * @author yangziran
      */
     public static String getJavaBeansSetter(String visibility, String name, String type, String remarks) {
 
@@ -429,7 +415,7 @@ public class JavaBeansUtil {
         OutputUtilities.newLine(buffer);
         OutputUtilities.javaIndent(buffer, 1);
         buffer.append(visibility).append("void ").append(JavaBeansUtil.getSetterMethodName(name)).append("(")
-                .append(type).append(" ").append(name).append(") {");
+              .append(type).append(" ").append(name).append(") {");
         OutputUtilities.newLine(buffer);
         OutputUtilities.javaIndent(buffer, 2);
         buffer.append("this.").append(name).append(" = ").append(name).append(";");
@@ -442,20 +428,20 @@ public class JavaBeansUtil {
     }
 
     public static String getMethods(
-        int indentLevel,
-        String visibility,
-        boolean constructor,
-        boolean isInterface,
-        boolean isSynchronized,
-        boolean isNative,
-        boolean isStatic,
-        boolean isFinal,
-        String returnType,
-        String name,
-        List<Column> parameters,
-        List<Column> exceptions,
-        List<String> bodyLines,
-        String remarks) {
+            int indentLevel,
+            String visibility,
+            boolean constructor,
+            boolean isInterface,
+            boolean isSynchronized,
+            boolean isNative,
+            boolean isStatic,
+            boolean isFinal,
+            String returnType,
+            String name,
+            List<Column> parameters,
+            List<Column> exceptions,
+            List<String> bodyLines,
+            String remarks) {
 
         StringBuilder buffer = new StringBuilder();
         if (null != remarks && "" != remarks) {
@@ -484,8 +470,7 @@ public class JavaBeansUtil {
             }
             if (isNative) {
                 buffer.append("native ");
-            }
-            else if (bodyLines.size() == 0) {
+            } else if (bodyLines.size() == 0) {
                 buffer.append("abstract ");
             }
         }
@@ -493,8 +478,7 @@ public class JavaBeansUtil {
         if (!constructor) {
             if (returnType == null) {
                 buffer.append("void");
-            }
-            else {
+            } else {
                 buffer.append(returnType);
             }
             buffer.append(' ');
@@ -507,8 +491,7 @@ public class JavaBeansUtil {
             for (Column column : parameters) {
                 if (comma) {
                     buffer.append(", ");
-                }
-                else {
+                } else {
                     comma = true;
                 }
                 buffer.append(column.getJavaType()).append(" ").append(column.getJavaName());
@@ -523,8 +506,7 @@ public class JavaBeansUtil {
             for (Column column : exceptions) {
                 if (comma) {
                     buffer.append(", ");
-                }
-                else {
+                } else {
                     comma = true;
                 }
                 buffer.append(column.getJavaType());
@@ -533,8 +515,7 @@ public class JavaBeansUtil {
 
         if (bodyLines == null || bodyLines.size() == 0 || isNative) {
             buffer.append(';');
-        }
-        else {
+        } else {
             buffer.append(" {");
             indentLevel++;
 

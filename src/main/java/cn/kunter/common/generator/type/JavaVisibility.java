@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package cn.kunter.common.generator.type;
 
@@ -12,9 +12,9 @@ public enum JavaVisibility {
 
     PUBLIC("public "), PRIVATE("private "), PROTECTED("protected "), DEFAULT("");
 
-    private String value;
+    private final String value;
 
-    private JavaVisibility(String value) {
+    JavaVisibility(String value) {
         this.value = value;
     }
 

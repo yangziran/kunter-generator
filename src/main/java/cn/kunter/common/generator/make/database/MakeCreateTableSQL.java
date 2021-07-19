@@ -1,12 +1,7 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.make.database;
-
-import java.sql.Types;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Column;
@@ -17,6 +12,11 @@ import cn.kunter.common.generator.type.JdbcTypeNameTranslator;
 import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
 import cn.kunter.common.generator.util.StringUtility;
+
+import java.sql.Types;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 生成建表SQL
@@ -59,8 +59,7 @@ public class MakeCreateTableSQL {
                     setSQL(builder, table);
 
                     sqlMap.put(tModel, builder);
-                }
-                else {
+                } else {
                     setSQL(sqlMap.get(tModel), table);
                 }
             }
@@ -70,18 +69,17 @@ public class MakeCreateTableSQL {
                 StringBuilder createSQLName = new StringBuilder();
                 createSQLName.append("CreateTableSQL-").append(model).append(".sql");
 
-                FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + createSQLName.toString(),
+                FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + createSQLName,
                         sqlMap.get(model).toString());
             }
-        }
-        else {
+        } else {
 
             StringBuilder builder = new StringBuilder();
             for (Table table : tables) {
                 setSQL(builder, table);
             }
 
-            FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + "CreateTableSQL.sql".toString(),
+            FileUtil.writeFile(PropertyHolder.getConfigProperty("target") + "CreateTableSQL.sql",
                     builder.toString());
         }
     }
@@ -123,11 +121,11 @@ public class MakeCreateTableSQL {
             builder.append(");");
             OutputUtilities.newLine(builder);
             builder.append("COMMENT ON TABLE \"").append(table.getTableName()).append("\" IS '")
-                    .append(table.getRemarks()).append("';");
+                   .append(table.getRemarks()).append("';");
             OutputUtilities.newLine(builder);
             for (Column column : table.getCols()) {
                 builder.append("COMMENT ON COLUMN \"").append(table.getTableName()).append("\".\"")
-                        .append(column.getColumnName()).append("\" IS '").append(column.getRemarks()).append("';");
+                       .append(column.getColumnName()).append("\" IS '").append(column.getRemarks()).append("';");
                 OutputUtilities.newLine(builder);
             }
             // 判断当前表有主键时
@@ -147,7 +145,7 @@ public class MakeCreateTableSQL {
                 // 添加索引
                 builder.append("CREATE INDEX idx_");
                 builder.append(table.getTableName()).append(" using btree ON ").append(table.getTableName())
-                        .append("(");
+                       .append("(");
                 for (int m = 0; m < table.getPrimaryKey().size(); m++) {
                     Column column = table.getPrimaryKey().get(m);
                     builder.append(column.getColumnName());
@@ -159,8 +157,7 @@ public class MakeCreateTableSQL {
                 OutputUtilities.newLine(builder);
             }
             OutputUtilities.newLine(builder);
-        }
-        else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
+        } else if (DB_TYPE.equals(DBType.MYSQL.getValue())) {
             // 判断表是否存在，存在执行删除
             builder.append("DROP TABLE IF EXISTS ").append(table.getTableName()).append(";");
             OutputUtilities.newLine(builder);
@@ -205,7 +202,7 @@ public class MakeCreateTableSQL {
                 // 添加索引
                 builder.append("CREATE INDEX idx_");
                 builder.append(table.getTableName()).append(" using btree ON ").append(table.getTableName())
-                        .append("(");
+                       .append("(");
                 for (int m = 0; m < table.getPrimaryKey().size(); m++) {
                     Column column = table.getPrimaryKey().get(m);
                     builder.append(column.getColumnName());
@@ -217,8 +214,7 @@ public class MakeCreateTableSQL {
                 OutputUtilities.newLine(builder);
             }
             OutputUtilities.newLine(builder);
-        }
-        else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
+        } else if (DB_TYPE.equals(DBType.POSTGRESQL.getValue())) {
             // 判断表是否存在，存在执行删除
             builder.append("DROP TABLE IF EXISTS ").append(table.getTableName()).append(";");
             OutputUtilities.newLine(builder);
@@ -245,11 +241,11 @@ public class MakeCreateTableSQL {
             builder.append(");");
             OutputUtilities.newLine(builder);
             builder.append("COMMENT ON TABLE ").append(table.getTableName()).append(" IS '").append(table.getRemarks())
-                    .append("';");
+                   .append("';");
             OutputUtilities.newLine(builder);
             for (Column column : table.getCols()) {
                 builder.append("COMMENT ON COLUMN ").append(table.getTableName()).append(".")
-                        .append(column.getColumnName()).append(" IS '").append(column.getRemarks()).append("';");
+                       .append(column.getColumnName()).append(" IS '").append(column.getRemarks()).append("';");
                 OutputUtilities.newLine(builder);
             }
             // 判断当前表有主键时
@@ -269,7 +265,7 @@ public class MakeCreateTableSQL {
                 // 添加索引
                 builder.append("CREATE INDEX idx_");
                 builder.append(table.getTableName()).append(" using btree ON ").append(table.getTableName())
-                        .append("(");
+                       .append("(");
                 for (int m = 0; m < table.getPrimaryKey().size(); m++) {
                     Column column = table.getPrimaryKey().get(m);
                     builder.append(column.getColumnName());

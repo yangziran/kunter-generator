@@ -15,20 +15,20 @@
  */
 package cn.kunter.common.generator.entity;
 
+import cn.kunter.common.generator.type.FullyQualifiedJavaType;
+import cn.kunter.common.generator.util.OutputUtilities;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
-
-import cn.kunter.common.generator.type.FullyQualifiedJavaType;
-import cn.kunter.common.generator.util.OutputUtilities;
 
 /**
  * @author Jeff Butler
  */
 public class Method extends JavaElement {
 
-    private List<String> bodyLines;
+    private final List<String> bodyLines;
 
     private boolean constructor;
 
@@ -36,16 +36,16 @@ public class Method extends JavaElement {
 
     private String name;
 
-    private List<Parameter> parameters;
+    private final List<Parameter> parameters;
 
-    private List<FullyQualifiedJavaType> exceptions;
+    private final List<FullyQualifiedJavaType> exceptions;
 
     private boolean isSynchronized;
 
     private boolean isNative;
 
     /**
-     *  
+     *
      */
     public Method() {
         // use a default name to avoid malformed code
@@ -128,8 +128,7 @@ public class Method extends JavaElement {
 
             if (isNative()) {
                 sb.append("native "); //$NON-NLS-1$
-            }
-            else if (bodyLines.size() == 0) {
+            } else if (bodyLines.size() == 0) {
                 sb.append("abstract "); //$NON-NLS-1$
             }
         }
@@ -137,8 +136,7 @@ public class Method extends JavaElement {
         if (!constructor) {
             if (getReturnType() == null) {
                 sb.append("void"); //$NON-NLS-1$
-            }
-            else {
+            } else {
                 sb.append(getReturnType().getShortName());
             }
             sb.append(' ');
@@ -151,8 +149,7 @@ public class Method extends JavaElement {
         for (Parameter parameter : getParameters()) {
             if (comma) {
                 sb.append(", "); //$NON-NLS-1$
-            }
-            else {
+            } else {
                 comma = true;
             }
 
@@ -167,8 +164,7 @@ public class Method extends JavaElement {
             for (FullyQualifiedJavaType fqjt : getExceptions()) {
                 if (comma) {
                     sb.append(", "); //$NON-NLS-1$
-                }
-                else {
+                } else {
                     comma = true;
                 }
 
@@ -179,8 +175,7 @@ public class Method extends JavaElement {
         // if no body lines, then this is an abstract method
         if (bodyLines.size() == 0 || isNative()) {
             sb.append(';');
-        }
-        else {
+        } else {
             sb.append(" {"); //$NON-NLS-1$
             indentLevel++;
 
@@ -232,8 +227,7 @@ public class Method extends JavaElement {
     }
 
     /**
-     * @param constructor
-     *            The constructor to set.
+     * @param constructor The constructor to set.
      */
     public void setConstructor(boolean constructor) {
         this.constructor = constructor;
@@ -247,8 +241,7 @@ public class Method extends JavaElement {
     }
 
     /**
-     * @param name
-     *            The name to set.
+     * @param name The name to set.
      */
     public void setName(String name) {
         this.name = name;
@@ -274,8 +267,7 @@ public class Method extends JavaElement {
     }
 
     /**
-     * @param returnType
-     *            The returnType to set.
+     * @param returnType The returnType to set.
      */
     public void setReturnType(FullyQualifiedJavaType returnType) {
         this.returnType = returnType;

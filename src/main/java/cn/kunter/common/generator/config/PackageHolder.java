@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.config;
 
@@ -29,8 +29,7 @@ public class PackageHolder {
         }
         if (StringUtility.isNotEmpty(PACKAGES) && MODEL) {
             builder.append(".").append(tableName.split("_")[0]).append(".");
-        }
-        else if (StringUtility.isNotEmpty(PACKAGES) && !MODEL) {
+        } else if (StringUtility.isNotEmpty(PACKAGES) && !MODEL) {
             builder.append(".");
         }
         return builder;
@@ -43,7 +42,6 @@ public class PackageHolder {
      * @author yangziran
      */
     public static String getEntityPackage(String tableName) {
-
         return getPackage(tableName).append("eo").toString();
     }
 
@@ -65,7 +63,6 @@ public class PackageHolder {
      * @author yangziran
      */
     public static String getDaoPackage(String tableName) {
-
         return getPackage(tableName).append("dao").toString();
     }
 
@@ -75,7 +72,6 @@ public class PackageHolder {
      * @author yangziran
      */
     public static String getBaseDaoPackage() {
-
         return "com.baomidou.mybatisplus.core.mapper.BaseMapper";
     }
 
@@ -86,7 +82,6 @@ public class PackageHolder {
      * @author yangziran
      */
     public static String getServicePackage(String tableName) {
-
         return getPackage(tableName).append("service").toString();
     }
 
@@ -97,7 +92,7 @@ public class PackageHolder {
      * @author yangziran
      */
     public static String getServiceImplPackage(String tableName) {
-
         return getPackage(tableName).append("service.impl").toString();
     }
+
 }

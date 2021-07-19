@@ -76,8 +76,7 @@ public class Page implements Serializable {
 
         if (page == 0) {
             current = 0;
-        }
-        else {
+        } else {
             current = page * size;
         }
         return current;
@@ -99,8 +98,7 @@ public class Page implements Serializable {
 
         if (records % size == 0) {
             total = records / size;
-        }
-        else {
+        } else {
             total = records / size + 1;
         }
         return total;

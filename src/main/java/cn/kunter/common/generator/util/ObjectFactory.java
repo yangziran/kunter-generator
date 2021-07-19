@@ -46,7 +46,6 @@ public class ObjectFactory {
     /**
      * 添加资源文件的类加载器到集合
      * @param classLoader 资源文件类加载器
-     * @author yangziran
      */
     public static synchronized void addResourceClassLoader(ClassLoader classLoader) {
         ObjectFactory.resourceClassLoaders.add(classLoader);
@@ -56,7 +55,6 @@ public class ObjectFactory {
      * 添加类文件的类加载器到集合
      * 例如：JDBC驱动
      * @param classLoader 类文件类加载器
-     * @author yangziran
      */
     public static synchronized void addExternalClassLoader(ClassLoader classLoader) {
         ObjectFactory.externalClassLoaders.add(classLoader);
@@ -68,7 +66,6 @@ public class ObjectFactory {
      * @param type 类全称
      * @return Class<?> 类对象
      * @throws ClassNotFoundException
-     * @author yangziran
      */
     public static Class<?> externalClassForName(String type) throws ClassNotFoundException {
 
@@ -89,7 +86,6 @@ public class ObjectFactory {
      * 通过类名创建外部对象
      * @param type 类全称
      * @return Object 创建对象
-     * @author yangziran
      */
     public static Object createExternalObject(String type) {
         Object answer;
@@ -99,7 +95,7 @@ public class ObjectFactory {
             answer = clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new RuntimeException(
-                    MessageFormat.format("Cannot instantiate object of type {0}", new Object[] { type }), e);
+                    MessageFormat.format("Cannot instantiate object of type {0}", new Object[]{type}), e);
         }
 
         return answer;
@@ -110,7 +106,6 @@ public class ObjectFactory {
      * @param type 类全称
      * @return Class<?> 类对象
      * @throws ClassNotFoundException
-     * @author yangziran
      */
     public static Class<?> internalClassForName(String type) throws ClassNotFoundException {
         Class<?> clazz = null;
@@ -132,7 +127,6 @@ public class ObjectFactory {
      * 通过类名创建内部对象
      * @param type 类全称
      * @return Object 创建对象
-     * @author yangziran
      */
     public static Object createInternalObject(String type) {
         Object answer;
@@ -143,7 +137,7 @@ public class ObjectFactory {
             answer = clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new RuntimeException(
-                    MessageFormat.format("Cannot instantiate object of type {0}", new Object[] { type }), e);
+                    MessageFormat.format("Cannot instantiate object of type {0}", new Object[]{type}), e);
         }
 
         return answer;
@@ -153,7 +147,6 @@ public class ObjectFactory {
      * 获取资源路径
      * @param resource 资源
      * @return URL 资源路径
-     * @author yangziran
      */
     public static URL getResource(String resource) {
         URL url;

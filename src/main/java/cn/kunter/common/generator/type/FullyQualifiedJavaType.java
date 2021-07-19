@@ -15,11 +15,11 @@
  */
 package cn.kunter.common.generator.type;
 
+import cn.kunter.common.generator.util.StringUtility;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import cn.kunter.common.generator.util.StringUtility;
 
 /**
  * @author Jeff Butler
@@ -50,7 +50,7 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
     private boolean primitive;
     private boolean isArray;
     private PrimitiveTypeWrapper primitiveTypeWrapper;
-    private List<FullyQualifiedJavaType> typeArguments;
+    private final List<FullyQualifiedJavaType> typeArguments;
 
     // the following three values are used for dealing with wildcard types
     private boolean wildcardType;
@@ -87,15 +87,13 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
             if (boundedWildcard) {
                 if (extendsBoundedWildcard) {
                     sb.append(" extends ");
-                }
-                else {
+                } else {
                     sb.append(" super ");
                 }
 
                 sb.append(baseQualifiedName);
             }
-        }
-        else {
+        } else {
             sb.append(baseQualifiedName);
         }
 
@@ -105,8 +103,7 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
             for (FullyQualifiedJavaType fqjt : typeArguments) {
                 if (first) {
                     first = false;
-                }
-                else {
+                } else {
                     sb.append(", ");
                 }
                 sb.append(fqjt.getFullyQualifiedName());
@@ -128,14 +125,13 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
             int index = baseShortName.indexOf('.');
             if (index == -1) {
                 answer.add(baseQualifiedName);
-            }
-            else {
+            } else {
                 // an inner class is specified, only import the top
                 // level class
                 StringBuilder sb = new StringBuilder();
                 sb.append(packageName);
                 sb.append('.');
-                sb.append(baseShortName.substring(0, index));
+                sb.append(baseShortName, 0, index);
                 answer.add(sb.toString());
             }
         }
@@ -164,15 +160,13 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
             if (boundedWildcard) {
                 if (extendsBoundedWildcard) {
                     sb.append(" extends ");
-                }
-                else {
+                } else {
                     sb.append(" super ");
                 }
 
                 sb.append(baseShortName);
             }
-        }
-        else {
+        } else {
             sb.append(baseShortName);
         }
 
@@ -182,8 +176,7 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
             for (FullyQualifiedJavaType fqjt : typeArguments) {
                 if (first) {
                     first = false;
-                }
-                else {
+                } else {
                     sb.append(", ");
                 }
                 sb.append(fqjt.getShortName());
@@ -350,23 +343,19 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
                 boundedWildcard = true;
                 extendsBoundedWildcard = true;
                 spec = spec.substring(8); // "extends ".length()
-            }
-            else if (spec.startsWith("super ")) {
+            } else if (spec.startsWith("super ")) {
                 boundedWildcard = true;
                 extendsBoundedWildcard = false;
                 spec = spec.substring(6); // "super ".length()
-            }
-            else {
+            } else {
                 boundedWildcard = false;
             }
             parse(spec);
-        }
-        else {
+        } else {
             int index = fullTypeSpecification.indexOf('<');
             if (index == -1) {
                 simpleParse(fullTypeSpecification);
-            }
-            else {
+            } else {
                 simpleParse(fullTypeSpecification.substring(0, index));
                 int endIndex = fullTypeSpecification.lastIndexOf('>');
                 if (endIndex == -1) {
@@ -393,14 +382,8 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
                 baseShortName = baseShortName.substring(index + 1);
             }
 
-            if (JAVA_LANG.equals(packageName)) {
-                explicitlyImported = false;
-            }
-            else {
-                explicitlyImported = true;
-            }
-        }
-        else {
+            explicitlyImported = !JAVA_LANG.equals(packageName);
+        } else {
             baseShortName = baseQualifiedName;
             explicitlyImported = false;
             packageName = "";
@@ -408,36 +391,28 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
             if ("byte".equals(baseQualifiedName)) {
                 primitive = true;
                 primitiveTypeWrapper = PrimitiveTypeWrapper.getByteInstance();
-            }
-            else if ("short".equals(baseQualifiedName)) {
+            } else if ("short".equals(baseQualifiedName)) {
                 primitive = true;
                 primitiveTypeWrapper = PrimitiveTypeWrapper.getShortInstance();
-            }
-            else if ("int".equals(baseQualifiedName)) {
+            } else if ("int".equals(baseQualifiedName)) {
                 primitive = true;
                 primitiveTypeWrapper = PrimitiveTypeWrapper.getIntegerInstance();
-            }
-            else if ("long".equals(baseQualifiedName)) {
+            } else if ("long".equals(baseQualifiedName)) {
                 primitive = true;
                 primitiveTypeWrapper = PrimitiveTypeWrapper.getLongInstance();
-            }
-            else if ("char".equals(baseQualifiedName)) {
+            } else if ("char".equals(baseQualifiedName)) {
                 primitive = true;
                 primitiveTypeWrapper = PrimitiveTypeWrapper.getCharacterInstance();
-            }
-            else if ("float".equals(baseQualifiedName)) {
+            } else if ("float".equals(baseQualifiedName)) {
                 primitive = true;
                 primitiveTypeWrapper = PrimitiveTypeWrapper.getFloatInstance();
-            }
-            else if ("double".equals(baseQualifiedName)) {
+            } else if ("double".equals(baseQualifiedName)) {
                 primitive = true;
                 primitiveTypeWrapper = PrimitiveTypeWrapper.getDoubleInstance();
-            }
-            else if ("boolean".equals(baseQualifiedName)) {
+            } else if ("boolean".equals(baseQualifiedName)) {
                 primitive = true;
                 primitiveTypeWrapper = PrimitiveTypeWrapper.getBooleanInstance();
-            }
-            else {
+            } else {
                 primitive = false;
                 primitiveTypeWrapper = null;
             }
@@ -460,21 +435,17 @@ public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType
             if ("<".equals(token)) {
                 sb.append(token);
                 openCount++;
-            }
-            else if (">".equals(token)) {
+            } else if (">".equals(token)) {
                 sb.append(token);
                 openCount--;
-            }
-            else if (",".equals(token)) {
+            } else if (",".equals(token)) {
                 if (openCount == 0) {
                     typeArguments.add(new FullyQualifiedJavaType(sb.toString()));
                     sb.setLength(0);
-                }
-                else {
+                } else {
                     sb.append(token);
                 }
-            }
-            else {
+            } else {
                 sb.append(token);
             }
         }

@@ -1,9 +1,7 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.make;
-
-import java.util.List;
 
 import cn.kunter.common.generator.config.PackageHolder;
 import cn.kunter.common.generator.config.PropertyHolder;
@@ -13,6 +11,8 @@ import cn.kunter.common.generator.util.DateUtil;
 import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.JavaBeansUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
+
+import java.util.List;
 
 /**
  * 扩展DAO生成

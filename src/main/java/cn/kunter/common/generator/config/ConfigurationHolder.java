@@ -1,12 +1,12 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.config;
 
+import cn.kunter.common.generator.util.StringUtility;
+
 import java.text.MessageFormat;
 import java.util.List;
-
-import cn.kunter.common.generator.util.StringUtility;
 
 /**
  * 数据库连接属性
@@ -66,11 +66,12 @@ public class ConfigurationHolder extends PropertyHolder {
      */
     public void validate(List<String> errors) {
         if (StringUtility.isEmpty(driverClass)) {
-            errors.add(MessageFormat.format("JDBC Driver必须指定", new Object[] {}));
+            errors.add(MessageFormat.format("JDBC Driver必须指定", new Object[]{}));
         }
 
         if (StringUtility.isEmpty(connectionURL)) {
-            errors.add(MessageFormat.format("JDBC Connection URL必须指定", new Object[] {}));
+            errors.add(MessageFormat.format("JDBC Connection URL必须指定", new Object[]{}));
         }
     }
+
 }

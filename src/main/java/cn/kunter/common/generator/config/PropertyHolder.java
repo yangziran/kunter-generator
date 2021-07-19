@@ -1,64 +1,38 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.config;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 /**
- * 数据库属性设置
+ * 配置文件处理
  * @author yangziran
  * @version 1.0 2014年9月11日
  */
 public abstract class PropertyHolder {
 
-    // 获取到类加载器
-    private static ClassLoader parent = Thread.currentThread().getContextClassLoader();
-    /** 属性文件名称 */
+    /** 配置文件名称 */
     private static final String JDBC = "jdbc.properties";
     private static final String CONFIG = "config.properties";
+    /** 获取到类加载器 */
+    private static final ClassLoader CONTEXT_CLASS_LOADER = Thread.currentThread().getContextClassLoader();
 
     /**
-     * 获取到JDBC属性
-     * @return
-     * @author yangziran
+     * 根据文件名称加载配置文件
+     * @param name 文件名称
+     * @return Properties 配置文件对象
      */
-    private static Properties getJDBCProperties() {
-
-        // 将属性文件加载到流中
-        InputStream inputStream = parent.getResourceAsStream(JDBC);
+    private static Properties getProperties(String name) {
         // 创建属性对象
         Properties properties = new Properties();
-        try {
+        try (InputStream inputStream = CONTEXT_CLASS_LOADER.getResourceAsStream(name)) {
             // 加载文件流到属性对象中
-            properties.load(new InputStreamReader(inputStream, "UTF-8"));
-            // 关闭文件流
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return properties;
-    }
-
-    /**
-     * 获取到代码生成属性
-     * @return
-     * @author yangziran
-     */
-    private static Properties getConfigProperties() {
-
-        // 将属性文件加载到流中
-        InputStream inputStream = parent.getResourceAsStream(CONFIG);
-        // 创建属性对象
-        Properties properties = new Properties();
-        try {
-            // 加载文件流到属性对象中
-            properties.load(new InputStreamReader(inputStream, "UTF-8"));
-            // 关闭文件流
-            inputStream.close();
+            properties.load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,14 +40,15 @@ public abstract class PropertyHolder {
     }
 
     public static String getJDBCProperty(String name) {
-        return getJDBCProperties().getProperty(name);
+        return getProperties(JDBC).getProperty(name);
     }
 
     public static String getConfigProperty(String name) {
-        return getConfigProperties().getProperty(name);
+        return getProperties(CONFIG).getProperty(name);
     }
 
     public static Boolean getBooleanVal(String key) {
-        return Boolean.valueOf(getConfigProperties().getProperty(key));
+        return Boolean.valueOf(getProperties(CONFIG).getProperty(key));
     }
+
 }

@@ -15,18 +15,18 @@
  */
 package cn.kunter.common.generator.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.kunter.common.generator.type.JavaVisibility;
 import cn.kunter.common.generator.util.OutputUtilities;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jeff Butler
  */
 public abstract class JavaElement {
 
-    private List<String> javaDocLines;
+    private final List<String> javaDocLines;
 
     private JavaVisibility visibility = JavaVisibility.DEFAULT;
 
@@ -34,10 +34,10 @@ public abstract class JavaElement {
 
     private boolean isFinal;
 
-    private List<String> annotations;
+    private final List<String> annotations;
 
     /**
-     *  
+     *
      */
     public JavaElement() {
         super();
@@ -85,8 +85,7 @@ public abstract class JavaElement {
     }
 
     /**
-     * @param visibility
-     *            The visibility to set.
+     * @param visibility The visibility to set.
      */
     public void setVisibility(JavaVisibility visibility) {
         this.visibility = visibility;

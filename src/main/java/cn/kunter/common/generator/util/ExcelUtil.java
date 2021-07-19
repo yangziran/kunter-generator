@@ -3,20 +3,19 @@
  */
 package cn.kunter.common.generator.util;
 
+import cn.kunter.common.generator.config.PropertyHolder;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-
-import cn.kunter.common.generator.config.PropertyHolder;
-
 /**
- * ExcelUtil
- * @author 阳自然
+ * Excel处理工具类
+ * @author 时间处理类
  * @version 1.0 2015年8月31日
  */
 public class ExcelUtil {

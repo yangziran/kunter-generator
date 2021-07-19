@@ -30,7 +30,7 @@ public class Field extends JavaElement {
     private boolean isVolatile;
 
     /**
-     *  
+     *
      */
     public Field() {
         // use a default name to avoid NPE
@@ -58,8 +58,7 @@ public class Field extends JavaElement {
     }
 
     /**
-     * @param name
-     *            The name to set.
+     * @param name The name to set.
      */
     public void setName(String name) {
         this.name = name;
@@ -73,8 +72,7 @@ public class Field extends JavaElement {
     }
 
     /**
-     * @param type
-     *            The type to set.
+     * @param type The type to set.
      */
     public void setType(FullyQualifiedJavaType type) {
         this.type = type;
@@ -88,8 +86,7 @@ public class Field extends JavaElement {
     }
 
     /**
-     * @param initializationString
-     *            The initializationString to set.
+     * @param initializationString The initializationString to set.
      */
     public void setInitializationString(String initializationString) {
         this.initializationString = initializationString;

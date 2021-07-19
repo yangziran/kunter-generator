@@ -1,10 +1,8 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.make;
 
-import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 import cn.kunter.common.generator.config.PackageHolder;
 import cn.kunter.common.generator.config.PropertyHolder;
 import cn.kunter.common.generator.entity.Column;
@@ -15,6 +13,9 @@ import cn.kunter.common.generator.util.FileUtil;
 import cn.kunter.common.generator.util.JavaBeansUtil;
 import cn.kunter.common.generator.util.OutputUtilities;
 import cn.kunter.common.generator.util.StringUtility;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 /**
  * 实体类生成

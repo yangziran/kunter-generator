@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.type;
 
@@ -14,10 +14,10 @@ import java.util.Map;
  */
 public class JdbcTypeNameTranslator {
 
-    private static Map<Integer, String> typeToName;
-    private static Map<String, Integer> nameToType;
-    private static Map<Integer, String> typeToJava;
-    private static Map<String, String> nameToJava;
+    private static final Map<Integer, String> typeToName;
+    private static final Map<String, Integer> nameToType;
+    private static final Map<Integer, String> typeToJava;
+    private static final Map<String, String> nameToJava;
 
     static {
         typeToName = new HashMap<Integer, String>();

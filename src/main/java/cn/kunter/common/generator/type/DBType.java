@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cn.kunter.common.generator.type;
 
@@ -12,9 +12,9 @@ public enum DBType {
 
     ORACLE("Oracle"), MYSQL("MySQL"), POSTGRESQL("PostgreSQL");
 
-    private String value;
+    private final String value;
 
-    private DBType(String value) {
+    DBType(String value) {
         this.value = value;
     }
 

@@ -6,9 +6,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 /**
- * 类名称：文件的共通操作类 FileUtil
- * 内容摘要：针对于文件的操作
- * @author 阳自然
+ * 文件操作工具类
+ * @author 时间处理类
  * @version 1.0 2012-11-15
  */
 public class FileUtil {
@@ -17,9 +16,8 @@ public class FileUtil {
      * 文本内容写入
      * @param filePath 文件路径
      * @param content 文件内容
-     * @author 阳自然
      */
-    @SuppressWarnings({ "resource" })
+    @SuppressWarnings({"resource"})
     public static void writeFile(String filePath, String content) throws Exception {
 
         // 获取到目标文件对象
