@@ -1,6 +1,8 @@
-package cn.kunter.generator.datasource;
+package cn.kunter.generator.datasource.excel;
 
+import cn.kunter.generator.datasource.DataSource;
 import cn.kunter.generator.datasource.enums.SourceType;
+import cn.kunter.generator.entity.Column;
 import cn.kunter.generator.entity.Table;
 import cn.kunter.generator.exception.GeneratorException;
 import cn.kunter.generator.util.ExcelUtils;
@@ -8,6 +10,7 @@ import cn.kunter.generator.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import lombok.var;
+import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.ss.usermodel.CellType;
 
 import java.util.List;
@@ -20,12 +23,18 @@ import java.util.List;
 @Slf4j
 public class ExcelDataSource implements DataSource {
 
+    private String filePath;
+
+    public ExcelDataSource(String filePath) {
+        this.filePath = filePath;
+    }
+
     @Override
     public List<Table> getTables() throws GeneratorException {
 
-        val filePath = "/Users/nature/Documents/IdeaProjects/gdp-springboot/docs/表结构一览.xlsm";
         val workbook = ExcelUtils.getWorkbook(filePath);
 
+        List<Table> tables = Lists.newArrayList();
         // 遍历Sheet
         for (int i = 2; i < workbook.getNumberOfSheets(); i++) {
             val sheet = workbook.getSheetAt(i);
@@ -34,9 +43,17 @@ public class ExcelDataSource implements DataSource {
             val tableName = sheet.getRow(1).getCell(7).getStringCellValue();
             // 表备注（表名称）
             val tableRemarks = sheet.getRow(0).getCell(7).getStringCellValue();
+            // 过滤表结构模板
+            if ("table_template".equals(tableName)) {
+                continue;
+            }
             log.info("getTables tableName: {}, tableRemarks: {}", tableName, tableRemarks);
 
-            Table table = Table.builder().tableName(tableName).remarks(tableRemarks).build();
+            // 构造表信息对象
+            var table =
+                    Table.builder().tableName(tableName)
+                         .javaName(StringUtils.convertToClass(tableName.toLowerCase(), "_", false))
+                         .remarks(tableRemarks).build();
 
             // 遍历Row
             for (int j = 5; j < sheet.getPhysicalNumberOfRows(); j++) {
@@ -58,9 +75,9 @@ public class ExcelDataSource implements DataSource {
                 // 列名
                 val columnName = row.getCell(2).getStringCellValue();
                 // 物理名
-                val sqlName = row.getCell(9).getStringCellValue();
+                val jdbcName = row.getCell(9).getStringCellValue();
                 // 类型
-                val sqlType = row.getCell(16).getStringCellValue().toUpperCase();
+                val jdbcType = row.getCell(16).getStringCellValue().toUpperCase();
 
                 // 长度
                 val lengthCell = row.getCell(21);
@@ -105,10 +122,18 @@ public class ExcelDataSource implements DataSource {
                 // 备注
                 val remarks = row.getCell(31).getStringCellValue();
 
+                // 构造字段信息对象
+                val column = Column.builder().serial(serial).columnName(columnName).jdbcName(jdbcName)
+                                   .jdbcType(jdbcType).length(length).notNull(notNull).primaryKey(primaryKey)
+                                   .primaryKeyOrder(primaryKeyOrder).remarks(remarks).build();
+
+                table.addColumn(column);
             }
+
+            tables.add(table);
         }
 
-        return null;
+        return tables;
     }
 
     @Override
