@@ -24,11 +24,11 @@ public class Column implements Serializable {
     /** 列名 */
     private String columnName;
     /** 物理名 */
-    private String sqlName;
+    private String jdbcName;
     /** 属性名 */
     private String javaName;
     /** 类型 */
-    private String sqlType;
+    private String jdbcType;
     /** 属性类型 */
     private String javaType;
     /** 长度（可以为空，且兼容小数的表示） */

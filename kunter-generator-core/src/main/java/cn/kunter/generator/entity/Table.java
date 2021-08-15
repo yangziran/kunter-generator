@@ -35,6 +35,14 @@ public class Table implements Serializable {
     private List<Column> examples = Lists.newArrayList();
 
     /**
+     * 添加字段
+     * @param column
+     */
+    public void addColumn(Column column) {
+        this.columns.add(column);
+    }
+
+    /**
      * 添加主键
      * @param column
      */
