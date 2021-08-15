@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class ExcelUtilsTests {
 
     @Test
-    void test() throws Exception {
+    void getWorkbook() throws Exception {
 
         String filePath = "/Users/nature/Documents/IdeaProjects/gdp-springboot/docs/表结构一览.xlsm";
         Workbook workbook = ExcelUtils.getWorkbook(filePath);
@@ -97,10 +97,8 @@ class ExcelUtilsTests {
                 // 备注
                 String remarks = row.getCell(31).getStringCellValue();
 
-                System.out
-                        .println("编号：" + serial + "，列名：" + columnName + "，物理名：" + sqlName + "，类型：" + sqlType +
-                                "，长度：" + length + "，不为空：" + notNull + "，主键：" + primaryKey + "，主键顺序：" + primaryKeyOrder +
-                                "，备注：" + remarks);
+                log.info("编号：{}，列名：{}，物理名：{}，类型：{}，长度：{}，不为空：{}，主键：{}，主键顺序：{}，备注：{}", serial,
+                        columnName, sqlName, sqlType, length, notNull, primaryKey, primaryKeyOrder, remarks);
             }
         }
 
