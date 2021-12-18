@@ -30,6 +30,8 @@
         <poi.version>5.0.0</poi.version>
         <fastjson.version>1.2.78</fastjson.version>
 
+        <mysql.version>8.0.27</mysql.version>
+
         <log4j.version>2.17.0</log4j.version>
 
         <lombok.version>1.18.20</lombok.version>
@@ -77,6 +79,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
             </dependency>
 
             <dependency>
