@@ -1,10 +1,8 @@
 package cn.kunter.generator.entity;
 
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,8 +14,6 @@ import java.util.List;
  */
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Table implements Serializable {
 
     /** 表名称（物理名称） */
@@ -28,10 +24,13 @@ public class Table implements Serializable {
     private String remarks;
 
     /** 主键集合 */
+    @Builder.Default
     private List<Column> primaryKeys = Lists.newArrayList();
     /** 列集合 */
+    @Builder.Default
     private List<Column> columns = Lists.newArrayList();
     /** 扩展字段 */
+    @Builder.Default
     private List<Column> examples = Lists.newArrayList();
 
     /**
@@ -39,7 +38,7 @@ public class Table implements Serializable {
      * @param column
      */
     public void addColumn(Column column) {
-        this.columns.add(column);
+        columns.add(column);
     }
 
     /**
@@ -47,7 +46,7 @@ public class Table implements Serializable {
      * @param column
      */
     public void addPrimaryKey(Column column) {
-        this.primaryKeys.add(column);
+        primaryKeys.add(column);
     }
 
 }
