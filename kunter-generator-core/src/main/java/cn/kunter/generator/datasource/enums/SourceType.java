@@ -7,6 +7,6 @@ package cn.kunter.generator.datasource.enums;
  */
 public enum SourceType {
 
-    DB, EXCEL, MYSQL, ORACLE, POSTGRESQL, SQLSERVER
+    EXCEL, MYSQL, ORACLE, POSTGRESQL, SQLSERVER
 
 }

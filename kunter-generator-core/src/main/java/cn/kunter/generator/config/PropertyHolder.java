@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.Properties;
 
 /**
- * Property Holder
+ * 配置文件处理
  * @author nature
  * @version 1.0 2021/7/20
  */
