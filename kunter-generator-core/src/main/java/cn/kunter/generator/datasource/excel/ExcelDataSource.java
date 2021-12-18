@@ -55,7 +55,7 @@ public class ExcelDataSource implements DataSource {
             var tableJavaName = StringUtils.convertTableNameToClass(tableName.toLowerCase(), "_", false);
             // 构造表信息对象
             var table = Table.builder().tableName(tableName).javaName(tableJavaName).remarks(tableRemarks).build();
-            log.info("getTables table: {}", JSON.toJSONString(table));
+            log.debug("getTables table: {}", JSON.toJSONString(table));
 
             // 遍历Row
             for (int j = 5; j < sheet.getPhysicalNumberOfRows(); j++) {
@@ -128,11 +128,15 @@ public class ExcelDataSource implements DataSource {
                 // 备注
                 var remarks = row.getCell(31).getStringCellValue();
 
+                // 构造字段信息对象
                 var columnJavaName = StringUtils.convertFieldToParameter(columnName, "_");
                 var columnJavaType = JavaTypeResolver.getJavaType(jdbcType);
-                // 构造字段信息对象
                 var column = Column.builder().serial(serial).columnName(columnName).jdbcName(jdbcName).javaName(columnJavaName).jdbcType(jdbcType).javaType(columnJavaType).length(length).notNull(notNull).primaryKey(primaryKey).primaryKeyOrder(primaryKeyOrder).remarks(remarks).build();
                 table.addColumn(column);
+
+                if (primaryKey) {
+                    table.addPrimaryKey(column);
+                }
             }
 
             tables.add(table);
