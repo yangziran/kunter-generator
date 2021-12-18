@@ -15,7 +15,7 @@ class DataSourceFactoryTests {
 
     @Test
     void getDataSource() throws GeneratorException {
-        DataSource dataSource = DataSourceFactory.getDataSource(SourceType.EXCEL);
+        var dataSource = DataSourceFactory.getDataSource(SourceType.EXCEL);
         assertNotNull(dataSource);
         List<Table> tableList = dataSource.getTables();
         assertNotNull(tableList);

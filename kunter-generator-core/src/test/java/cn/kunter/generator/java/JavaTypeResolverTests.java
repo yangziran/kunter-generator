@@ -12,7 +12,7 @@ class JavaTypeResolverTests {
 
     @Test
     void getJdbcType() {
-        String jdbcType = JavaTypeResolver.getJdbcType(Types.INTEGER);
+        var jdbcType = JavaTypeResolver.getJdbcType(Types.INTEGER);
         assertEquals("INTEGER", jdbcType);
         log.info("{}", jdbcType);
     }
@@ -26,14 +26,14 @@ class JavaTypeResolverTests {
 
     @Test
     void getJavaType() {
-        String javaType = JavaTypeResolver.getJavaType(Types.INTEGER);
+        var javaType = JavaTypeResolver.getJavaType(Types.INTEGER);
         assertEquals(Integer.class.getName(), javaType);
         log.info("{}", javaType);
     }
 
     @Test
     void testGetJavaType() {
-        String javaType = JavaTypeResolver.getJavaType("INTEGER");
+        var javaType = JavaTypeResolver.getJavaType("INTEGER");
         assertEquals(Integer.class.getName(), javaType);
         log.info("{}", javaType);
     }
