@@ -19,7 +19,7 @@ class JavaTypeResolverTests {
 
     @Test
     void testGetJdbcType() {
-        Integer jdbcType = JavaTypeResolver.getJdbcType("INTEGER");
+        var jdbcType = JavaTypeResolver.getJdbcType("INTEGER");
         assertEquals(Types.INTEGER, jdbcType);
         log.info("{}", jdbcType);
     }

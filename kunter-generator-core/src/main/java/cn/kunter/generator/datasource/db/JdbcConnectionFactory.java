@@ -4,7 +4,6 @@ import cn.kunter.generator.config.JdbcConnectionConfig;
 import cn.kunter.generator.util.ObjectFactory;
 import cn.kunter.generator.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.sql.Connection;
@@ -38,7 +37,7 @@ public class JdbcConnectionFactory implements ConnectionFactory {
     @Override
     public Connection getConnection() throws SQLException {
 
-        Properties properties = new Properties();
+        var properties = new Properties();
         if (StringUtils.isNotBlank(userId)) {
             properties.setProperty("user", userId);
         }
@@ -47,8 +46,8 @@ public class JdbcConnectionFactory implements ConnectionFactory {
         }
         properties.putAll(otherProperties);
 
-        Driver driver = getDriver();
-        Connection connection = driver.connect(connectionURL, properties);
+        var driver = getDriver();
+        var connection = driver.connect(connectionURL, properties);
         if (ObjectUtils.isEmpty(connection)) {
             log.error("getConnection 无法连接到数据库(可能是驱动或URL错误)");
             throw new SQLException("无法连接到数据库(可能是驱动或URL错误)");
@@ -60,7 +59,7 @@ public class JdbcConnectionFactory implements ConnectionFactory {
     private Driver getDriver() {
         Driver driver;
         try {
-            val clazz = ObjectFactory.externalClassForName(driverClass);
+            var clazz = ObjectFactory.externalClassForName(driverClass);
             driver = (Driver) clazz.getConstructor().newInstance();
         } catch (Exception e) {
             log.error("getDriver 获取JDBC驱动程序时发生异常", e);

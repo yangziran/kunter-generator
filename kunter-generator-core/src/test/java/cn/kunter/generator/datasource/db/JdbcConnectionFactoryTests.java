@@ -4,11 +4,9 @@ import cn.kunter.generator.config.JdbcConnectionConfig;
 import cn.kunter.generator.datasource.DataSourceFactory;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -30,18 +28,18 @@ class JdbcConnectionFactoryTests {
         assertNotNull(properties);
         log.info("{}", JSON.toJSONString(properties));
 
-        val driverClass = properties.getProperty("db.driverClass");
-        val connectionUrl = properties.getProperty("db.url");
-        val userId = properties.getProperty("db.username");
-        val password = properties.getProperty("db.password");
+        var driverClass = properties.getProperty("db.driverClass");
+        var connectionUrl = properties.getProperty("db.url");
+        var userId = properties.getProperty("db.username");
+        var password = properties.getProperty("db.password");
 
-        JdbcConnectionConfig jdbcConnectionConfig = JdbcConnectionConfig.builder().driverClass(driverClass).connectionUrl(connectionUrl).userId(userId).password(password).build();
+        var jdbcConnectionConfig = JdbcConnectionConfig.builder().driverClass(driverClass).connectionUrl(connectionUrl).userId(userId).password(password).build();
         assertNotNull(jdbcConnectionConfig);
         log.info("{}", JSON.toJSONString(jdbcConnectionConfig));
-        JdbcConnectionFactory jdbcConnectionFactory = new JdbcConnectionFactory(jdbcConnectionConfig);
+        var jdbcConnectionFactory = new JdbcConnectionFactory(jdbcConnectionConfig);
         assertNotNull(jdbcConnectionFactory);
         try {
-            Connection connection = jdbcConnectionFactory.getConnection();
+            var connection = jdbcConnectionFactory.getConnection();
             assertNotNull(connection);
         } catch (SQLException e) {
             log.error(e.getMessage(), e);

@@ -13,7 +13,6 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.Lists;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
@@ -51,13 +50,13 @@ public class MySqlDataSource implements DataSource {
             if (set.next()) {
                 schema = set.getString(2);
             }
-            ResultSet tableSet = metaData.getTables(connection.getCatalog(), schema, "%", new String[]{"TABLE"});
+            var tableSet = metaData.getTables(connection.getCatalog(), schema, "%", new String[]{"TABLE"});
 
             while (tableSet.next()) {
                 // 表名称（物理名称）
-                String tableName = tableSet.getString("TABLE_NAME");
+                var tableName = tableSet.getString("TABLE_NAME");
                 // 表备注（表名称）
-                String tableRemarks = tableSet.getString("REMARKS");
+                var tableRemarks = tableSet.getString("REMARKS");
                 log.info("getTables tableName: {}, tableRemarks: {}", tableName, tableRemarks);
 
                 // 将表名称转换为类名称
