@@ -1,6 +1,9 @@
 package cn.kunter.generator.datasource;
 
-import cn.kunter.generator.datasource.db.mysql.MysqlDataSource;
+import cn.kunter.generator.datasource.db.mysql.MySqlDataSource;
+import cn.kunter.generator.datasource.db.oracle.OracleDataSource;
+import cn.kunter.generator.datasource.db.postgresql.PostgreSqlDataSource;
+import cn.kunter.generator.datasource.db.sqlserver.SqlServerDataSource;
 import cn.kunter.generator.datasource.enums.SourceType;
 import cn.kunter.generator.datasource.excel.ExcelDataSource;
 import cn.kunter.generator.util.StringUtils;
@@ -8,10 +11,7 @@ import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * 数据源工厂
@@ -38,8 +38,20 @@ public class DataSourceFactory {
         if (sourceTypeOptional.isPresent()) {
             if (StringUtils.equalsAnyIgnoreCase(sourceType, SourceType.MYSQL.name())) {
 
-                var mysqlDataSource = new MysqlDataSource(properties);
+                var mysqlDataSource = new MySqlDataSource(properties);
                 dataSourceMap.put(mysqlDataSource.getSourceType().name(), mysqlDataSource);
+            } else if (StringUtils.equalsAnyIgnoreCase(sourceType, SourceType.POSTGRESQL.name())) {
+
+                var postgreSqlDataSource = new PostgreSqlDataSource(properties);
+                dataSourceMap.put(postgreSqlDataSource.getSourceType().name(), postgreSqlDataSource);
+            } else if (StringUtils.equalsAnyIgnoreCase(sourceType, SourceType.ORACLE.name())) {
+
+                var oracleDataSource = new OracleDataSource(properties);
+                dataSourceMap.put(oracleDataSource.getSourceType().name(), oracleDataSource);
+            } else if (StringUtils.equalsAnyIgnoreCase(sourceType, SourceType.SQLSERVER.name())) {
+
+                var sqlServerDataSource = new SqlServerDataSource(properties);
+                dataSourceMap.put(sqlServerDataSource.getSourceType().name(), sqlServerDataSource);
             } else if (StringUtils.equalsAnyIgnoreCase(sourceType, SourceType.EXCEL.name())) {
 
                 var filePath = properties.getProperty("excel.filePath");

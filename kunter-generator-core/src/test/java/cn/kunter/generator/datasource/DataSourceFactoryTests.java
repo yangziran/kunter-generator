@@ -24,4 +24,5 @@ class DataSourceFactoryTests {
             log.info(table.getTableName());
         });
     }
+
 }

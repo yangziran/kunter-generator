@@ -24,11 +24,11 @@ import java.util.Properties;
  * @version 1.0 2021/7/20
  */
 @Slf4j
-public class MysqlDataSource implements DataSource {
+public class MySqlDataSource implements DataSource {
 
     private JdbcConnectionFactory jdbcConnectionFactory;
 
-    public MysqlDataSource(Properties properties) {
+    public MySqlDataSource(Properties properties) {
         var driverClass = properties.getProperty("db.driverClass");
         var connectionUrl = properties.getProperty("db.url");
         var userId = properties.getProperty("db.username");
