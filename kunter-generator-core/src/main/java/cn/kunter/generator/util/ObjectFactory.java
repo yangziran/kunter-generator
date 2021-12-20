@@ -1,7 +1,6 @@
 package cn.kunter.generator.util;
 
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -52,7 +51,7 @@ public class ObjectFactory {
      */
     public static Class<?> externalClassForName(String type) throws ClassNotFoundException {
 
-        for (ClassLoader classLoader : externalClassLoaders) {
+        for (var classLoader : externalClassLoaders) {
             try {
                 return Class.forName(type, true, classLoader);
             } catch (Exception e) {
@@ -67,7 +66,7 @@ public class ObjectFactory {
         Class<?> clazz = null;
 
         try {
-            val classLoader = Thread.currentThread().getContextClassLoader();
+            var classLoader = Thread.currentThread().getContextClassLoader();
             clazz = Class.forName(type, true, classLoader);
         } catch (Exception e) {
             log.warn("internalClassForName type: {} {}", type, e.getMessage());

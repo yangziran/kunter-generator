@@ -39,7 +39,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
 
         // 创建StringBuffer对象
-        StringBuffer buffer = new StringBuffer();
+        var buffer = new StringBuffer();
         // 分隔符为空
         if (isBlank(op)) {
             // flag == true, 将字符串所有字母大写, 反之将字符串首字母大写
@@ -48,9 +48,9 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         // 分隔符不为空
         else {
             // 分割字符串
-            String[] tableNameArray = tableName.split(op);
+            var tableNameArray = tableName.split(op);
             // 遍历字符串数组
-            for (int i = 0; i < tableNameArray.length; i++) {
+            for (var i = 0; i < tableNameArray.length; i++) {
                 if (flag && i == 0) {
                     // 将字符串所有字母大写
                     buffer.append(tableNameArray[i].toUpperCase());
@@ -85,7 +85,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
 
         // 创建StringBuffer对象
-        StringBuffer buffer = new StringBuffer();
+        var buffer = new StringBuffer();
         // 分隔符为空
         if (isEmpty(op)) {
             // flag == true, 将字符串所有字母小写, 反之将字符串首字母小写
@@ -94,9 +94,9 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         // 分隔符不为空
         else {
             // 分割字符串
-            String[] tableNameArray = tableName.split(op);
+            var tableNameArray = tableName.split(op);
             // 遍历字符串数组
-            for (int i = 0; i < tableNameArray.length; i++) {
+            for (var i = 0; i < tableNameArray.length; i++) {
                 if (flag) {
                     if (i == 0) {
                         // 将字符串所有字母小写
@@ -130,13 +130,13 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
 
         // 创建StringBuffer对象
-        StringBuffer buffer = new StringBuffer();
+        var buffer = new StringBuffer();
         // 如果分隔符不为空
         if (isNotEmpty(op)) {
             // 分割字符串
-            String[] fieldNameArray = fieldName.split(op);
+            var fieldNameArray = fieldName.split(op);
             // 遍历分割好的字符串数组
-            for (int i = 0; i < fieldNameArray.length; i++) {
+            for (var i = 0; i < fieldNameArray.length; i++) {
                 if (i == 0) {
                     // 将字符串所有字母小写
                     buffer.append(fieldNameArray[i].toLowerCase());
