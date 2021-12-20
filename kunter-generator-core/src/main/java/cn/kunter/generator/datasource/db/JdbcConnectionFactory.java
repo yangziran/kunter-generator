@@ -13,7 +13,7 @@ import java.util.Properties;
 
 /**
  * JDBC连接工厂
- * @author nature
+ * @author yangziran
  * @version 1.0 2021/7/21
  */
 @Slf4j

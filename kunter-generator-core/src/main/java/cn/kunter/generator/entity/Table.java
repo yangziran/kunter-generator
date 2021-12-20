@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * 表结构对象
- * @author nature
+ * @author yangziran
  * @version 1.0 2021/7/20
  */
 @Data

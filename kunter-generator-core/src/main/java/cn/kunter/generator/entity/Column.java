@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 列结构对象
  * 对应《表结构一览》中表模板结构
- * @author nature
+ * @author yangziran
  * @version 1.0 2021/7/20
  */
 @Data

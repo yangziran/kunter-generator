@@ -11,7 +11,7 @@ class ExcelUtilsTests {
     @Test
     void getWorkbook() throws Exception {
 
-        var filePath = "/Users/nature/Documents/IdeaProjects/gdp-springboot/docs/表结构一览.xlsm";
+        var filePath = "docs/表结构一览.xlsm";
         var workbook = ExcelUtils.getWorkbook(filePath);
 
         // 遍历Sheet

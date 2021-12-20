@@ -6,7 +6,7 @@ import java.util.Properties;
 
 /**
  * 配置文件处理
- * @author nature
+ * @author yangziran
  * @version 1.0 2021/7/20
  */
 public abstract class PropertyHolder {

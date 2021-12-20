@@ -6,7 +6,7 @@ import java.util.Properties;
 
 /**
  * 连接工厂
- * @author nature
+ * @author yangziran
  * @version 1.0 2021/7/21
  */
 public interface ConnectionFactory {

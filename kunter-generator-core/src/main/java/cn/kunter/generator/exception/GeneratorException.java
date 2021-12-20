@@ -2,7 +2,7 @@ package cn.kunter.generator.exception;
 
 /**
  * Generator Exception
- * @author nature
+ * @author yangziran
  * @version 1.0 2021/7/20
  */
 public class GeneratorException extends Exception {
