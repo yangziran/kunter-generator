@@ -37,7 +37,7 @@ public class ExcelDataSource implements DataSource {
 
         List<Table> tables = Lists.newArrayList();
         // 遍历Sheet
-        for (int i = 2; i < workbook.getNumberOfSheets(); i++) {
+        for (var i = 2; i < workbook.getNumberOfSheets(); i++) {
             // 当前Sheet对象
             var sheet = workbook.getSheetAt(i);
 
@@ -58,7 +58,7 @@ public class ExcelDataSource implements DataSource {
             log.debug("getTables table: {}", JSON.toJSONString(table));
 
             // 遍历Row
-            for (int j = 5; j < sheet.getPhysicalNumberOfRows(); j++) {
+            for (var j = 5; j < sheet.getPhysicalNumberOfRows(); j++) {
                 // 当前Row对象
                 var row = sheet.getRow(j);
 
