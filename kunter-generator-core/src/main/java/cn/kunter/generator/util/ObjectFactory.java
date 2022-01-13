@@ -55,7 +55,7 @@ public class ObjectFactory {
             try {
                 return Class.forName(type, true, classLoader);
             } catch (Exception e) {
-                log.warn("externalClassForName type: {} {}", type, e.getMessage());
+                log.warn("type: {} {}", type, e.getMessage());
             }
         }
 
@@ -69,7 +69,7 @@ public class ObjectFactory {
             var classLoader = Thread.currentThread().getContextClassLoader();
             clazz = Class.forName(type, true, classLoader);
         } catch (Exception e) {
-            log.warn("internalClassForName type: {} {}", type, e.getMessage());
+            log.warn("type: {} {}", type, e.getMessage());
         }
 
         if (ObjectUtils.isEmpty(clazz)) {

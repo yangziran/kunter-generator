@@ -29,7 +29,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
         // 表名称为空, 返回null
         if (isBlank(tableName)) {
-            log.warn("convertTableNameToClass 表名称为空");
+            log.warn("表名称为空");
             return null;
         }
 
@@ -75,7 +75,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
         // 表名称为空, 返回null
         if (isBlank(tableName)) {
-            log.warn("convertTableNameToParameter 表名称为空");
+            log.warn("表名称为空");
             return null;
         }
 
@@ -125,7 +125,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
         // 字段名称为空, 返回null
         if (isEmpty(fieldName)) {
-            log.warn("convertFieldToParameter 字段名称为空");
+            log.warn("字段名称为空");
             return null;
         }
 

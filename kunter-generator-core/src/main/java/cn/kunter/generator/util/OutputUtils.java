@@ -1,14 +1,13 @@
 package cn.kunter.generator.util;
 
 import cn.kunter.generator.java.FullyQualifiedJavaType;
-import lombok.var;
 
 import java.util.Set;
 import java.util.TreeSet;
 
 /**
  * 输出工具类
- * @author nature
+ * @author yangziran
  * @version 1.0 2021/7/21
  */
 public class OutputUtils {

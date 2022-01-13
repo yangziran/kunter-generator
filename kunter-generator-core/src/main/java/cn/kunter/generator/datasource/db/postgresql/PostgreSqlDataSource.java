@@ -56,13 +56,13 @@ public class PostgreSqlDataSource implements DataSource {
                 var tableName = tableSet.getString("TABLE_NAME");
                 // 表备注（表名称）
                 var tableRemarks = tableSet.getString("REMARKS");
-                log.info("getTables tableName: {}, tableRemarks: {}", tableName, tableRemarks);
+                log.info("tableName: {}, tableRemarks: {}", tableName, tableRemarks);
 
                 // 将表名称转换为类名称
                 var tableJavaName = StringUtils.convertTableNameToClass(tableName.toLowerCase(), "_", false);
                 // 构造表信息对象
                 var table = Table.builder().tableName(tableName).javaName(tableJavaName).remarks(tableRemarks).build();
-                log.debug("getTables table: {}", JSON.toJSONString(table));
+                log.debug("table: {}", JSON.toJSONString(table));
 
                 // 获取到主键集合
                 var key = metaData.getPrimaryKeys(connection.getCatalog(), schema, tableName);

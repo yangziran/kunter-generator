@@ -49,13 +49,13 @@ public class ExcelDataSource implements DataSource {
             if ("table_template".equals(tableName)) {
                 continue;
             }
-            log.info("getTables tableName: {}, tableRemarks: {}", tableName, tableRemarks);
+            log.info("tableName: {}, tableRemarks: {}", tableName, tableRemarks);
 
             // 将表名称转换为类名称
             var tableJavaName = StringUtils.convertTableNameToClass(tableName.toLowerCase(), "_", false);
             // 构造表信息对象
             var table = Table.builder().tableName(tableName).javaName(tableJavaName).remarks(tableRemarks).build();
-            log.debug("getTables table: {}", JSON.toJSONString(table));
+            log.debug("table: {}", JSON.toJSONString(table));
 
             // 遍历Row
             for (var j = 5; j < sheet.getPhysicalNumberOfRows(); j++) {

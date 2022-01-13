@@ -49,7 +49,7 @@ public class JdbcConnectionFactory implements ConnectionFactory {
         var driver = getDriver();
         var connection = driver.connect(connectionURL, properties);
         if (ObjectUtils.isEmpty(connection)) {
-            log.error("getConnection 无法连接到数据库(可能是驱动或URL错误)");
+            log.error("无法连接到数据库(可能是驱动或URL错误)");
             throw new SQLException("无法连接到数据库(可能是驱动或URL错误)");
         }
 
@@ -62,7 +62,7 @@ public class JdbcConnectionFactory implements ConnectionFactory {
             var clazz = ObjectFactory.externalClassForName(driverClass);
             driver = (Driver) clazz.getConstructor().newInstance();
         } catch (Exception e) {
-            log.error("getDriver 获取JDBC驱动程序时发生异常", e);
+            log.error("获取JDBC驱动程序时发生异常", e);
             throw new RuntimeException("获取JDBC驱动程序时发生异常", e);
         }
 
