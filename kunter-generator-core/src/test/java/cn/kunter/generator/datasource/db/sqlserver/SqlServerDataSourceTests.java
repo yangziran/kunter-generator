@@ -13,7 +13,7 @@ class SqlServerDataSourceTests {
 
     @Test
     void getTables() throws GeneratorException {
-        var dataSource = DataSourceFactory.getDataSource(SourceType.ORACLE);
+        var dataSource = DataSourceFactory.getDataSource(SourceType.SQLSERVER);
         assertNotNull(dataSource);
         var tableList = dataSource.getTables();
         assertNotNull(tableList);

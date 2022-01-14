@@ -22,10 +22,10 @@ import java.util.*;
 public class DataSourceFactory {
 
     private static Map<String, DataSource> dataSourceMap = Maps.newHashMap();
+    private static Properties properties = new Properties();
 
     static {
         var classLoader = DataSourceFactory.class.getClassLoader();
-        var properties = new Properties();
         try (var inputStream = classLoader.getResourceAsStream("generatorConfig.properties")) {
             properties.load(inputStream);
         } catch (IOException e) {
@@ -71,6 +71,16 @@ public class DataSourceFactory {
             return null;
         }
         return dataSourceMap.get(sourceType.name());
+    }
+
+    public static DataSource getDataSource() {
+        var sourceType = properties.getProperty("sourceType");
+        if (StringUtils.isBlank(sourceType)) {
+            log.error("参数sourceType未配置");
+            return null;
+        }
+        SourceType type = SourceType.valueOf(sourceType);
+        return getDataSource(type);
     }
 
 }

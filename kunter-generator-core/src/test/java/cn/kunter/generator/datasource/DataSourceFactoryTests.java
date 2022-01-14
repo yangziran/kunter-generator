@@ -1,6 +1,5 @@
 package cn.kunter.generator.datasource;
 
-import cn.kunter.generator.datasource.enums.SourceType;
 import cn.kunter.generator.exception.GeneratorException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,7 @@ class DataSourceFactoryTests {
 
     @Test
     void getDataSource() throws GeneratorException {
-        var dataSource = DataSourceFactory.getDataSource(SourceType.EXCEL);
+        var dataSource = DataSourceFactory.getDataSource();
         assertNotNull(dataSource);
         var tableList = dataSource.getTables();
         assertNotNull(tableList);
