@@ -20,7 +20,7 @@ import java.util.Properties;
 public class JdbcConnectionFactory implements ConnectionFactory {
 
     private String driverClass;
-    private String connectionURL;
+    private String connectionUrl;
     private String userId;
     private String password;
     private Properties otherProperties;
@@ -28,7 +28,7 @@ public class JdbcConnectionFactory implements ConnectionFactory {
     public JdbcConnectionFactory(JdbcConnectionConfig config) {
         super();
         this.driverClass = config.getDriverClass();
-        this.connectionURL = config.getConnectionUrl();
+        this.connectionUrl = config.getConnectionUrl();
         this.userId = config.getUserId();
         this.password = config.getPassword();
         this.otherProperties = config.getProperties();
@@ -45,9 +45,13 @@ public class JdbcConnectionFactory implements ConnectionFactory {
             properties.setProperty("password", password);
         }
         properties.putAll(otherProperties);
+        // 设置可以获取remarks信息
+        properties.setProperty("remarks", "true");
+        // 设置可以获取tables remarks信息
+        properties.setProperty("useInformationSchema", "true");
 
         var driver = getDriver();
-        var connection = driver.connect(connectionURL, properties);
+        var connection = driver.connect(connectionUrl, properties);
         if (ObjectUtils.isEmpty(connection)) {
             log.error("无法连接到数据库(可能是驱动或URL错误)");
             throw new SQLException("无法连接到数据库(可能是驱动或URL错误)");
@@ -72,7 +76,7 @@ public class JdbcConnectionFactory implements ConnectionFactory {
     @Override
     public void addConfigurationProperties(Properties properties) {
         driverClass = properties.getProperty("driverClass");
-        connectionURL = properties.getProperty("connectionURL");
+        connectionUrl = properties.getProperty("connectionURL");
         userId = properties.getProperty("userId");
         password = properties.getProperty("password");
 
