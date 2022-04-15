@@ -42,9 +42,9 @@ public class ExcelDataSource implements DataSource {
             var sheet = workbook.getSheetAt(i);
 
             // 表名称（物理名称）
-            var tableName = sheet.getRow(1).getCell(7).getStringCellValue();
+            var tableName = sheet.getRow(1).getCell(5).getStringCellValue();
             // 表备注（表名称）
-            var tableRemarks = sheet.getRow(0).getCell(7).getStringCellValue();
+            var tableRemarks = sheet.getRow(0).getCell(5).getStringCellValue();
             // 过滤表结构模板
             if ("table_template".equals(tableName)) {
                 continue;

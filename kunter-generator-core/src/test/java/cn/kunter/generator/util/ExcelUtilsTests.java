@@ -19,9 +19,9 @@ class ExcelUtilsTests {
             var sheet = workbook.getSheetAt(i);
 
             // 表名称（物理名称）
-            var tableName = sheet.getRow(1).getCell(7).getStringCellValue();
+            var tableName = sheet.getRow(1).getCell(5).getStringCellValue();
             // 表备注（表名称）
-            var tableRemarks = sheet.getRow(0).getCell(7).getStringCellValue();
+            var tableRemarks = sheet.getRow(0).getCell(5).getStringCellValue();
             log.info("tableName: {}, tableRemarks: {}", tableName, tableRemarks);
 
             // 遍历Row
