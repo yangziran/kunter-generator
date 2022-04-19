@@ -7,6 +7,8 @@ import cn.kunter.generator.exception.GeneratorException;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -15,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -33,10 +36,8 @@ public class ExcelGenerator implements Generator {
 
         // 创建新的Excel工作薄（2007）
         var workbook = new XSSFWorkbook();
-
         // 生成修改履历Sheet
         makerHistorySheet(workbook);
-
         // 生成表一览Sheet
         makerListSheet(workbook, tables);
 
@@ -91,36 +92,15 @@ public class ExcelGenerator implements Generator {
         var contextCellStyle = getCellStyle(workbook);
         contextCellStyle.setAlignment(HorizontalAlignment.LEFT);
         // 第一行处理
-        var region = new CellRangeAddress(0, 0, 0, 4);
-        sheet.addMergedRegion(region);
-        var row = sheet.getRow(0);
-        var cell = row.createCell(0, CellType.STRING);
-        cell.setCellStyle(blueCellStyle);
-        cell.setCellValue("表名");
-        region = new CellRangeAddress(0, 0, 5, 23);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(5, CellType.STRING);
-        cell.setCellStyle(contextCellStyle);
-        cell.setCellValue(table.getRemarks());
-        region = new CellRangeAddress(0, 0, 24, 28);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(24, CellType.STRING);
-        cell.setCellStyle(blueCellStyle);
-        cell.setCellValue("创建者");
-        region = new CellRangeAddress(0, 0, 29, 34);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(29, CellType.STRING);
-        cell.setCellStyle(contextCellStyle);
-        cell.setCellValue("自动生成");
-        region = new CellRangeAddress(0, 0, 35, 39);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(35, CellType.STRING);
-        cell.setCellStyle(blueCellStyle);
-        cell.setCellValue("修改者");
-        region = new CellRangeAddress(0, 0, 40, 45);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(40, CellType.STRING);
-        cell.setCellStyle(contextCellStyle);
+        // 表名
+        makerTableCell(sheet, 1, 1, 5, blueCellStyle, "表名", null);
+        makerTableCell(sheet, 1, 6, 19, contextCellStyle, table.getRemarks(), null);
+        // 创建者
+        makerTableCell(sheet, 1, 25, 5, blueCellStyle, "创建者", null);
+        makerTableCell(sheet, 1, 30, 6, contextCellStyle, "自动生成", null);
+        // 修改者
+        makerTableCell(sheet, 1, 36, 5, blueCellStyle, "修改者", null);
+        makerTableCell(sheet, 1, 41, 6, contextCellStyle, null, null);
 
         // 创建日期格式的样式
         var cellStyleDate = getCellStyle(workbook);
@@ -128,112 +108,38 @@ public class ExcelGenerator implements Generator {
         cellStyleDate.setDataFormat(format.getFormat("yyyy-mm-dd"));
         cellStyleDate.setAlignment(HorizontalAlignment.LEFT);
         // 第二行处理
-        row = sheet.getRow(1);
-        region = new CellRangeAddress(1, 1, 0, 4);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(0, CellType.STRING);
-        cell.setCellStyle(blueCellStyle);
-        cell.setCellValue("物理名");
-        region = new CellRangeAddress(1, 1, 5, 23);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(5, CellType.STRING);
-        cell.setCellStyle(contextCellStyle);
-        cell.setCellValue(table.getTableName());
-        region = new CellRangeAddress(1, 1, 24, 28);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(24, CellType.STRING);
-        cell.setCellStyle(blueCellStyle);
-        cell.setCellValue("创建日期");
-        region = new CellRangeAddress(1, 1, 29, 34);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(29, CellType.STRING);
-        cell.setCellStyle(cellStyleDate);
-        cell.setCellValue(new Date());
-        region = new CellRangeAddress(1, 1, 35, 39);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(35, CellType.STRING);
-        cell.setCellStyle(blueCellStyle);
-        cell.setCellValue("修改日期");
-        region = new CellRangeAddress(1, 1, 40, 45);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(40, CellType.STRING);
-        cell.setCellStyle(cellStyleDate);
+        // 物理名
+        makerTableCell(sheet, 2, 1, 5, blueCellStyle, "物理名", null);
+        makerTableCell(sheet, 2, 6, 19, contextCellStyle, table.getTableName(), null);
+        // 创建日期
+        makerTableCell(sheet, 2, 25, 5, blueCellStyle, "创建日期", null);
+        makerTableCell(sheet, 2, 30, 6, cellStyleDate, LocalDate.now().toString(), null);
+        // 修改日期
+        makerTableCell(sheet, 2, 36, 5, blueCellStyle, "修改日期", null);
+        makerTableCell(sheet, 2, 41, 6, cellStyleDate, null, null);
 
         var createHelper = workbook.getCreationHelper();
         // 第三行处理
-        row = sheet.getRow(2);
-        region = new CellRangeAddress(2, 2, 0, 4);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(0, CellType.STRING);
-        cell.setCellStyle(blueCellStyle);
-        cell.setCellValue("概要");
-        region = new CellRangeAddress(2, 2, 5, 39);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(5, CellType.STRING);
-        cell.setCellStyle(cellStyleDate);
-        cell.setCellValue(table.getRemarks());
-        region = new CellRangeAddress(2, 2, 40, 45);
-        sheet.addMergedRegion(region);
+        // 概要
+        makerTableCell(sheet, 3, 1, 5, blueCellStyle, "概要", null);
+        makerTableCell(sheet, 3, 6, 35, contextCellStyle, table.getRemarks(), null);
         var link = createHelper.createHyperlink(HyperlinkType.DOCUMENT);
         link.setAddress("#表一览!A1");
-        cell = row.createCell(40, CellType.STRING);
-        cell.setCellStyle(getLinkCellStyle(workbook));
-        cell.setHyperlink(link);
-        cell.setCellValue("返回列表");
+        makerTableCell(sheet, 3, 41, 6, getLinkCellStyle(workbook), "返回列表", link);
 
         // 第四行处理
-        row = sheet.getRow(3);
-        region = new CellRangeAddress(3, 3, 0, 45);
-        sheet.addMergedRegion(region);
+        makerTableCell(sheet, 4, 1, 46, null, null, null);
 
         // 第五行处理 标题
         var titleCellStyle = getBlueCellStyle(workbook);
-        row = sheet.getRow(4);
-        region = new CellRangeAddress(4, 4, 0, 1);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(0, CellType.STRING);
-        cell.setCellStyle(titleCellStyle);
-        cell.setCellValue("编号");
-        region = new CellRangeAddress(4, 4, 2, 8);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(2, CellType.STRING);
-        cell.setCellStyle(titleCellStyle);
-        cell.setCellValue("列名");
-        region = new CellRangeAddress(4, 4, 9, 15);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(9, CellType.STRING);
-        cell.setCellStyle(titleCellStyle);
-        cell.setCellValue("物理名");
-        region = new CellRangeAddress(4, 4, 16, 20);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(16, CellType.STRING);
-        cell.setCellStyle(titleCellStyle);
-        cell.setCellValue("类型");
-        region = new CellRangeAddress(4, 4, 21, 23);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(21, CellType.STRING);
-        cell.setCellStyle(titleCellStyle);
-        cell.setCellValue("长度");
-        region = new CellRangeAddress(4, 4, 24, 25);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(24, CellType.STRING);
-        cell.setCellStyle(titleCellStyle);
-        cell.setCellValue("不为空");
-        region = new CellRangeAddress(4, 4, 26, 27);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(26, CellType.STRING);
-        cell.setCellStyle(titleCellStyle);
-        cell.setCellValue("主键");
-        region = new CellRangeAddress(4, 4, 28, 30);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(28, CellType.STRING);
-        cell.setCellStyle(titleCellStyle);
-        cell.setCellValue("主键顺序");
-        region = new CellRangeAddress(4, 4, 31, 45);
-        sheet.addMergedRegion(region);
-        cell = row.createCell(31, CellType.STRING);
-        cell.setCellStyle(titleCellStyle);
-        cell.setCellValue("备注");
+        var rowIndex = 5;
+        var cellIndex = 1;
+        for (var i = 0; i < TABLE_ROW_TITLE.size(); i++) {
+            var value = TABLE_ROW_TITLE.get(i);
+            var cellCount = TABLE_ROW_TITLE_CELL.get(i);
+            makerTableCell(sheet, rowIndex, cellIndex, cellCount, titleCellStyle, value, null);
+            cellIndex += cellCount;
+        }
 
         // 表结构行
         var leftCellStyle = getLeftCellStyle(workbook);
@@ -241,94 +147,76 @@ public class ExcelGenerator implements Generator {
         centerCellStyle.setAlignment(HorizontalAlignment.CENTER);
         var rightCellStyle = getCellStyle(workbook);
         rightCellStyle.setAlignment(HorizontalAlignment.RIGHT);
-        for (int i = 0; i < table.getColumns().size(); i++) {
+        for (var i = 0; i < table.getColumns().size(); i++) {
+            var rowNum = i + 6;
             var column = table.getColumns().get(i);
 
-            int rowNum = i + 5;
-            row = sheet.getRow(rowNum);
-            region = new CellRangeAddress(rowNum, rowNum, 0, 1);
-            sheet.addMergedRegion(region);
-            cell = row.createCell(0, CellType.STRING);
-            cell.setCellStyle(centerCellStyle);
-            cell.setCellValue(column.getSerial());
-            region = new CellRangeAddress(rowNum, rowNum, 2, 8);
-            sheet.addMergedRegion(region);
-            cell = row.createCell(2, CellType.STRING);
-            cell.setCellStyle(leftCellStyle);
-            cell.setCellValue(column.getRemarks());
-            region = new CellRangeAddress(rowNum, rowNum, 9, 15);
-            sheet.addMergedRegion(region);
-            cell = row.createCell(9, CellType.STRING);
-            cell.setCellStyle(leftCellStyle);
-            cell.setCellValue(column.getColumnName());
-            region = new CellRangeAddress(rowNum, rowNum, 16, 20);
-            sheet.addMergedRegion(region);
-            cell = row.createCell(16, CellType.STRING);
-            cell.setCellStyle(centerCellStyle);
-            cell.setCellValue(column.getJdbcType().toLowerCase());
-            region = new CellRangeAddress(rowNum, rowNum, 21, 23);
-            sheet.addMergedRegion(region);
-            cell = row.createCell(21, CellType.STRING);
-            cell.setCellStyle(rightCellStyle);
-            cell.setCellValue(column.getLength());
-            region = new CellRangeAddress(rowNum, rowNum, 24, 25);
-            sheet.addMergedRegion(region);
-            cell = row.createCell(24, CellType.STRING);
-            cell.setCellStyle(centerCellStyle);
-            cell.setCellValue(column.getNotNull() ? null : "○");
-            region = new CellRangeAddress(rowNum, rowNum, 26, 27);
-            sheet.addMergedRegion(region);
-            cell = row.createCell(26, CellType.STRING);
-            cell.setCellStyle(centerCellStyle);
+            makerTableCell(sheet, rowNum, 1, TABLE_ROW_TITLE_CELL.get(0), centerCellStyle, column.getSerial(), null);
+
+            makerTableCell(sheet, rowNum, 3, TABLE_ROW_TITLE_CELL.get(1), leftCellStyle, column.getRemarks(), null);
+
+            makerTableCell(sheet, rowNum, 10, TABLE_ROW_TITLE_CELL.get(2), leftCellStyle, column.getColumnName(), null);
+
+            makerTableCell(sheet, rowNum, 17, TABLE_ROW_TITLE_CELL.get(3), centerCellStyle, column.getJdbcType().toLowerCase(), null);
+
+            makerTableCell(sheet, rowNum, 22, TABLE_ROW_TITLE_CELL.get(4), rightCellStyle, column.getLength(), null);
+
+            makerTableCell(sheet, rowNum, 25, TABLE_ROW_TITLE_CELL.get(5), centerCellStyle, column.getNotNull() ? null : "○", null);
+
+            String pkValue = null;
             for (var columnKey : table.getPrimaryKeys()) {
                 if (columnKey.getColumnName().equals(column.getColumnName())) {
-                    cell.setCellValue("○");
+                    pkValue = "○";
                     break;
                 }
             }
-            region = new CellRangeAddress(rowNum, rowNum, 28, 30);
-            sheet.addMergedRegion(region);
-            cell = row.createCell(28, CellType.STRING);
-            cell.setCellStyle(centerCellStyle);
+            makerTableCell(sheet, rowNum, 27, TABLE_ROW_TITLE_CELL.get(6), centerCellStyle, pkValue, null);
+
+            String pkOrder = null;
             for (Column columnKey : table.getPrimaryKeys()) {
                 if (columnKey.getColumnName().equals(column.getColumnName())) {
-                    cell.setCellValue(columnKey.getPrimaryKeyOrder());
+                    pkOrder = columnKey.getPrimaryKeyOrder();
                     break;
                 }
             }
-            region = new CellRangeAddress(rowNum, rowNum, 31, 45);
-            sheet.addMergedRegion(region);
-            cell = row.createCell(31, CellType.STRING);
-            cell.setCellStyle(leftCellStyle);
-            cell.setCellValue(column.getRemarks());
+            makerTableCell(sheet, rowNum, 29, TABLE_ROW_TITLE_CELL.get(7), centerCellStyle, pkOrder, null);
+
+            makerTableCell(sheet, rowNum, 32, TABLE_ROW_TITLE_CELL.get(8), leftCellStyle, column.getRemarks(), null);
         }
     }
 
     /** 表结构Sheet页表头 */
     private static final List<String> TABLE_ROW_TITLE = Lists.newArrayList("编号", "列名", "物理名", "类型", "长度", "不为空", "主键", "主键顺序", "备注");
+    private static final List<Integer> TABLE_ROW_TITLE_CELL = Lists.newArrayList(2, 7, 7, 5, 3, 2, 2, 3, 15);
 
     /**
-     * 创建表结构Sheet页表头行
+     * 创建表结构内容
      * @param sheet
-     * @param cellStyle
+     * @param rowIndex 行号, 从1开始
+     * @param cellIndex 列号, 从1开始
+     * @param cellCount 列宽, 跨多少列
+     * @param cellStyle 列样式
+     * @param value 列内容
+     * @param link 链接
      */
-    private void makerTableTitleRow(Sheet sheet, CellStyle cellStyle) {
-        // 创建行对象
-        var row = sheet.createRow(5);
-        // 设置行高: 25
-        row.setHeightInPoints(25);
-        // 设置单元格颜色
-        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        cellStyle.setFillForegroundColor(IndexedColors.CORNFLOWER_BLUE.getIndex());
+    private void makerTableCell(Sheet sheet, Integer rowIndex, Integer cellIndex, Integer cellCount, CellStyle cellStyle, String value, Hyperlink link) {
 
-        // 遍历集合创建标题列
-        for (var i = 0; i < LIST_ROW_TITLE.size(); i++) {
-            // 创建单元格
-            var cell = row.createCell(i);
-            // 设置单元格样式
-            cell.setCellStyle(cellStyle);
-            // 设置单元格内容
-            cell.setCellValue(LIST_ROW_TITLE.get(i));
+        int rowNum = rowIndex - 1;
+        int firstCol = cellIndex - 1;
+        int lastCol = firstCol + cellCount - 1;
+        // 列合并
+        var region = new CellRangeAddress(rowNum, rowNum, firstCol, lastCol);
+        sheet.addMergedRegion(region);
+        // 获取到行
+        var row = sheet.getRow(rowNum);
+        // 创建列并设置样式和内容
+        var cell = row.createCell(firstCol, CellType.STRING);
+        cell.setCellStyle(cellStyle);
+        if (StringUtils.isNotBlank(value)) {
+            cell.setCellValue(value);
+        }
+        if (ObjectUtils.isNotEmpty(link)) {
+            cell.setHyperlink(link);
         }
     }
 
