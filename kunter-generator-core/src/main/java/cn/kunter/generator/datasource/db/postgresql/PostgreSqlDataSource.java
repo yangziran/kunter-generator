@@ -90,7 +90,7 @@ public class PostgreSqlDataSource implements DataSource {
                     var serial = String.valueOf(columns.getRow());
                     var jdbcType = JavaTypeResolver.getJdbcType(columns.getInt("DATA_TYPE"));
                     var remarks = columns.getString("REMARKS");
-                    var notNull = columns.getString("IS_NULLABLE").equalsIgnoreCase("YES") ? true : false;
+                    var notNull = "YES".equalsIgnoreCase(columns.getString("IS_NULLABLE")) ? true : false;
                     var length = columns.getInt("COLUMN_SIZE");
 
                     // 构造字段信息对象
