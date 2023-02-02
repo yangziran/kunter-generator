@@ -1,5 +1,7 @@
 package cn.kunter.generator.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -9,14 +11,8 @@ import org.apache.commons.lang3.ObjectUtils;
  * @version 1.0 2021/7/20
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
-
-    /**
-     * 工具类，私有构造
-     */
-    private StringUtils() {
-        super();
-    }
 
     /**
      * 将表名称转换为类名称

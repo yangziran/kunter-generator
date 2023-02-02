@@ -1,6 +1,8 @@
 package cn.kunter.generator.util;
 
 import cn.kunter.generator.exception.GeneratorException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -13,14 +15,8 @@ import java.nio.file.Paths;
  * @version 1.0 2021/12/20
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileUtils {
-
-    /**
-     * 工具类，私有构造
-     */
-    private FileUtils() {
-        super();
-    }
 
     /**
      * 文本内容写入

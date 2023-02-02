@@ -1,6 +1,8 @@
 package cn.kunter.generator.util;
 
 import cn.kunter.generator.java.FullyQualifiedJavaType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -10,6 +12,7 @@ import java.util.TreeSet;
  * @author yangziran
  * @version 1.0 2021/7/21
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OutputUtils {
 
     private static final String lineSeparator;
@@ -20,13 +23,6 @@ public class OutputUtils {
             ls = "\n";
         }
         lineSeparator = ls;
-    }
-
-    /**
-     * 工具类，私有构造
-     */
-    private OutputUtils() {
-        super();
     }
 
     /**

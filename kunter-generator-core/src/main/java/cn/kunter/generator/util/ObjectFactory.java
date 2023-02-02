@@ -1,5 +1,7 @@
 package cn.kunter.generator.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.ObjectUtils;
@@ -12,19 +14,13 @@ import java.util.List;
  * @version 1.0 2021/7/21
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ObjectFactory {
 
     private static final List<ClassLoader> externalClassLoaders;
 
     static {
         externalClassLoaders = Lists.newArrayList();
-    }
-
-    /**
-     * 工具类，私有构造
-     */
-    private ObjectFactory() {
-        super();
     }
 
     /**

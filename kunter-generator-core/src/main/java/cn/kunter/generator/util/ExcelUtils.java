@@ -1,6 +1,8 @@
 package cn.kunter.generator.util;
 
 import cn.kunter.generator.exception.GeneratorException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -15,26 +17,20 @@ import java.nio.file.Paths;
  * @version 1.0 2021/7/20
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExcelUtils {
-
-    /**
-     * 工具类，私有构造
-     */
-    private ExcelUtils() {
-        super();
-    }
 
     /**
      * 加载Excel格式的数据字典，兼容xls和xlsx以及xlsm格式文件
      * @param filePath 文件全路径
-     * @return Workbook
+     * @return Workbook Excel文件操作对象
      * @throws GeneratorException
      */
     public static Workbook getWorkbook(String filePath) throws GeneratorException {
 
         if (StringUtils.isBlank(filePath)) {
-            log.error("文件为空");
-            throw new GeneratorException("文件为空");
+            log.error("文件路径为空");
+            throw new GeneratorException("文件路径为空");
         }
 
         var path = Paths.get(filePath);
