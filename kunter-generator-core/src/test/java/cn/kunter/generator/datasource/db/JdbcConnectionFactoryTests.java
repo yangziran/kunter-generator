@@ -33,7 +33,8 @@ class JdbcConnectionFactoryTests {
         var userId = properties.getProperty("db.username");
         var password = properties.getProperty("db.password");
 
-        var jdbcConnectionConfig = JdbcConnectionConfig.builder().driverClass(driverClass).connectionUrl(connectionUrl).userId(userId).password(password).build();
+        var jdbcConnectionConfig = JdbcConnectionConfig.builder().driverClass(driverClass).connectionUrl(connectionUrl)
+                .userId(userId).password(password).build();
         assertNotNull(jdbcConnectionConfig);
         log.info("{}", JSON.toJSONString(jdbcConnectionConfig));
         var jdbcConnectionFactory = new JdbcConnectionFactory(jdbcConnectionConfig);

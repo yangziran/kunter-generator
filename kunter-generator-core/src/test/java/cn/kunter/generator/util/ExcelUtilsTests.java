@@ -82,7 +82,8 @@ class ExcelUtilsTests {
                 String primaryKeyOrder;
                 // 判断为公式或者数值类型，采用getNumericCellValue获取值，并转换成String
                 if (CellType.FORMULA == primaryKeyOrderCellType || CellType.NUMERIC == primaryKeyOrderCellType) {
-                    primaryKeyOrder = String.valueOf(Double.valueOf(primaryKeyOrderCell.getNumericCellValue()).intValue());
+                    primaryKeyOrder = String.valueOf(Double.valueOf(primaryKeyOrderCell.getNumericCellValue())
+                            .intValue());
                 }
                 // 其他类型，使用getStringCellValue获取值
                 else {
@@ -92,7 +93,8 @@ class ExcelUtilsTests {
                 // 备注
                 var remarks = row.getCell(31).getStringCellValue();
 
-                log.info("编号：{}，列名：{}，物理名：{}，类型：{}，长度：{}，不为空：{}，主键：{}，主键顺序：{}，备注：{}", serial, columnName, sqlName, sqlType, length, notNull, primaryKey, primaryKeyOrder, remarks);
+                log.info("编号：{}，列名：{}，物理名：{}，类型：{}，长度：{}，不为空：{}，主键：{}，主键顺序：{}，备注：{}", serial, columnName, sqlName,
+                        sqlType, length, notNull, primaryKey, primaryKeyOrder, remarks);
             }
         }
 
