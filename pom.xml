@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <name>kunter-generator</name>
-    <url>http://generator.kunter.cn</url>
+    <url>https://generator.kunter.cn</url>
     <description>Parent POM for Kunter Generator</description>
 
     <modules>
@@ -162,7 +162,7 @@
 
     <organization>
         <name>Kunter</name>
-        <url>http://kunter.cn</url>
+        <url>https://kunter.cn</url>
     </organization>
 
     <developers>
@@ -172,7 +172,7 @@
             <email>mail@yangziran.com</email>
             <url>https://yangziran.com/</url>
             <organization>Kunter</organization>
-            <organizationUrl>http://kunter.cn</organizationUrl>
+            <organizationUrl>https://kunter.cn</organizationUrl>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
