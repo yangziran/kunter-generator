@@ -6,13 +6,13 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
-class ExcelUtilsTests {
+class FileUtilsTests {
 
     @Test
     void getWorkbook() throws Exception {
 
         var filePath = "docs/表结构一览.xlsm";
-        var workbook = ExcelUtils.getWorkbook(filePath);
+        var workbook = FileUtils.getWorkbook(filePath);
 
         // 遍历Sheet
         for (var i = 2; i < workbook.getNumberOfSheets(); i++) {

@@ -6,7 +6,7 @@ import cn.kunter.generator.entity.Column;
 import cn.kunter.generator.entity.Table;
 import cn.kunter.generator.exception.GeneratorException;
 import cn.kunter.generator.java.JavaTypeResolver;
-import cn.kunter.generator.util.ExcelUtils;
+import cn.kunter.generator.util.FileUtils;
 import cn.kunter.generator.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class ExcelDataSource implements DataSource {
     @Override
     public List<Table> getTables() throws GeneratorException {
 
-        var workbook = ExcelUtils.getWorkbook(filePath);
+        var workbook = FileUtils.getWorkbook(filePath);
 
         List<Table> tables = Lists.newArrayList();
         // 遍历Sheet
@@ -118,7 +118,8 @@ public class ExcelDataSource implements DataSource {
                 String primaryKeyOrder;
                 // 判断为公式或者数值类型，采用getNumericCellValue获取值，并转换成String
                 if (CellType.FORMULA == primaryKeyOrderCellType || CellType.NUMERIC == primaryKeyOrderCellType) {
-                    primaryKeyOrder = String.valueOf(Double.valueOf(primaryKeyOrderCell.getNumericCellValue()).intValue());
+                    primaryKeyOrder = String.valueOf(Double.valueOf(primaryKeyOrderCell.getNumericCellValue())
+                            .intValue());
                 }
                 // 其他类型，使用getStringCellValue获取值
                 else {
@@ -131,7 +132,10 @@ public class ExcelDataSource implements DataSource {
                 // 构造字段信息对象
                 var columnJavaName = StringUtils.convertFieldToParameter(columnName, "_");
                 var columnJavaType = JavaTypeResolver.getJavaType(jdbcType);
-                var column = Column.builder().serial(serial).columnName(columnName).jdbcName(jdbcName).javaName(columnJavaName).jdbcType(jdbcType).javaType(columnJavaType).length(length).notNull(notNull).primaryKey(primaryKey).primaryKeyOrder(primaryKeyOrder).remarks(remarks).build();
+                var column = Column.builder().serial(serial).columnName(columnName).jdbcName(jdbcName)
+                        .javaName(columnJavaName).jdbcType(jdbcType).javaType(columnJavaType).length(length)
+                        .notNull(notNull).primaryKey(primaryKey).primaryKeyOrder(primaryKeyOrder).remarks(remarks)
+                        .build();
                 table.addColumn(column);
 
                 if (primaryKey) {

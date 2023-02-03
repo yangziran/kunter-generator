@@ -4,6 +4,8 @@ import cn.kunter.generator.exception.GeneratorException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,6 +19,33 @@ import java.nio.file.Paths;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileUtils {
+
+    /**
+     * 加载Excel格式的数据字典，兼容xls和xlsx以及xlsm格式文件
+     * @param filePath 文件全路径
+     * @return Workbook Excel文件操作对象
+     * @throws GeneratorException
+     */
+    public static Workbook getWorkbook(String filePath) throws GeneratorException {
+
+        if (StringUtils.isBlank(filePath)) {
+            log.error("文件路径为空");
+            throw new GeneratorException("文件路径为空");
+        }
+
+        var path = Paths.get(filePath);
+        if (!Files.exists(path)) {
+            log.error("文件为空");
+            throw new GeneratorException("文件为空");
+        }
+
+        try (var inputStream = Files.newInputStream(path)) {
+            return WorkbookFactory.create(inputStream);
+        } catch (IOException e) {
+            log.error("文件读取错误", e);
+            throw new GeneratorException("文件读取错误", e);
+        }
+    }
 
     /**
      * 文本内容写入
