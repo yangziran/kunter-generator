@@ -1,20 +1,23 @@
 package cn.kunter.generator.util;
 
-import cn.kunter.generator.exception.GeneratorException;
+import cn.kunter.generator.exception.CodeGenerationException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 /**
- * 文件操作工具类
+ * 文件工具类
  * @author yangziran
- * @version 1.0 2021/12/20
+ * @version 1.0 2026/07/28
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -22,51 +25,64 @@ public class FileUtils {
 
     /**
      * 加载Excel格式的数据字典，兼容xls和xlsx以及xlsm格式文件
+     *
      * @param filePath 文件全路径
      * @return Workbook Excel文件操作对象
-     * @throws GeneratorException
+     * @throws CodeGenerationException 读取异常
      */
-    public static Workbook getWorkbook(String filePath) throws GeneratorException {
+    public static Workbook getWorkbook(String filePath) throws CodeGenerationException {
 
         if (StringUtils.isBlank(filePath)) {
-            log.error("文件路径为空");
-            throw new GeneratorException("文件路径为空");
+            throw new CodeGenerationException("文件路径为空");
         }
 
-        var path = Paths.get(filePath);
-        if (!Files.exists(path)) {
-            log.error("文件为空");
-            throw new GeneratorException("文件为空");
+        var file = new File(filePath);
+        if (!file.exists()) {
+            throw new CodeGenerationException("文件不存在: " + filePath);
         }
 
-        try (var inputStream = Files.newInputStream(path)) {
+        try (var inputStream = new FileInputStream(file)) {
             return WorkbookFactory.create(inputStream);
         } catch (IOException e) {
-            log.error("文件读取错误", e);
-            throw new GeneratorException("文件读取错误", e);
+            throw new CodeGenerationException("文件读取错误", e);
         }
     }
 
     /**
-     * 文本内容写入
-     * @param fileName 文件名称（包含全路径）
+     * 写文件
+     *
+     * @param fileName 文件路径
      * @param content 文件内容
-     * @throws GeneratorException
+     * @throws CodeGenerationException 生成异常
      */
-    public static void writeFile(String fileName, String content) throws GeneratorException {
+    public static void writeFile(String fileName, String content) throws CodeGenerationException {
+        writeFile(fileName, content, true);
+    }
 
-        var path = Paths.get(fileName);
-        log.info(path.toString());
+    /**
+     * 写文件
+     *
+     * @param fileName 文件路径
+     * @param content 文件内容
+     * @param override 是否覆盖
+     * @throws CodeGenerationException 生成异常
+     */
+    public static void writeFile(String fileName, String content, boolean override) throws CodeGenerationException {
+
+        var targetFile = new File(fileName);
+        if (targetFile.exists() && !override) {
+            return;
+        }
+
+        var path = targetFile.getParentFile();
+        if (!path.exists()) {
+            path.mkdirs();
+        }
+
         try {
-            // 清理旧文件
-            Files.deleteIfExists(path);
-            // 创建目标文件目录
-            Files.createDirectories(path.getParent());
-            // 写入文件
-            Files.write(path, content.getBytes());
+            Files.writeString(Paths.get(fileName), content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
-            log.info(e.getMessage(), e);
-            throw new GeneratorException("文件写入失败");
+            throw new CodeGenerationException("文件写入失败", e);
         }
     }
 

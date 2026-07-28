@@ -6,7 +6,7 @@ import cn.kunter.generator.datasource.db.JdbcConnectionFactory;
 import cn.kunter.generator.datasource.enums.SourceType;
 import cn.kunter.generator.entity.Column;
 import cn.kunter.generator.entity.Table;
-import cn.kunter.generator.exception.GeneratorException;
+import cn.kunter.generator.exception.DataSourceException;
 import cn.kunter.generator.java.JavaTypeResolver;
 import cn.kunter.generator.util.StringUtils;
 import com.alibaba.fastjson.JSON;
@@ -38,7 +38,7 @@ public class PostgreSqlDataSource implements DataSource {
     }
 
     @Override
-    public List<Table> getTables() throws GeneratorException {
+    public List<Table> getTables() throws DataSourceException {
         List<Table> tables = Lists.newArrayList();
         try (var connection = jdbcConnectionFactory.getConnection()) {
             var metaData = connection.getMetaData();
@@ -56,13 +56,13 @@ public class PostgreSqlDataSource implements DataSource {
                 var tableName = tableSet.getString("TABLE_NAME");
                 // 表备注（表名称）
                 var tableRemarks = tableSet.getString("REMARKS");
-                log.info("tableName: {}, tableRemarks: {}", tableName, tableRemarks);
+                log.info("表名: {}, 表注释: {}", tableName, tableRemarks);
 
                 // 将表名称转换为类名称
                 var tableJavaName = StringUtils.convertTableNameToClass(tableName.toLowerCase(), "_", false);
                 // 构造表信息对象
                 var table = Table.builder().tableName(tableName).javaName(tableJavaName).remarks(tableRemarks).build();
-                log.debug("table: {}", JSON.toJSONString(table));
+                log.debug("表信息: {}", JSON.toJSONString(table));
 
                 // 获取到主键集合
                 var key = metaData.getPrimaryKeys(connection.getCatalog(), schema, tableName);

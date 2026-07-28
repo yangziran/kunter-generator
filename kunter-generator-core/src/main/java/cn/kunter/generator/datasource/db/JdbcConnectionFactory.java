@@ -6,9 +6,9 @@ import cn.kunter.generator.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 
+import cn.kunter.generator.exception.DataSourceException;
 import java.sql.Connection;
 import java.sql.Driver;
-import java.sql.SQLException;
 import java.util.Properties;
 
 /**
@@ -34,8 +34,14 @@ public class JdbcConnectionFactory implements ConnectionFactory {
         this.otherProperties = config.getProperties();
     }
 
+    /**
+     * 获取数据库连接
+     *
+     * @return Connection 数据库连接
+     * @throws DataSourceException 数据源异常
+     */
     @Override
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() throws DataSourceException {
 
         var properties = new Properties();
         if (StringUtils.isNotBlank(userId)) {
@@ -51,23 +57,30 @@ public class JdbcConnectionFactory implements ConnectionFactory {
         properties.setProperty("useInformationSchema", "true");
 
         var driver = getDriver();
-        var connection = driver.connect(connectionUrl, properties);
-        if (ObjectUtils.isEmpty(connection)) {
-            log.error("无法连接到数据库(可能是驱动或URL错误)");
-            throw new SQLException("无法连接到数据库(可能是驱动或URL错误)");
+        try {
+            var connection = driver.connect(connectionUrl, properties);
+            if (ObjectUtils.isEmpty(connection)) {
+                throw new DataSourceException("无法连接到数据库(可能是驱动或URL错误)");
+            }
+            return connection;
+        } catch (Exception e) {
+            throw new DataSourceException("获取数据库连接发生异常", e);
         }
-
-        return connection;
     }
 
-    private Driver getDriver() {
+    /**
+     * 获取JDBC驱动
+     *
+     * @return Driver JDBC驱动程序
+     * @throws DataSourceException 数据源异常
+     */
+    private Driver getDriver() throws DataSourceException {
         Driver driver;
         try {
             var clazz = ObjectFactory.externalClassForName(driverClass);
             driver = (Driver) clazz.getConstructor().newInstance();
         } catch (Exception e) {
-            log.error("获取JDBC驱动程序时发生异常", e);
-            throw new RuntimeException("获取JDBC驱动程序时发生异常", e);
+            throw new DataSourceException("获取JDBC驱动程序时发生异常", e);
         }
 
         return driver;

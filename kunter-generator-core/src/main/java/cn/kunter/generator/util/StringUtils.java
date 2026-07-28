@@ -34,6 +34,18 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             flag = false;
         }
 
+        // 剔除表前缀 (支持逗号分隔多个前缀)
+        String ignorePrefixes = cn.kunter.generator.config.Context.getProperty("table.prefix.ignore");
+        if (isNotBlank(ignorePrefixes)) {
+            String[] prefixes = ignorePrefixes.split(",");
+            for (String prefix : prefixes) {
+                if (tableName.startsWith(prefix)) {
+                    tableName = tableName.substring(prefix.length());
+                    break;
+                }
+            }
+        }
+
         // 创建StringBuffer对象
         var buffer = new StringBuffer();
         // 分隔符为空
@@ -78,6 +90,18 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         // flag为null, 设置默认值: false
         if (ObjectUtils.isEmpty(flag)) {
             flag = false;
+        }
+
+        // 剔除表前缀 (支持逗号分隔多个前缀)
+        String ignorePrefixes = cn.kunter.generator.config.Context.getProperty("table.prefix.ignore");
+        if (isNotBlank(ignorePrefixes)) {
+            String[] prefixes = ignorePrefixes.split(",");
+            for (String prefix : prefixes) {
+                if (tableName.startsWith(prefix)) {
+                    tableName = tableName.substring(prefix.length());
+                    break;
+                }
+            }
         }
 
         // 创建StringBuffer对象

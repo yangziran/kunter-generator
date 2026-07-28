@@ -86,4 +86,48 @@ public class PackageHolder {
         return getPackages(tableName).add("service").add("impl").toString();
     }
 
+    /**
+     * 获取Controller包名
+     * @param tableName 表名称
+     * @return String 包名
+     */
+    public static String getControllerPackage(String tableName) {
+        return getPackages(tableName).add("controller").toString();
+    }
+    /**
+     * 获取BaseEo包名
+     * @return String 包名
+     */
+    public static String getBaseEoPackage() {
+        var joiner = new StringJoiner(".");
+        if (StringUtils.isNotBlank(DEFAULT_PACKAGES)) {
+            joiner.add(DEFAULT_PACKAGES);
+        }
+        return joiner.add("eo").add("base").toString();
+    }
+
+    /**
+     * 获取BaseDto包名
+     * @return String 包名
+     */
+    public static String getBaseDtoPackage() {
+        var joiner = new StringJoiner(".");
+        if (StringUtils.isNotBlank(DEFAULT_PACKAGES)) {
+            joiner.add(DEFAULT_PACKAGES);
+        }
+        return joiner.add("dto").add("base").toString();
+    }
+
+    /**
+     * 获取BaseVo包名
+     * @return String 包名
+     */
+    public static String getBaseVoPackage() {
+        var joiner = new StringJoiner(".");
+        if (StringUtils.isNotBlank(DEFAULT_PACKAGES)) {
+            joiner.add(DEFAULT_PACKAGES);
+        }
+        return joiner.add("vo").add("base").toString();
+    }
+
 }

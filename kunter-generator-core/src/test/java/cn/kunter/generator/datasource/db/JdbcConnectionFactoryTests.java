@@ -6,12 +6,17 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
+import cn.kunter.generator.exception.DataSourceException;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * JdbcConnectionFactory 测试
+ * @author yangziran
+ * @version 1.0 2026/07/28
+ */
 @Slf4j
 class JdbcConnectionFactoryTests {
 
@@ -42,7 +47,7 @@ class JdbcConnectionFactoryTests {
         try {
             var connection = jdbcConnectionFactory.getConnection();
             assertNotNull(connection);
-        } catch (SQLException e) {
+        } catch (DataSourceException e) {
             log.error(e.getMessage(), e);
         }
     }

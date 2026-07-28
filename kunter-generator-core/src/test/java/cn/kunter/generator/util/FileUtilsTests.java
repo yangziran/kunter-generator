@@ -5,14 +5,33 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.CellType;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.nio.file.Files;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+/**
+ * FileUtils 测试
+ * @author yangziran
+ * @version 1.0 2026/07/28
+ */
 @Slf4j
 class FileUtilsTests {
 
     @Test
     void getWorkbook() throws Exception {
 
-        var filePath = "docs/表结构一览.xlsm";
+        var filePath = "../docs/表结构一览.xlsm";
+        File file = new File(filePath);
+        if (!file.exists()) {
+            log.warn("Excel file not found, skipping getWorkbook test");
+            return;
+        }
         var workbook = FileUtils.getWorkbook(filePath);
+        assertNotNull(workbook, "Workbook should not be null");
+        assertTrue(workbook.getNumberOfSheets() > 0, "Workbook should have at least one sheet");
 
         // 遍历Sheet
         for (var i = 2; i < workbook.getNumberOfSheets(); i++) {
@@ -98,6 +117,28 @@ class FileUtilsTests {
             }
         }
 
+    }
+
+    @Test
+    void testWriteFile() throws Exception {
+        File tempDir = Files.createTempDirectory("kunter-generator-test").toFile();
+        tempDir.deleteOnExit();
+
+        String fileName = new File(tempDir, "TestFile.java").getAbsolutePath();
+        String content = "public class TestFile {}";
+
+        // 测试无覆盖模式写入文件
+        FileUtils.writeFile(fileName, content, false);
+        File expectedFile = new File(fileName);
+        assertTrue(expectedFile.exists(), "File should be created");
+        String readContent = Files.readString(expectedFile.toPath());
+        assertEquals(content, readContent);
+
+        // 测试覆盖模式写入文件
+        String newContent = "public class TestFile { // overridden }";
+        FileUtils.writeFile(fileName, newContent, true);
+        String readNewContent = Files.readString(expectedFile.toPath());
+        assertEquals(newContent, readNewContent);
     }
 
 }

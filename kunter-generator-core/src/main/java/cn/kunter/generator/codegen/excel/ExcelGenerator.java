@@ -3,7 +3,7 @@ package cn.kunter.generator.codegen.excel;
 import cn.kunter.generator.codegen.Generator;
 import cn.kunter.generator.entity.Column;
 import cn.kunter.generator.entity.Table;
-import cn.kunter.generator.exception.GeneratorException;
+import cn.kunter.generator.exception.CodeGenerationException;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -25,13 +25,13 @@ import java.util.List;
  * Excel生成器
  * 生成Excel格式的数据字典(格式参考模板)
  * @author yangziran
- * @version 1.0 2021/12/20
+ * @version 1.0 2026/07/28
  */
 @Slf4j
 public class ExcelGenerator implements Generator {
 
     @Override
-    public void maker(List<Table> tables) throws GeneratorException {
+    public void maker(List<Table> tables) throws CodeGenerationException {
         log.info("开始生成Excel格式数据字典, 表数量: {}", tables.size());
 
         // 创建新的Excel工作薄（2007）
@@ -47,14 +47,20 @@ public class ExcelGenerator implements Generator {
         }
 
         // 创建输出流
-        var path = Paths.get("", "表结构一览.xlsx");
-        try (var outputStream = Files.newOutputStream(path)) {
-            // 写Excel文件，并刷新流
-            workbook.write(outputStream);
-            outputStream.flush();
+        var targetDir = Paths.get(System.getProperty("user.dir"), "target");
+        var path = targetDir.resolve("表结构一览.xlsx");
+        try {
+            if (Files.notExists(targetDir)) {
+                Files.createDirectories(targetDir);
+            }
+            try (var outputStream = Files.newOutputStream(path)) {
+                // 写Excel文件，并刷新流
+                workbook.write(outputStream);
+                outputStream.flush();
+            }
         } catch (IOException exception) {
             log.error("写文件失败", exception);
-            throw new GeneratorException("写文件失败", exception);
+            throw new CodeGenerationException("写文件失败", exception);
         } finally {
             // 写文件结束，关闭文件
             IOUtils.closeQuietly(workbook);
@@ -105,7 +111,7 @@ public class ExcelGenerator implements Generator {
         // 创建日期格式的样式
         var cellStyleDate = getCellStyle(workbook);
         var format = workbook.createDataFormat();
-        cellStyleDate.setDataFormat(format.getFormat("yyyy-mm-dd"));
+        cellStyleDate.setDataFormat(format.getFormat("yyyy-MM-dd"));
         cellStyleDate.setAlignment(HorizontalAlignment.LEFT);
         // 第二行处理
         // 物理名

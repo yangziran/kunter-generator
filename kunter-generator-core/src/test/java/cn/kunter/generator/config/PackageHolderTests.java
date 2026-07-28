@@ -5,6 +5,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * PackageHolder 测试
+ * @author yangziran
+ * @version 1.0 2026/07/28
+ */
 @Slf4j
 class PackageHolderTests {
 

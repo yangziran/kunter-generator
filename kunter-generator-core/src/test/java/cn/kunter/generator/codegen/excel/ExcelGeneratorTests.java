@@ -2,7 +2,7 @@ package cn.kunter.generator.codegen.excel;
 
 import cn.kunter.generator.datasource.DataSourceFactory;
 import cn.kunter.generator.entity.Table;
-import cn.kunter.generator.exception.GeneratorException;
+import cn.kunter.generator.config.Context;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -30,7 +30,7 @@ class ExcelGeneratorTests {
         assertNotNull(dataSource);
         tables = dataSource.getTables();
         assertNotNull(tables);
-        log.info("table size: {}", tables.size());
+        log.info("表数量: {}", tables.size());
     }
 
     @AfterEach
@@ -39,15 +39,16 @@ class ExcelGeneratorTests {
     }
 
     @Test
-    void maker() {
+    void maker() throws Exception {
+        Context.getProperties().setProperty("targetProject", "target/generated-test-sources");
         var generator = new ExcelGenerator();
         assertNotNull(generator);
 
-        try {
-            generator.maker(tables);
-        } catch (GeneratorException e) {
-            log.error(e.getMessage(), e);
-        }
+        generator.maker(tables);
+        
+        java.io.File dir = new java.io.File("target/generated-test-sources");
+        org.junit.jupiter.api.Assertions.assertTrue(dir.exists());
+        org.junit.jupiter.api.Assertions.assertTrue(dir.listFiles() != null && dir.listFiles().length > 0);
     }
 
 }

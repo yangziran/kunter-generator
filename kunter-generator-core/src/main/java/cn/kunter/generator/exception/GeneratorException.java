@@ -1,7 +1,7 @@
 package cn.kunter.generator.exception;
 
 /**
- * Generator Exception
+ * 生成器基类异常
  * @author yangziran
  * @version 1.0 2021/7/20
  */

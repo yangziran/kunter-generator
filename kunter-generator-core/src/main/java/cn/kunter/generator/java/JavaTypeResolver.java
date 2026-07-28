@@ -8,9 +8,7 @@ import java.sql.Types;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.util.Date;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Java类型转换
@@ -75,12 +73,12 @@ public class JavaTypeResolver {
      * @return
      */
     public static String getJdbcType(Integer type) {
-        Map<String, String> answer = typeMap.row(type);
-        if (Objects.isNull(answer)) {
+        var answer = typeMap.row(type);
+        if (Objects.isNull(answer) || answer.isEmpty()) {
             return "OTHER";
         }
 
-        Optional<String> key = answer.keySet().stream().findFirst();
+        var key = answer.keySet().stream().findFirst();
         return key.get();
     }
 
@@ -90,12 +88,12 @@ public class JavaTypeResolver {
      * @return
      */
     public static Integer getJdbcType(String type) {
-        Map<Integer, String> answer = typeMap.column(type);
-        if (Objects.isNull(answer)) {
+        var answer = typeMap.column(type);
+        if (Objects.isNull(answer) || answer.isEmpty()) {
             return Types.OTHER;
         }
 
-        Optional<Integer> key = answer.keySet().stream().findFirst();
+        var key = answer.keySet().stream().findFirst();
         return key.get();
     }
 
@@ -105,12 +103,12 @@ public class JavaTypeResolver {
      * @return
      */
     public static String getJavaType(Integer type) {
-        Map<String, String> answer = typeMap.row(type);
-        if (Objects.isNull(answer)) {
+        var answer = typeMap.row(type);
+        if (Objects.isNull(answer) || answer.isEmpty()) {
             return Object.class.getName();
         }
 
-        Optional<Map.Entry<String, String>> value = answer.entrySet().stream().findFirst();
+        var value = answer.entrySet().stream().findFirst();
         return value.get().getValue();
     }
 
@@ -120,12 +118,12 @@ public class JavaTypeResolver {
      * @return
      */
     public static String getJavaType(String type) {
-        Map<Integer, String> answer = typeMap.column(type);
-        if (Objects.isNull(answer)) {
+        var answer = typeMap.column(type);
+        if (Objects.isNull(answer) || answer.isEmpty()) {
             return Object.class.getName();
         }
 
-        Optional<Map.Entry<Integer, String>> value = answer.entrySet().stream().findFirst();
+        var value = answer.entrySet().stream().findFirst();
         return value.get().getValue();
     }
 

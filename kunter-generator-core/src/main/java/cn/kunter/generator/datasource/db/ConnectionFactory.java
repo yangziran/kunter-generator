@@ -1,7 +1,7 @@
 package cn.kunter.generator.datasource.db;
 
+import cn.kunter.generator.exception.DataSourceException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Properties;
 
 /**
@@ -13,10 +13,10 @@ public interface ConnectionFactory {
 
     /**
      * 获取连接
-     * @return
-     * @throws SQLException
+     * @return 数据库连接
+     * @throws DataSourceException 数据源异常
      */
-    Connection getConnection() throws SQLException;
+    Connection getConnection() throws DataSourceException;
 
     /**
      * 添加配置属性

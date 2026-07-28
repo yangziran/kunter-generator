@@ -5,7 +5,7 @@ import cn.kunter.generator.datasource.DataSource;
 import cn.kunter.generator.datasource.db.JdbcConnectionFactory;
 import cn.kunter.generator.datasource.enums.SourceType;
 import cn.kunter.generator.entity.Table;
-import cn.kunter.generator.exception.GeneratorException;
+import cn.kunter.generator.exception.DataSourceException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.Lists;
 
@@ -33,7 +33,7 @@ public class SqlServerDataSource implements DataSource {
     }
 
     @Override
-    public List<Table> getTables() throws GeneratorException {
+    public List<Table> getTables() throws DataSourceException {
         return Lists.newArrayList();
     }
 
