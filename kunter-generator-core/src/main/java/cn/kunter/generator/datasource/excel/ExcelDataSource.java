@@ -81,6 +81,9 @@ public class ExcelDataSource implements DataSource {
 
                 // 列名
                 var columnName = getCellValueAsString(row, 2);
+                if (StringUtils.isRemoveColumn(columnName)) {
+                    continue;
+                }
                 // 物理名
                 var jdbcName = getCellValueAsString(row, 9);
                 // 类型

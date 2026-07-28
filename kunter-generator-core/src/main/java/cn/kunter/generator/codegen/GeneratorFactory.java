@@ -3,6 +3,7 @@ package cn.kunter.generator.codegen;
 import cn.kunter.generator.codegen.excel.ExcelGenerator;
 import cn.kunter.generator.codegen.java.*;
 import cn.kunter.generator.codegen.sql.DdlGenerator;
+import cn.kunter.generator.config.Context;
 import cn.kunter.generator.entity.Table;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,7 @@ import java.util.Map;
 /**
  * 生成器工厂
  * @author yangziran
- * @version 1.0 2021/12/20
+ * @version 1.0 2026/07/28
  */
 @Slf4j
 public class GeneratorFactory {
@@ -44,6 +45,10 @@ public class GeneratorFactory {
         log.info("开始执行代码生成，共计 {} 个表", tables.size());
         for (Map.Entry<String, Generator> entry : generatorMap.entrySet()) {
             String name = entry.getKey();
+            if ("dynamicSqlSupport".equals(name) && Context.isDynamicPlusEnable()) {
+                log.info("开启了 dynamic-sql-plus 模式，跳过生成器: {}", name);
+                continue;
+            }
             Generator generator = entry.getValue();
             log.info("正在执行生成器: {}", name);
             try {

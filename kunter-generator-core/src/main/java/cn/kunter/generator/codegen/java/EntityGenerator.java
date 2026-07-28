@@ -62,6 +62,15 @@ public class EntityGenerator implements Generator {
             OutputUtils.newLine(builder, 2);
         }
 
+        if (Context.isDynamicPlusEnable()) {
+            builder.append("import cn.kunter.dynamic.annotations.DynamicMapper;");
+            OutputUtils.newLine(builder);
+            builder.append("import cn.kunter.dynamic.annotations.TableId;");
+            OutputUtils.newLine(builder);
+            builder.append("import cn.kunter.dynamic.annotations.TableColumn;");
+            OutputUtils.newLine(builder, 2);
+        }
+
         // 类注释
         builder.append("/**");
         OutputUtils.newLine(builder);
@@ -91,6 +100,11 @@ public class EntityGenerator implements Generator {
             OutputUtils.newLine(builder);
         }
 
+        if (Context.isDynamicPlusEnable()) {
+            builder.append("@DynamicMapper(tableName = \"").append(tableName).append("\")");
+            OutputUtils.newLine(builder);
+        }
+
         // 类定义
         builder.append("public class ").append(eoName).append(" extends BaseEo {");
         OutputUtils.newLine(builder, 2);
@@ -106,6 +120,26 @@ public class EntityGenerator implements Generator {
                 OutputUtils.javaIndent(builder, 1);
                 builder.append("@ApiModelProperty(value = \"").append(columnRemark).append("\")");
                 OutputUtils.newLine(builder);
+            }
+            
+            if (Context.isDynamicPlusEnable()) {
+                boolean isPrimaryKey = false;
+                for (Column pk : table.getPrimaryKeys()) {
+                    if (pk.getColumnName().equals(column.getColumnName())) {
+                        isPrimaryKey = true;
+                        break;
+                    }
+                }
+                if (isPrimaryKey) {
+                    OutputUtils.javaIndent(builder, 1);
+                    builder.append("@TableId");
+                    OutputUtils.newLine(builder);
+                }
+                if (!column.getColumnName().equals(column.getJavaName())) {
+                    OutputUtils.javaIndent(builder, 1);
+                    builder.append("@TableColumn(\"").append(column.getColumnName()).append("\")");
+                    OutputUtils.newLine(builder);
+                }
             }
             
             OutputUtils.javaIndent(builder, 1);

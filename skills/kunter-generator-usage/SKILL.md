@@ -74,6 +74,15 @@ controller.restful=true
 # true: 查询类接口使用 @GetMapping, 增删改使用 @PostMapping
 # false: 所有接口严格使用 @PostMapping
 controller.allowGet=true
+
+# ==============================================================
+# 架构整合配置 (与 dynamic-sql-plus)
+# ==============================================================
+# 是否开启与 dynamic-sql-plus 的协同生成模式
+# 开启后，实体类(Eo)会自动增加 @DynamicMapper 等元数据注解，
+# 不再生成繁重的 DynamicSqlSupport 类，Dao 层自动降级为业务防腐层（仅生成一次，避免覆盖）。
+# 需要项目主动引入 cn.kunter.dynamic:dynamic-sql-plus-spring-boot-starter
+dynamic.plus.enable=false
 ```
 
 ## 步骤 3：运行生成器

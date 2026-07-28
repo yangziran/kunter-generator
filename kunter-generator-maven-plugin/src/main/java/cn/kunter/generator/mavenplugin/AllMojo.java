@@ -3,6 +3,7 @@ package cn.kunter.generator.mavenplugin;
 import cn.kunter.generator.codegen.GeneratorFactory;
 import cn.kunter.generator.datasource.DataSourceFactory;
 import cn.kunter.generator.entity.Table;
+import cn.kunter.generator.config.Context;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -14,7 +15,6 @@ import java.util.List;
 
 /**
  * Kunter Generator All Mojo
- * @author nature
  * @author yangziran
  * @version 1.0 2021/7/19
  */
@@ -29,7 +29,7 @@ public class AllMojo extends AbstractMojo {
         getLog().info("Kunter Generator All Mojo Started...");
         try {
             // 0. 加载外部配置 (如果作为插件运行)
-            cn.kunter.generator.config.Context.loadFromFile(configurationFile);
+            Context.loadFromFile(configurationFile);
 
             // 1. 初始化数据源并获取所有表结构
             var dataSource = DataSourceFactory.getDataSource();

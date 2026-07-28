@@ -3,6 +3,7 @@ package cn.kunter.generator.util;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import cn.kunter.generator.config.Context;
 import org.apache.commons.lang3.ObjectUtils;
 
 /**
@@ -35,7 +36,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
 
         // 剔除表前缀 (支持逗号分隔多个前缀)
-        String ignorePrefixes = cn.kunter.generator.config.Context.getProperty("table.prefix.ignore");
+        String ignorePrefixes = Context.getProperty("table.prefix.ignore");
         if (isNotBlank(ignorePrefixes)) {
             String[] prefixes = ignorePrefixes.split(",");
             for (String prefix : prefixes) {
@@ -93,7 +94,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
 
         // 剔除表前缀 (支持逗号分隔多个前缀)
-        String ignorePrefixes = cn.kunter.generator.config.Context.getProperty("table.prefix.ignore");
+        String ignorePrefixes = Context.getProperty("table.prefix.ignore");
         if (isNotBlank(ignorePrefixes)) {
             String[] prefixes = ignorePrefixes.split(",");
             for (String prefix : prefixes) {
@@ -170,6 +171,27 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
 
         return buffer.toString();
+    }
+
+    /**
+     * 判断字段是否需要被移除
+     * @param columnName 字段物理名称
+     * @return boolean 是否被移除
+     */
+    public static boolean isRemoveColumn(String columnName) {
+        if (isBlank(columnName)) {
+            return false;
+        }
+        String ignoreColumns = Context.getProperty("table.column.remove");
+        if (isNotBlank(ignoreColumns)) {
+            String[] columns = ignoreColumns.split(",");
+            for (String col : columns) {
+                if (StringUtils.equalsAnyIgnoreCase(columnName, col.trim())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

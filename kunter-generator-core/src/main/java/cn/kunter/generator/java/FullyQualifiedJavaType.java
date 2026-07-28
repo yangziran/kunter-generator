@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 /**
  * Java标准类型
  * @author yangziran
- * @version 1.0 2021/7/21
+ * @version 1.0 2026/07/28
  */
 @Slf4j
 public class FullyQualifiedJavaType implements Comparable<FullyQualifiedJavaType> {

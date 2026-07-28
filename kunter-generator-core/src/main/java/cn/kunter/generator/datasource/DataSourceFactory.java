@@ -8,6 +8,7 @@ import cn.kunter.generator.datasource.db.sqlserver.SqlServerDataSource;
 import cn.kunter.generator.datasource.enums.SourceType;
 import cn.kunter.generator.datasource.excel.ExcelDataSource;
 import cn.kunter.generator.util.StringUtils;
+import cn.kunter.generator.exception.ConfigurationException;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +17,7 @@ import java.util.*;
 /**
  * 数据源工厂
  * @author yangziran
- * @version 1.0 2021/8/14
+ * @version 1.0 2026/07/28
  */
 @Slf4j
 public class DataSourceFactory {
@@ -54,14 +55,19 @@ public class DataSourceFactory {
                     dataSourceMap.put(excelDataSource.getSourceType().name(), excelDataSource);
                 }
             } else {
-                log.error("请正确配置数据源类型");
+                throw new ConfigurationException("未正确配置或不支持该数据源类型: " + sourceType);
             }
         }
     }
 
+    /**
+     * 根据数据源类型获取对应的数据源实例
+     * @param sourceType 数据源类型
+     * @return DataSource 数据源实例
+     */
     public static DataSource getDataSource(SourceType sourceType) {
         if (!dataSourceMap.containsKey(sourceType.name())) {
-            throw new IllegalArgumentException("请正确配置数据源");
+            throw new ConfigurationException("请正确配置数据源");
         }
         return dataSourceMap.get(sourceType.name());
     }
@@ -69,7 +75,7 @@ public class DataSourceFactory {
     public static DataSource getDataSource() {
         var sourceType = Context.getProperty("sourceType");
         if (StringUtils.isBlank(sourceType)) {
-            throw new IllegalArgumentException("参数sourceType未配置");
+            throw new ConfigurationException("参数sourceType未配置");
         }
         SourceType type = SourceType.valueOf(sourceType.toUpperCase());
         return getDataSource(type);

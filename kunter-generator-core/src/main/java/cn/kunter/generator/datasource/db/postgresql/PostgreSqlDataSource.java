@@ -28,10 +28,10 @@ public class PostgreSqlDataSource implements DataSource {
     private JdbcConnectionFactory jdbcConnectionFactory;
 
     public PostgreSqlDataSource(Properties properties) {
-        var driverClass = properties.getProperty("db.driverClass");
-        var connectionUrl = properties.getProperty("db.url");
-        var userId = properties.getProperty("db.username");
-        var password = properties.getProperty("db.password");
+        var driverClass = properties.getProperty("jdbc.driverClass");
+        var connectionUrl = properties.getProperty("jdbc.url");
+        var userId = properties.getProperty("jdbc.username");
+        var password = properties.getProperty("jdbc.password");
 
         var jdbcConnectionConfig = JdbcConnectionConfig.builder().driverClass(driverClass).connectionUrl(connectionUrl).userId(userId).password(password).build();
         this.jdbcConnectionFactory = new JdbcConnectionFactory(jdbcConnectionConfig);
@@ -84,6 +84,9 @@ public class PostgreSqlDataSource implements DataSource {
                 var columns = metaData.getColumns(connection.getCatalog(), schema, tableName, "%");
                 while (columns.next()) {
                     var columnName = columns.getString("COLUMN_NAME");
+                    if (StringUtils.isRemoveColumn(columnName)) {
+                        continue;
+                    }
                     if (columnName.indexOf("‘") == 0 && columnName.lastIndexOf("’") > 1) {
                         columnName = columnName.substring(1, columnName.length() - 1);
                     }
@@ -105,7 +108,7 @@ public class PostgreSqlDataSource implements DataSource {
                 tables.add(table);
             }
         } catch (SQLException e) {
-            log.error(e.getMessage(), e);
+            throw new DataSourceException("获取表结构异常", e);
         }
         return tables;
     }

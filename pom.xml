@@ -139,6 +139,14 @@
         </pluginManagement>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub yangziran Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/yangziran/kunter-generator</url>
+        </repository>
+    </distributionManagement>
+
     <inceptionYear>2015</inceptionYear>
 
     <scm>

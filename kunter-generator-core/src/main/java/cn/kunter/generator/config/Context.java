@@ -2,6 +2,8 @@ package cn.kunter.generator.config;
 
 import lombok.extern.slf4j.Slf4j;
 
+import cn.kunter.generator.exception.ConfigurationException;
+
 import java.io.IOException;
 import java.util.Properties;
 
@@ -9,7 +11,7 @@ import java.util.Properties;
  * 处理上下文
  * 全局配置开关持有者
  * @author yangziran
- * @version 1.0 2023/2/3
+ * @version 1.0 2026/07/28
  */
 @Slf4j
 public class Context {
@@ -27,7 +29,7 @@ public class Context {
                 log.warn("未找到 generatorConfig.properties");
             }
         } catch (IOException e) {
-            log.error("配置加载错误", e);
+            throw new ConfigurationException("配置加载错误", e);
         }
     }
 
@@ -47,7 +49,7 @@ public class Context {
             properties.load(reader);
             log.info("成功加载外部配置文件: {}", file.getAbsolutePath());
         } catch (IOException e) {
-            log.error("加载外部配置文件发生异常: {}", file.getAbsolutePath(), e);
+            throw new ConfigurationException("加载外部配置文件发生异常: " + file.getAbsolutePath(), e);
         }
     }
 
@@ -61,6 +63,13 @@ public class Context {
 
     public static Properties getProperties() {
         return properties;
+    }
+
+    /**
+     * 是否开启 dynamic-sql-plus 支持模式
+     */
+    public static boolean isDynamicPlusEnable() {
+        return "true".equalsIgnoreCase(getProperty("dynamic.plus.enable", "false"));
     }
 
 }

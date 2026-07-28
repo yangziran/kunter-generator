@@ -23,10 +23,10 @@ public class SqlServerDataSource implements DataSource {
     private JdbcConnectionFactory jdbcConnectionFactory;
 
     public SqlServerDataSource(Properties properties) {
-        var driverClass = properties.getProperty("db.driverClass");
-        var connectionUrl = properties.getProperty("db.url");
-        var userId = properties.getProperty("db.username");
-        var password = properties.getProperty("db.password");
+        var driverClass = properties.getProperty("jdbc.driverClass");
+        var connectionUrl = properties.getProperty("jdbc.url");
+        var userId = properties.getProperty("jdbc.username");
+        var password = properties.getProperty("jdbc.password");
 
         var jdbcConnectionConfig = JdbcConnectionConfig.builder().driverClass(driverClass).connectionUrl(connectionUrl).userId(userId).password(password).build();
         this.jdbcConnectionFactory = new JdbcConnectionFactory(jdbcConnectionConfig);

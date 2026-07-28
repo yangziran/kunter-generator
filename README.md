@@ -8,6 +8,8 @@
 
 当前项目主干分支 (`dynamic-sql`) 已经脱胎换骨，从一个基础的代码生成工具，升级为**高度约束与解放双手的开发引擎**。它最大的亮点在于实现了“代码”与“数据库”之间的**双向解析生成链路**：
 
+> 📖 **架构深度解析**：如果您想了解底层生成器引擎的全景图，以及运行时 Eo/Vo/Dto 的数据流转奥秘，请参阅我们的 [核心架构白皮书 (Architecture)](docs/architecture.md)。
+
 1. **“代码优先 (Excel 驱动)”模式**：
    - 输入：整理好的 Excel 数据字典。
    - 输出：全套 Java 代码模型（Controller、Service、Dao、Entity、Vo、Dto） + 数据库 `schema.sql` 建表脚本。
@@ -32,11 +34,55 @@
 在 `kunter-generator-demo` 模块中，找到 `CoreRunnerDemo.java` 并直接运行其 `main` 方法，代码将生成在 `target/generated-sources/` 目录下。
 
 ### 方式二：通过 Maven Plugin 触发（适合项目集成）
-在 `kunter-generator-demo` 模块下执行：
+
+为了在业务项目中自动读取配置并生成代码，您可以引入我们发布在 GitHub Packages 上的 Maven 插件。
+
+**第一步：在业务项目的 `pom.xml` 中引入插件**
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>cn.kunter</groupId>
+            <artifactId>kunter-generator-maven-plugin</artifactId>
+            <version>3.0.0-SNAPSHOT</version> <!-- 请替换为发布的真实版本 -->
+        </plugin>
+    </plugins>
+</build>
+```
+
+**第二步：配置拉取权限 (GitHub Packages)**
+由于我们使用了 GitHub Packages 作为发布源，拉取插件需要在您本地的 `~/.m2/settings.xml` 中配置 Personal Access Token (PAT)，并声明插件仓库：
+
+```xml
+<settings>
+  <profiles>
+    <profile>
+      <id>github</id>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>github</id>
+          <url>https://maven.pkg.github.com/yangziran/kunter-generator</url>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>github</activeProfile>
+  </activeProfiles>
+  <servers>
+    <server>
+      <id>github</id>
+      <username>您的GitHub用户名</username>
+      <password>ghp_xxx您的PAT口令xxx</password>
+    </server>
+  </servers>
+</settings>
+```
+
+配置完毕后，在目标业务模块下直接执行即可生成代码：
 ```bash
 mvn clean kunter-generator:all
 ```
-*提示：Kunter 已经为您打包了 `kunter-generator-maven-plugin`，您可以将其引入到任何其他业务模块中，实现 Maven 编译周期的自动生成。*
 
 ## ⚙️ 进阶配置速查
 
@@ -45,25 +91,48 @@ mvn clean kunter-generator:all
 ```properties
 # 核心数据源选择（可选 mysql, oracle, postgresql, sqlserver, excel）
 sourceType=excel
-# 当数据源为 excel 时生效
+
+# --- 如果是 EXCEL 模式，填写此项 ---
 excel.filePath=../docs/表结构一览.xlsm
+
+# --- 如果是 数据库 模式，填写以下信息 ---
+#jdbc.driverClass=com.mysql.cj.jdbc.Driver
+#jdbc.url=jdbc:mysql://127.0.0.1:3306/your_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+#jdbc.username=root
+#jdbc.password=123456
 
 # 【核心特性】前缀过滤。支持逗号分隔多前缀精准剔除（如剔除 t_ 和 sys_）
 table.prefix.ignore=t_,sys_
+
+# 【核心特性】全局忽略字段。指定在生成代码时自动剔除的公共物理字段名
+table.column.remove=create_time,update_time
 
 # 【核心特性】生成 RESTful 规范控制层
 # 默认为 true。如果您公司的安全网关/WAF 拦截了 PUT 和 DELETE 等方法，
 # 请将其设置为 false，生成器将自动降级为 POST 方法（如 @PostMapping("/update")）。
 controller.restful=true
 
+# 当 controller.restful=false 时，是否允许查询类接口 (get, list) 继续使用 @GetMapping (默认为 true)
+# true: 查询类接口使用 @GetMapping, 增删改使用 @PostMapping
+# false: 所有接口严格使用 @PostMapping
+controller.allowGet=true
+
 # 【核心特性】覆盖保护策略
 # 如果为 false，对于已存在的文件（如手写了扩展逻辑的 Service/Controller）生成器将跳过写入，
 # 仅对 Dto、Vo、Eo、Dao 等基础模型进行强制更新覆盖。
 file.override=false
 
+# 【核心架构特性】无痕开发模式 (与 dynamic-sql-plus 结合)
+# 开启后，将彻底改变持久层架构：
+# 1. 实体层 (Eo) 自动追加 @DynamicMapper 等元数据注解
+# 2. 彻底跳过冗长的 DynamicSqlSupport 生成，保持极度清爽的代码库
+# 3. Dao 层蜕变为业务防腐层，强制跳过覆盖逻辑，仅生成一次供开发者扩展
+# 需要项目中引入 cn.kunter.dynamic:dynamic-sql-plus-spring-boot-starter
+dynamic.plus.enable=false
+
 # 目标包名配置
 target.project=src/main/java
-target.package=cn.kunter.example
+base.package=cn.kunter.example
 ```
 
 ## 📦 依赖引入与配置指南
@@ -79,6 +148,13 @@ target.package=cn.kunter.example
         <groupId>org.mybatis.dynamic-sql</groupId>
         <artifactId>mybatis-dynamic-sql</artifactId>
         <version>1.5.0</version> <!-- 建议使用最新版本 -->
+    </dependency>
+
+    <!-- dynamic-sql-plus 增强框架 (如开启了 dynamic.plus.enable 则必须引入) -->
+    <dependency>
+        <groupId>cn.kunter</groupId>
+        <artifactId>dynamic-sql-plus-spring-boot-starter</artifactId>
+        <version>v1.0.0</version>
     </dependency>
 
     <!-- MapStructPlus Spring Boot Starter (必须) -->

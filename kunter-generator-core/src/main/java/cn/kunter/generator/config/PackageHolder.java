@@ -1,5 +1,6 @@
 package cn.kunter.generator.config;
 
+import cn.kunter.generator.config.Context;
 import cn.kunter.generator.util.StringUtils;
 
 import java.util.StringJoiner;
@@ -11,10 +12,15 @@ import java.util.StringJoiner;
  */
 public class PackageHolder {
 
-    /** 默认包名, 外部未配置时使用 */
-    private static final String DEFAULT_PACKAGES = "cn.kunter";
     /** 默认以'_'分割表名, 并将前缀作为模块名 */
     public static final boolean DEFAULT_MODEL = true;
+
+    /**
+     * 默认包名, 外部未配置时使用 cn.kunter
+     */
+    public static String getDefaultPackages() {
+        return Context.getProperty("base.package", "cn.kunter");
+    }
 
     /**
      * 获取包名
@@ -23,8 +29,9 @@ public class PackageHolder {
      */
     public static StringJoiner getPackages(String tableName) {
         var joiner = new StringJoiner(".");
-        if (StringUtils.isNotBlank(DEFAULT_PACKAGES)) {
-            joiner.add(DEFAULT_PACKAGES);
+        String defaultPackages = getDefaultPackages();
+        if (StringUtils.isNotBlank(defaultPackages)) {
+            joiner.add(defaultPackages);
         }
         if (DEFAULT_MODEL) {
             joiner.add(tableName.split("_")[0]);
@@ -100,8 +107,9 @@ public class PackageHolder {
      */
     public static String getBaseEoPackage() {
         var joiner = new StringJoiner(".");
-        if (StringUtils.isNotBlank(DEFAULT_PACKAGES)) {
-            joiner.add(DEFAULT_PACKAGES);
+        String defaultPackages = getDefaultPackages();
+        if (StringUtils.isNotBlank(defaultPackages)) {
+            joiner.add(defaultPackages);
         }
         return joiner.add("eo").add("base").toString();
     }
@@ -112,8 +120,9 @@ public class PackageHolder {
      */
     public static String getBaseDtoPackage() {
         var joiner = new StringJoiner(".");
-        if (StringUtils.isNotBlank(DEFAULT_PACKAGES)) {
-            joiner.add(DEFAULT_PACKAGES);
+        String defaultPackages = getDefaultPackages();
+        if (StringUtils.isNotBlank(defaultPackages)) {
+            joiner.add(defaultPackages);
         }
         return joiner.add("dto").add("base").toString();
     }
@@ -124,8 +133,9 @@ public class PackageHolder {
      */
     public static String getBaseVoPackage() {
         var joiner = new StringJoiner(".");
-        if (StringUtils.isNotBlank(DEFAULT_PACKAGES)) {
-            joiner.add(DEFAULT_PACKAGES);
+        String defaultPackages = getDefaultPackages();
+        if (StringUtils.isNotBlank(defaultPackages)) {
+            joiner.add(defaultPackages);
         }
         return joiner.add("vo").add("base").toString();
     }

@@ -3,6 +3,8 @@ package cn.kunter.generator.demo;
 import cn.kunter.generator.codegen.GeneratorFactory;
 import cn.kunter.generator.config.Context;
 import cn.kunter.generator.entity.Table;
+import cn.kunter.generator.entity.Column;
+import cn.kunter.generator.config.PackageHolder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -41,7 +43,7 @@ class KunterGeneratorDemoTests {
                 .remarks("用户信息表")
                 .build();
         
-        cn.kunter.generator.entity.Column idColumn = cn.kunter.generator.entity.Column.builder()
+        Column idColumn = Column.builder()
                 .columnName("id")
                 .jdbcName("id")
                 .javaName("id")
@@ -61,8 +63,8 @@ class KunterGeneratorDemoTests {
         File outputDir = new File(System.getProperty("user.dir") + "/target/generated-sources");
         
         // 检查基本预期的包结构
-        // 默认情况下，PackageHolder 会将包生成到 cn.kunter + modelName (从 user_info 截取 -> user)
-        String basePath = "cn/kunter/user";
+        // 使用 PackageHolder 动态获取生成的包名，适应配置的变化
+        String basePath = PackageHolder.getPackages("user_info").toString().replace('.', '/');
         
         File eoDir = new File(outputDir, basePath + "/eo");
         assertTrue(eoDir.exists() && eoDir.isDirectory(), "Eo 目录应当存在");
