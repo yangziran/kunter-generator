@@ -32,7 +32,7 @@
         <mysql.version>8.4.0</mysql.version>
         <postgresql.version>42.7.13</postgresql.version>
 
-        <mysql.version>8.0.28</mysql.version>
+        <mysql.version>8.2.0</mysql.version>
         <postgresql.version>42.3.1</postgresql.version>
 
         <log4j.version>2.26.1</log4j.version>
